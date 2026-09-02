@@ -1,12 +1,12 @@
 # sirius
 
 <p align="center">
-  <img src="https://github.com/SruSanCyborg/Finsec_CLI/raw/main/media/sirius-demo.gif" alt="sirius, live in a terminal" width="640">
+  <img src="media/sirius-demo.gif" alt="sirius, live in a terminal" width="640">
 </p>
 
 <p align="left">
-  <img src="https://img.shields.io/github/stars/SruSanCyborg/Finsec_CLI?style=flat&color=blueviolet&label=stars" alt="GitHub stars">
-  <img src="https://img.shields.io/github/license/SruSanCyborg/Finsec_CLI?color=blue" alt="MIT license">
+  <img src="https://img.shields.io/github/stars/SruSanCyborg/FINSEC_CLI_Sirius?style=flat&color=blueviolet&label=stars" alt="GitHub stars">
+  <img src="https://img.shields.io/github/license/SruSanCyborg/FINSEC_CLI_Sirius?color=blue" alt="MIT license">
   <img src="https://img.shields.io/badge/node-%E2%89%A522-339933?logo=node.js&logoColor=white" alt="Node >= 22">
   <img src="https://img.shields.io/badge/tests-871%20passing-brightgreen" alt="871 tests passing">
 </p>
@@ -22,11 +22,11 @@ record of every decision, including the ones it allowed.
 It runs entirely on your machine. No backend, no network, no account.
 
 <p align="center">
-  <video src="https://github.com/SruSanCyborg/Finsec_CLI/raw/main/media/sirius-demo.mp4" controls width="560">
-    <a href="https://github.com/SruSanCyborg/Finsec_CLI/raw/main/media/sirius-demo.mp4">sirius-demo.mp4</a>
-  </video>
+  <a href="media/sirius-demo.mp4">
+    <img src="media/sirius-demo-poster.jpg" alt="Watch the five-minute demo" width="560">
+  </a>
   <br>
-  <sub>five minutes, recorded live — <code>guard</code>, <code>scan</code> and <code>revenue</code>, no slides</sub>
+  <sub>▶ five minutes, recorded live — <code>guard</code>, <code>scan</code> and <code>revenue</code>, no slides</sub>
 </p>
 
 If this is useful or interesting, a star helps other people find it — that's
