@@ -1,5 +1,9 @@
 # sirius
 
+<p align="center">
+  <img src="https://github.com/SruSanCyborg/Finsec_CLI/raw/main/media/sirius-demo.gif" alt="sirius, live in a terminal" width="640">
+</p>
+
 <p align="left">
   <img src="https://img.shields.io/github/stars/SruSanCyborg/Finsec_CLI?style=flat&color=blueviolet&label=stars" alt="GitHub stars">
   <img src="https://img.shields.io/github/license/SruSanCyborg/Finsec_CLI?color=blue" alt="MIT license">

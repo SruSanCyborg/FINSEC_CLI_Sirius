@@ -28,11 +28,10 @@ Built for a hackathon demo. The credibility strategy is deliberate: copy proven 
 **Canonical spec:** [`docs/original-prd.md`](docs/original-prd.md) (588 lines — the full PRD, architecture, API spec, and per-surface design report).
 Distilled: [`docs/system-overview.md`](docs/system-overview.md) · [`docs/cli-surface.md`](docs/cli-surface.md) · [`docs/decisions.md`](docs/decisions.md) · [`docs/handoff-to-auto.md`](docs/handoff-to-auto.md) · [`docs/revenue.md`](docs/revenue.md) · [`docs/guard.md`](docs/guard.md)
 
-**The problem statement `guard` answers** is `Problem_Statement_7.pdf` in the repo
-root. Its constraints are not negotiable and two of them are easy to lose sight
-of: the layer must **not** require human approval for every routine transaction,
-and it is explicitly *not* conventional transaction authentication, fraud
-detection or wallet security.
+**The problem statement `guard` answers** has two constraints that are not
+negotiable and easy to lose sight of: the layer must **not** require human
+approval for every routine transaction, and it is explicitly *not* conventional
+transaction authentication, fraud detection or wallet security.
 
 ---
 
