@@ -1,5 +1,12 @@
 # sirius
 
+<p align="left">
+  <img src="https://img.shields.io/github/stars/SruSanCyborg/Finsec_CLI?style=flat&color=blueviolet&label=stars" alt="GitHub stars">
+  <img src="https://img.shields.io/github/license/SruSanCyborg/Finsec_CLI?color=blue" alt="MIT license">
+  <img src="https://img.shields.io/badge/node-%E2%89%A522-339933?logo=node.js&logoColor=white" alt="Node >= 22">
+  <img src="https://img.shields.io/badge/tests-871%20passing-brightgreen" alt="871 tests passing">
+</p>
+
 **A security and control layer for AI agents that can move money — and for the code they run on.**
 
 An autonomous agent with access to a wallet is a new kind of actor: it holds
@@ -9,6 +16,17 @@ those transactions can be perfectly valid and still be the wrong thing to do.
 record of every decision, including the ones it allowed.
 
 It runs entirely on your machine. No backend, no network, no account.
+
+<p align="center">
+  <video src="https://github.com/SruSanCyborg/Finsec_CLI/raw/main/media/sirius-demo.mp4" controls width="560">
+    <a href="https://github.com/SruSanCyborg/Finsec_CLI/raw/main/media/sirius-demo.mp4">sirius-demo.mp4</a>
+  </video>
+  <br>
+  <sub>five minutes, recorded live — <code>guard</code>, <code>scan</code> and <code>revenue</code>, no slides</sub>
+</p>
+
+If this is useful or interesting, a star helps other people find it — that's
+the only kind of attention a project like this can ask for.
 
 ```
   !  BLOCK     wlt-9f2c41    Rs.48,000   the instruction contains override of prior
