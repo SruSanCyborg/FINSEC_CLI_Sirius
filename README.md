@@ -1,12 +1,13 @@
-# sirius
+# Sirius, by SruSan
 
 <p align="center">
   <img src="media/sirius-demo.gif" alt="sirius, live in a terminal" width="640">
 </p>
 
 <p align="left">
-  <img src="https://img.shields.io/github/stars/SruSanCyborg/FINSEC_CLI_Sirius?style=flat&color=blueviolet&label=stars" alt="GitHub stars">
   <a href="https://www.npmjs.com/package/@srusan/sirius"><img src="https://img.shields.io/npm/v/%40srusan%2Fsirius?color=cb3837&logo=npm" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/@srusan/sirius"><img src="https://img.shields.io/npm/dm/%40srusan%2Fsirius?color=cb3837&label=downloads" alt="npm downloads"></a>
+  <a href="https://github.com/SruSanCyborg/FINSEC_CLI_Sirius/actions/workflows/ci.yml"><img src="https://github.com/SruSanCyborg/FINSEC_CLI_Sirius/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <img src="https://img.shields.io/github/license/SruSanCyborg/FINSEC_CLI_Sirius?color=blue" alt="MIT license">
   <img src="https://img.shields.io/badge/node-%E2%89%A522-339933?logo=node.js&logoColor=white" alt="Node >= 22">
   <img src="https://img.shields.io/badge/tests-871%20passing-brightgreen" alt="871 tests passing">
@@ -22,6 +23,10 @@ record of every decision, including the ones it allowed.
 
 It runs entirely on your machine. No backend, no network, no account.
 
+```bash
+npx @srusan/sirius            # try it now, nothing to install (Node.js 22+)
+```
+
 <p align="center">
   <a href="media/sirius-demo.mp4">
     <img src="media/sirius-demo-poster.jpg" alt="Watch the five-minute demo" width="560">
@@ -29,9 +34,6 @@ It runs entirely on your machine. No backend, no network, no account.
   <br>
   <sub>▶ five minutes, recorded live — <code>guard</code>, <code>scan</code> and <code>revenue</code>, no slides</sub>
 </p>
-
-If this is useful or interesting, a star helps other people find it — that's
-the only kind of attention a project like this can ask for.
 
 ```
   !  BLOCK     wlt-9f2c41    Rs.48,000   the instruction contains override of prior
@@ -163,16 +165,42 @@ blocks alone; together with a counterparty the agent has never used, they do:
 
 ---
 
-## Try it
+## Install
 
-Install it from npm (needs **Node ≥ 22**):
+Sirius is on npm as [`@srusan/sirius`](https://www.npmjs.com/package/@srusan/sirius). It works on **Windows, macOS and
+Linux** and needs **[Node.js](https://nodejs.org) 22 or newer** (check with `node -v`).
 
 ```bash
-npx @srusan/sirius brief --plain     # try it without installing
-npm install -g @srusan/sirius        # or install the `sirius` command for good
+npx @srusan/sirius --help         # run it once, without installing
+npm install -g @srusan/sirius     # or install the `sirius` command
+sirius --version
 ```
 
-Then:
+| Package manager | Install | Run once |
+|---|---|---|
+| npm | `npm install -g @srusan/sirius` | `npx @srusan/sirius` |
+| pnpm | `pnpm add -g @srusan/sirius` | `pnpm dlx @srusan/sirius` |
+| yarn | `yarn global add @srusan/sirius` | `yarn dlx @srusan/sirius` |
+| bun | `bun add -g @srusan/sirius` | `bunx @srusan/sirius` |
+
+Update with `npm update -g @srusan/sirius`, remove with `npm uninstall -g @srusan/sirius`.
+
+<details>
+<summary><b>Troubleshooting</b></summary>
+
+- **`Unsupported engine` or syntax errors on start:** your Node.js is older than 22. Install the current LTS from
+  [nodejs.org](https://nodejs.org), or with a version manager: `nvm install 22 && nvm use 22`.
+- **`sirius: command not found` after a global install:** npm's global bin folder is not on your `PATH`. Run
+  `npm config get prefix` and add its `bin` folder (on Windows, the prefix folder itself) to `PATH`, or just use `npx @srusan/sirius`.
+- **`EACCES` permission errors on macOS/Linux:** don't use `sudo`; install Node with [nvm](https://github.com/nvm-sh/nvm)
+  so global packages go into your home folder.
+- **Anything else:** `sirius doctor` checks your setup and tells you what to run next.
+
+</details>
+
+---
+
+## Try it
 
 ```bash
 sirius brief --plain                # what this is, in two minutes
@@ -181,9 +209,6 @@ sirius guard eval feed --narrate    # judge them, explained
 sirius guard score feed             # against what was actually planted
 sirius scan .                       # scan your own project
 ```
-
-Also works with `pnpm add -g @srusan/sirius`, `yarn global add @srusan/sirius` and `bunx @srusan/sirius`.
-To run from source instead: `pnpm install && pnpm --filter @srusan/sirius build`, then `node packages/cli/dist/cli.js`.
 
 `sirius brief` writes the same thing as a six-page PDF. Every figure in it comes
 from that run — none of them are typed in.
@@ -277,17 +302,17 @@ capacity-bounded, refusals logged, uplift net of what would have arrived anyway.
 
 ## Scanning code: quick start
 
-Requires **Node ≥ 22** and `pnpm`.
+With `sirius` installed ([Install](#install)), scan any project:
 
 ```bash
-pnpm install
-pnpm --filter @srusan/sirius build
+sirius scan .
 ```
 
-Scan the bundled vulnerable fixture:
+Or, from a clone of this repository, the bundled vulnerable fixture:
 
 ```bash
-node packages/cli/dist/cli.js scan contract/fixtures/chaos-repo
+git clone https://github.com/SruSanCyborg/FINSEC_CLI_Sirius && cd FINSEC_CLI_Sirius
+sirius scan contract/fixtures/chaos-repo
 ```
 
 ```
@@ -304,7 +329,7 @@ Run with no arguments for the interactive shell — every command works as
 `sirius x` and as `/x` inside it:
 
 ```bash
-node packages/cli/dist/cli.js
+sirius
 ```
 
 On a real project:
@@ -548,9 +573,11 @@ flowchart TD
 | `baseline` · `suppress` | What is already accepted, and what is excused |
 | `report` · `ledger` · `badge` | Signed proof, its history, and an SVG |
 | `revenue` · `reconcile` | The operations side |
-| `init` · `login` · `doctor` | Scaffolding, credentials, and a pre-flight check |
+| `init` · `login` · `logout` · `doctor` | Scaffolding, credentials, and a pre-flight check |
+| `shell` | The interactive shell (also what `sirius` with no arguments opens) |
+| `serve` | Run the local engine over HTTP + WebSocket, for the desktop app |
 
-Start with `sirius doctor` — it reports against the mode the scan will actually
+Every command has `--help`, and `sirius --help` lists them all. Start with `sirius doctor` — it reports against the mode the scan will actually
 run in, self-tests both engines, and ends with the command to run next.
 
 ---
@@ -568,6 +595,29 @@ Exit codes follow Snyk's convention:
 
 ```bash
 sirius scan . --severity-threshold high --fail-on all --sarif results.sarif
+```
+
+In GitHub Actions, with results shown in the repository's Security tab:
+
+```yaml
+name: sirius
+on: [push, pull_request]
+permissions:
+  contents: read
+  security-events: write
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npx --yes @srusan/sirius scan . --severity-threshold high --sarif sirius.sarif
+      - uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: sirius.sarif
 ```
 
 `1` and `2` are deliberately distinct: a pipeline must be able to tell a blocked
@@ -660,6 +710,22 @@ pnpm shell:check                 # every slash command, dispatched by the shell
 | `contract/fixtures/rule-gallery/` | One planted example per rule, beside a clean counterpart |
 | `docs/` | PRD, system overview, CLI spec, and the decision log |
 
+### Releasing
+
+Releases go to npm from GitHub Actions ([`release.yml`](.github/workflows/release.yml)) through npm **trusted
+publishing**: no token is stored anywhere, and every version carries a provenance badge proving it was built from this repository.
+
+```bash
+# bump "version" in packages/cli/package.json, e.g. 0.4.0 -> 0.4.1
+git commit -am "Release 0.4.1"
+git tag v0.4.1 && git push && git push origin v0.4.1
+```
+
+The workflow builds, runs the full test suite, checks that the tag matches the package version, and publishes.
+To publish by hand instead, run `npm publish` from **`packages/cli`**, never from the repository root (the root is the
+private workspace). [`ci.yml`](.github/workflows/ci.yml) also packs the package and installs it globally on every push,
+so a broken `sirius` command is caught before a release.
+
 ### Things this project takes seriously
 
 **"Implemented" is not "works".** Several features were once listed as done while
@@ -699,11 +765,16 @@ value.
 | `rules` · `baseline` · `suppress` | Done, fully offline |
 | `report` · `ledger` · `badge` | Done — ed25519 signing, RFC 6962 Merkle log |
 | `revenue` · `reconcile` | Done — held-out metrics, bounded recovery, signed trail |
-| Tests | 871 passing |
+| Distribution | Published on npm as [`@srusan/sirius`](https://www.npmjs.com/package/@srusan/sirius); Windows, macOS and Linux (Node.js 22+) |
+| Tests | 871 passing, on every push in CI |
 
 **The API is required for nothing.** The CLI began as a pure client of a REST
 contract and still speaks it, but every command works with no backend running.
 
 ---
 
-<sub>Fintech compliance scanning, priced in rupees.</sub>
+<p align="center">
+  <b>Sirius</b> is an open-source project by <b>SruSan</b>, made by <b>Sanjay Sivakumar</b><br>
+  <a href="https://github.com/SruSanCyborg">GitHub</a> · <a href="https://www.linkedin.com/in/sanjaysivakumar11/">LinkedIn</a> · <a href="LICENSE">MIT licence</a><br>
+  <sub>Fintech compliance scanning, priced in rupees.</sub>
+</p>
