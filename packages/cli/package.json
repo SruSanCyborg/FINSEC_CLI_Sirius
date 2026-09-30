@@ -27,7 +27,7 @@
   },
   "type": "module",
   "bin": {
-    "sirius": "./dist/cli.js"
+    "sirius": "dist/cli.js"
   },
   "files": [
     "dist",
