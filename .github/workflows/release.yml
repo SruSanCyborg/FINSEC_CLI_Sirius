@@ -1,13 +1,16 @@
 name: Release to npm
 
-# Push a tag like v0.4.0 (matching packages/cli/package.json) to publish finsec-sirius.
+# Push a tag like v0.4.1 (matching packages/cli/package.json) to publish finsec-sirius.
+# Uses npm trusted publishing: npmjs.com trusts this repo's workflow, so no token is stored anywhere.
+# One-time setup on npmjs.com: package finsec-sirius -> Settings -> Trusted publisher -> GitHub Actions,
+# repository SruSanCyborg/FINSEC_CLI_Sirius, workflow release.yml.
 on:
   push:
     tags: ["v*"]
 
 permissions:
   contents: read
-  id-token: write     # npm provenance: proves the package was built from this repo
+  id-token: write     # trusted publishing + provenance: proves the package was built from this repo
 
 jobs:
   publish:
@@ -20,6 +23,7 @@ jobs:
           node-version: 22
           cache: pnpm
           registry-url: https://registry.npmjs.org
+      - run: npm install -g npm@latest    # trusted publishing needs npm 11.5+
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
@@ -29,5 +33,3 @@ jobs:
       - name: Publish
         working-directory: packages/cli
         run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
