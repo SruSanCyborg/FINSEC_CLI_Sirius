@@ -113,11 +113,11 @@ describe('the report', () => {
     // Six scenarios × two seeds × three fits is thirty-six model fits, so this
     // one gets a longer clock than vitest's default five seconds — it failed on
     // the timeout first, which reads exactly like the non-determinism it is
-    // testing for.
+    // testing for. CI runners have taken 32 s, so the clock is generous.
     const again = stress(small);
     expect(again.rows.map((row) => row.edge_after)).toEqual(report.rows.map((row) => row.edge_after));
     expect(again.rows.map((row) => row.net_after_paise)).toEqual(
       report.rows.map((row) => row.net_after_paise),
     );
-  }, 30_000);
+  }, 120_000);
 });

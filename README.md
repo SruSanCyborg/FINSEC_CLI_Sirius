@@ -2,27 +2,22 @@
   <img src="media/sirius-hero.svg" width="100%" alt="Sirius by SruSan: a security and control layer for AI agents that move money, and for the code they run on. Verdicts ALLOW, VERIFY, CONSTRAIN, BLOCK; install with npx @srusan/sirius">
 </p>
 
-# Sirius, by SruSan
+<h1 align="center">Sirius, by SruSan</h1>
 
 <p align="center">
-  <img src="media/sirius-demo.gif" alt="sirius, live in a terminal" width="640">
-</p>
-
-<p align="left">
   <a href="https://www.npmjs.com/package/@srusan/sirius"><img src="https://img.shields.io/npm/v/%40srusan%2Fsirius?color=cb3837&logo=npm" alt="npm version"></a>
-  <a href="https://www.npmjs.com/package/@srusan/sirius"><img src="https://img.shields.io/npm/dm/%40srusan%2Fsirius?color=cb3837&label=downloads" alt="npm downloads"></a>
   <a href="https://github.com/SruSanCyborg/FINSEC_CLI_Sirius/actions/workflows/ci.yml"><img src="https://github.com/SruSanCyborg/FINSEC_CLI_Sirius/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <img src="https://img.shields.io/github/license/SruSanCyborg/FINSEC_CLI_Sirius?color=blue" alt="MIT license">
-  <img src="https://img.shields.io/badge/node-%E2%89%A522-339933?logo=node.js&logoColor=white" alt="Node >= 22">
   <img src="https://img.shields.io/badge/tests-871%20passing-brightgreen" alt="871 tests passing">
+  <img src="https://img.shields.io/badge/node-%E2%89%A522-339933?logo=node.js&logoColor=white" alt="Node >= 22">
+  <img src="https://img.shields.io/github/license/SruSanCyborg/FINSEC_CLI_Sirius?color=blue" alt="MIT license">
 </p>
 
-**A security and control layer for AI agents that can move money — and for the code they run on.**
+<p align="center"><b>A security and control layer for AI agents that can move money, and for the code they run on.</b></p>
 
 An autonomous agent with access to a wallet is a new kind of actor: it holds
 credentials, decides for itself, and signs its own transactions. Every one of
 those transactions can be perfectly valid and still be the wrong thing to do.
-`sirius` decides, per action, whether it should happen — and keeps a signed
+`sirius` decides, per action, whether it should happen, and keeps a signed
 record of every decision, including the ones it allowed.
 
 It runs entirely on your machine. No backend, no network, no account.
@@ -32,12 +27,25 @@ npx @srusan/sirius            # try it now, nothing to install (Node.js 22+)
 ```
 
 <p align="center">
-  <a href="media/sirius-demo.mp4">
-    <img src="media/sirius-demo-poster.jpg" alt="Watch the five-minute demo" width="560">
-  </a>
-  <br>
-  <sub>▶ five minutes, recorded live — <code>guard</code>, <code>scan</code> and <code>revenue</code>, no slides</sub>
+  <a href="#install">Install</a> ·
+  <a href="#try-it">Try it</a> ·
+  <a href="#six-questions-asked-of-every-action">How it decides</a> ·
+  <a href="#scanning-code-quick-start">Scan code</a> ·
+  <a href="#commands">Commands</a> ·
+  <a href="#using-it-in-ci">CI</a> ·
+  <a href="#configuration">Configuration</a> ·
+  <a href="#documentation">Docs</a>
 </p>
+
+## See it run
+
+<p align="center">
+  <a href="media/sirius-demo.mp4"><img src="media/sirius-demo.gif" alt="sirius running live in a terminal: guard, scan and revenue" width="720"></a>
+  <br>
+  <sub>▶ click for the full five-minute demo, recorded live: <code>guard</code>, <code>scan</code> and <code>revenue</code>, no slides</sub>
+</p>
+
+What `sirius guard` decides on a day of an agent's payments:
 
 ```
   !  BLOCK     wlt-9f2c41    Rs.48,000   the instruction contains override of prior
@@ -49,6 +57,79 @@ npx @srusan/sirius            # try it now, nothing to install (Node.js 22+)
   Decisions   264 allowed (95%)   2 step-up   1 constrained   11 blocked
   Autonomy    95.0% of actions proceeded with nobody asked
 ```
+
+---
+
+## Install
+
+Sirius is on npm as [`@srusan/sirius`](https://www.npmjs.com/package/@srusan/sirius). It works on **Windows, macOS and
+Linux** and needs **[Node.js](https://nodejs.org) 22 or newer** (check with `node -v`).
+
+```bash
+npx @srusan/sirius --help         # run it once, without installing
+npm install -g @srusan/sirius     # or install the `sirius` command
+sirius --version
+```
+
+| Package manager | Install | Run once |
+|---|---|---|
+| npm | `npm install -g @srusan/sirius` | `npx @srusan/sirius` |
+| pnpm | `pnpm add -g @srusan/sirius` | `pnpm dlx @srusan/sirius` |
+| yarn | `yarn global add @srusan/sirius` | `yarn dlx @srusan/sirius` |
+| bun | `bun add -g @srusan/sirius` | `bunx @srusan/sirius` |
+
+Update with `npm update -g @srusan/sirius`, remove with `npm uninstall -g @srusan/sirius`.
+
+<details>
+<summary><b>Troubleshooting</b></summary>
+
+- **`Unsupported engine` or syntax errors on start:** your Node.js is older than 22. Install the current LTS from
+  [nodejs.org](https://nodejs.org), or with a version manager: `nvm install 22 && nvm use 22`.
+- **`sirius: command not found` after a global install:** npm's global bin folder is not on your `PATH`. Run
+  `npm config get prefix` and add its `bin` folder (on Windows, the prefix folder itself) to `PATH`, or just use `npx @srusan/sirius`.
+- **`EACCES` permission errors on macOS/Linux:** don't use `sudo`; install Node with [nvm](https://github.com/nvm-sh/nvm)
+  so global packages go into your home folder.
+- **Anything else:** `sirius doctor` checks your setup and tells you what to run next.
+
+</details>
+
+---
+
+## Try it
+
+```bash
+sirius brief --plain                # what this is, in two minutes
+sirius guard gen feed               # 278 actions, 26 attacks planted
+sirius guard eval feed --narrate    # judge them, explained
+sirius guard score feed             # against what was actually planted
+sirius scan .                       # scan your own project
+```
+
+`sirius brief` writes the same thing as a six-page PDF. Every figure in it comes
+from that run — none of them are typed in.
+
+```
+  planted case            allow  verify  constrain  block
+  ----------------------------------------------------------
+  after_hours               0       1          0      0
+  drain_attempt             0       0          0      1
+  flagged_counterparty      0       0          0      1
+  new_vendor                0       1          0      0
+  none                    252       0          0      0
+  out_of_scope              0       0          0      2
+  over_cap                  0       0          1      0
+  prompt_injection          0       0          0      2
+  unaudited_protocol        0       0          0      1
+
+  0 of 252 ordinary actions were intervened on (0.0%).
+```
+
+**Both halves of that table matter.** Every planted attack is stopped; a
+genuinely new supplier and a late-night deadline are stepped up rather than
+refused; and nothing ordinary is touched. A layer that catches every attack and
+interrupts routine work is a layer that gets switched off in a week — an earlier
+version of this engine did exactly that, stepping up 194 of 252 ordinary
+payments, and it passed every test that only counted catches.
 
 ---
 
@@ -166,79 +247,6 @@ blocks alone; together with a counterparty the agent has never used, they do:
                                   the limit was not breached because it was
                                   measured first
 ```
-
----
-
-## Install
-
-Sirius is on npm as [`@srusan/sirius`](https://www.npmjs.com/package/@srusan/sirius). It works on **Windows, macOS and
-Linux** and needs **[Node.js](https://nodejs.org) 22 or newer** (check with `node -v`).
-
-```bash
-npx @srusan/sirius --help         # run it once, without installing
-npm install -g @srusan/sirius     # or install the `sirius` command
-sirius --version
-```
-
-| Package manager | Install | Run once |
-|---|---|---|
-| npm | `npm install -g @srusan/sirius` | `npx @srusan/sirius` |
-| pnpm | `pnpm add -g @srusan/sirius` | `pnpm dlx @srusan/sirius` |
-| yarn | `yarn global add @srusan/sirius` | `yarn dlx @srusan/sirius` |
-| bun | `bun add -g @srusan/sirius` | `bunx @srusan/sirius` |
-
-Update with `npm update -g @srusan/sirius`, remove with `npm uninstall -g @srusan/sirius`.
-
-<details>
-<summary><b>Troubleshooting</b></summary>
-
-- **`Unsupported engine` or syntax errors on start:** your Node.js is older than 22. Install the current LTS from
-  [nodejs.org](https://nodejs.org), or with a version manager: `nvm install 22 && nvm use 22`.
-- **`sirius: command not found` after a global install:** npm's global bin folder is not on your `PATH`. Run
-  `npm config get prefix` and add its `bin` folder (on Windows, the prefix folder itself) to `PATH`, or just use `npx @srusan/sirius`.
-- **`EACCES` permission errors on macOS/Linux:** don't use `sudo`; install Node with [nvm](https://github.com/nvm-sh/nvm)
-  so global packages go into your home folder.
-- **Anything else:** `sirius doctor` checks your setup and tells you what to run next.
-
-</details>
-
----
-
-## Try it
-
-```bash
-sirius brief --plain                # what this is, in two minutes
-sirius guard gen feed               # 278 actions, 26 attacks planted
-sirius guard eval feed --narrate    # judge them, explained
-sirius guard score feed             # against what was actually planted
-sirius scan .                       # scan your own project
-```
-
-`sirius brief` writes the same thing as a six-page PDF. Every figure in it comes
-from that run — none of them are typed in.
-
-```
-  planted case            allow  verify  constrain  block
-  ----------------------------------------------------------
-  after_hours               0       1          0      0
-  drain_attempt             0       0          0      1
-  flagged_counterparty      0       0          0      1
-  new_vendor                0       1          0      0
-  none                    252       0          0      0
-  out_of_scope              0       0          0      2
-  over_cap                  0       0          1      0
-  prompt_injection          0       0          0      2
-  unaudited_protocol        0       0          0      1
-
-  0 of 252 ordinary actions were intervened on (0.0%).
-```
-
-**Both halves of that table matter.** Every planted attack is stopped; a
-genuinely new supplier and a late-night deadline are stepped up rather than
-refused; and nothing ordinary is touched. A layer that catches every attack and
-interrupts routine work is a layer that gets switched off in a week — an earlier
-version of this engine did exactly that, stepping up 194 of 252 ordinary
-payments, and it passed every test that only counted catches.
 
 ---
 
@@ -487,11 +495,8 @@ sirius report --verify report.json --key <fingerprint>
 sirius ledger verify
 ```
 
-`key_id` is **derived** from the embedded public key and checked, never read as a
-label — otherwise anyone could re-sign a rewritten report, keep the legitimate
-fingerprint, and have the verifier vouch for them. Without `--key`, a passing
-verify says *unmodified*; it does not say *by whom*, and it prints that in as many
-words.
+Reports are checked the same way as the decision trail: `key_id` is derived from the embedded public key, never
+read as a label (see [The decisions are the product](#the-decisions-are-the-product)).
 
 ---
 
