@@ -46,7 +46,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "tsx src/cli.ts",
-    "test": "vitest run",
+    "test": "vitest run --testTimeout=30000",
     "test:watch": "vitest",
     "prepublishOnly": "tsc -p tsconfig.json"
   },

@@ -70,8 +70,10 @@ describe('doctor checks the signing key', () => {
     chmodSync(path, 0o644);
 
     const { out, code } = await doctor();
-    expect(out).toContain('is 644, not 600');
-    expect(out).toContain('chmod 600');
+    // The line wraps at the terminal width (narrower in CI), so compare with whitespace collapsed.
+    const flat = out.replace(/\s+/g, ' ');
+    expect(flat).toContain('is 644, not 600');
+    expect(flat).toContain('chmod 600');
     // Exit 2: something here would stop a run, and a pipeline should hear it.
     expect(code).toBe(2);
   }, 90_000);
