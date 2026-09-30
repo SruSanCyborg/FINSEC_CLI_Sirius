@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="media/sirius-hero.svg" width="100%" alt="Sirius by SruSan: a security and control layer for AI agents that move money, and for the code they run on. Verdicts ALLOW, VERIFY, CONSTRAIN, BLOCK; install with npx @srusan/sirius">
+</p>
+
 # Sirius, by SruSan
 
 <p align="center">

@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/SruSanCyborg/FINSEC_CLI_Sirius/main/media/sirius-hero.svg" width="100%" alt="Sirius by SruSan">
+</p>
+
 # Sirius, by SruSan
 
 <p align="center">
