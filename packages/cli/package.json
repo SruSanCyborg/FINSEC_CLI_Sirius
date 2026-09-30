@@ -1,22 +1,54 @@
 {
-  "name": "sirius",
+  "name": "finsec-sirius",
   "version": "0.4.0",
-  "description": "A security & compliance linter for money-handling code",
+  "description": "Security and control layer for AI agents that move money, and a compliance linter for money-handling code. Runs locally, no account.",
+  "keywords": [
+    "security",
+    "fintech",
+    "compliance",
+    "linter",
+    "sast",
+    "ai-agents",
+    "payments",
+    "cli",
+    "vapt",
+    "secrets"
+  ],
+  "author": "Sanjay Sivakumar (https://github.com/SruSanCyborg)",
+  "license": "MIT",
+  "homepage": "https://github.com/SruSanCyborg/FINSEC_CLI_Sirius#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SruSanCyborg/FINSEC_CLI_Sirius.git",
+    "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/SruSanCyborg/FINSEC_CLI_Sirius/issues"
+  },
   "type": "module",
   "bin": {
-    "sirius": "./dist/cli.js"
+    "sirius": "./dist/cli.js",
+    "finsec-sirius": "./dist/cli.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "!dist/**/*.map",
+    "README.md",
+    "LICENSE"
   ],
   "engines": {
     "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "tsx src/cli.ts",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "prepublishOnly": "tsc -p tsconfig.json"
   },
   "dependencies": {
     "cli-highlight": "^2.1.11",

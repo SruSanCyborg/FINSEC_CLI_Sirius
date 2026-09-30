@@ -6,9 +6,12 @@
  * problem the finsec-lint → sirius rename created the first time.
  */
 
+import { createRequire } from 'node:module';
+
 export const PRODUCT = 'sirius';
 
-export const VERSION = '0.4.0';
+/** Read from package.json so `sirius --version` always matches the published package. */
+export const VERSION: string = createRequire(import.meta.url)('../package.json').version;
 
 /** Shown as "powered by …" beneath the wordmark. */
 export const AUTHOR = 'Srusan';
