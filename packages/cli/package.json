@@ -1,7 +1,7 @@
 {
-  "name": "finsec-sirius",
+  "name": "@srusan/sirius",
   "version": "0.4.0",
-  "description": "Security and control layer for AI agents that move money, and a compliance linter for money-handling code. Runs locally, no account.",
+  "description": "Sirius by SruSan: a security and control layer for AI agents that move money, and a compliance linter for money-handling code. Runs locally, no account.",
   "keywords": [
     "security",
     "fintech",
@@ -27,8 +27,7 @@
   },
   "type": "module",
   "bin": {
-    "sirius": "./dist/cli.js",
-    "finsec-sirius": "./dist/cli.js"
+    "sirius": "./dist/cli.js"
   },
   "files": [
     "dist",

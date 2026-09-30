@@ -1,8 +1,8 @@
 name: Release to npm
 
-# Push a tag like v0.4.1 (matching packages/cli/package.json) to publish finsec-sirius.
+# Push a tag like v0.4.1 (matching packages/cli/package.json) to publish @srusan/sirius.
 # Uses npm trusted publishing: npmjs.com trusts this repo's workflow, so no token is stored anywhere.
-# One-time setup on npmjs.com: package finsec-sirius -> Settings -> Trusted publisher -> GitHub Actions,
+# One-time setup on npmjs.com: package @srusan/sirius -> Settings -> Trusted publisher -> GitHub Actions,
 # repository SruSanCyborg/FINSEC_CLI_Sirius, workflow release.yml.
 on:
   push:

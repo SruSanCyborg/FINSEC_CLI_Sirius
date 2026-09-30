@@ -18,7 +18,7 @@ set +m
 cd "$(dirname "$0")/.."
 
 CLI="$PWD/packages/cli/dist/cli.js"
-[ -f "$CLI" ] || { echo "build first: pnpm --filter finsec-sirius build"; exit 2; }
+[ -f "$CLI" ] || { echo "build first: pnpm --filter @srusan/sirius build"; exit 2; }
 
 OUT="${REHEARSE_OUT:-$(mktemp)}"
 STAGE=$(mktemp -d)

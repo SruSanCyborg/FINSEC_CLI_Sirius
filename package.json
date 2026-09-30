@@ -1,5 +1,5 @@
 {
-  "name": "finsec-sirius-workspace",
+  "name": "srusan-sirius-workspace",
   "version": "0.4.0",
   "private": true,
   "type": "module",
@@ -17,8 +17,8 @@
     "contract:lint": "redocly lint contract/openapi.yaml",
     "contract:types": "openapi-typescript contract/openapi.yaml -o packages/cli/src/api/types.ts",
     "cli": "node packages/cli/dist/cli.js",
-    "build": "pnpm --filter finsec-sirius build",
-    "test": "pnpm --filter finsec-sirius test",
+    "build": "pnpm --filter @srusan/sirius build",
+    "test": "pnpm --filter @srusan/sirius test",
     "probe:mouse": "bash scripts/probe-mouse.sh",
     "rehearse": "bash scripts/rehearse.sh",
     "rehearse:revenue": "bash scripts/rehearse-revenue.sh",

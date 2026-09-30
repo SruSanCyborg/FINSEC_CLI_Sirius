@@ -6,7 +6,7 @@
 
 <p align="left">
   <img src="https://img.shields.io/github/stars/SruSanCyborg/FINSEC_CLI_Sirius?style=flat&color=blueviolet&label=stars" alt="GitHub stars">
-  <a href="https://www.npmjs.com/package/finsec-sirius"><img src="https://img.shields.io/npm/v/finsec-sirius?color=cb3837&logo=npm" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/@srusan/sirius"><img src="https://img.shields.io/npm/v/%40srusan%2Fsirius?color=cb3837&logo=npm" alt="npm version"></a>
   <img src="https://img.shields.io/github/license/SruSanCyborg/FINSEC_CLI_Sirius?color=blue" alt="MIT license">
   <img src="https://img.shields.io/badge/node-%E2%89%A522-339933?logo=node.js&logoColor=white" alt="Node >= 22">
   <img src="https://img.shields.io/badge/tests-871%20passing-brightgreen" alt="871 tests passing">
@@ -168,8 +168,8 @@ blocks alone; together with a counterparty the agent has never used, they do:
 Install it from npm (needs **Node ≥ 22**):
 
 ```bash
-npx finsec-sirius brief --plain     # try it without installing
-npm install -g finsec-sirius        # or install the `sirius` command for good
+npx @srusan/sirius brief --plain     # try it without installing
+npm install -g @srusan/sirius        # or install the `sirius` command for good
 ```
 
 Then:
@@ -182,8 +182,8 @@ sirius guard score feed             # against what was actually planted
 sirius scan .                       # scan your own project
 ```
 
-Also works with `pnpm add -g finsec-sirius`, `yarn global add finsec-sirius` and `bunx finsec-sirius`.
-To run from source instead: `pnpm install && pnpm --filter finsec-sirius build`, then `node packages/cli/dist/cli.js`.
+Also works with `pnpm add -g @srusan/sirius`, `yarn global add @srusan/sirius` and `bunx @srusan/sirius`.
+To run from source instead: `pnpm install && pnpm --filter @srusan/sirius build`, then `node packages/cli/dist/cli.js`.
 
 `sirius brief` writes the same thing as a six-page PDF. Every figure in it comes
 from that run — none of them are typed in.
@@ -281,7 +281,7 @@ Requires **Node ≥ 22** and `pnpm`.
 
 ```bash
 pnpm install
-pnpm --filter finsec-sirius build
+pnpm --filter @srusan/sirius build
 ```
 
 Scan the bundled vulnerable fixture:
@@ -642,8 +642,8 @@ deliberate delay to look good for nobody.
 
 ```bash
 pnpm install
-pnpm --filter finsec-sirius build       # tsc → packages/cli/dist
-pnpm --filter finsec-sirius test        # vitest — 871 tests
+pnpm --filter @srusan/sirius build       # tsc → packages/cli/dist
+pnpm --filter @srusan/sirius test        # vitest — 871 tests
 pnpm mock                        # Prism REST :4010 + WS replay :4011
 pnpm contract:lint               # redocly lint
 pnpm rehearse                    # drive the real shell in a real pty

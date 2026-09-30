@@ -24,6 +24,6 @@ jobs:
         working-directory: packages/cli
         run: |
           npm pack
-          npm install -g ./finsec-sirius-*.tgz
+          npm install -g ./srusan-sirius-*.tgz
           sirius --version
           sirius --help > /dev/null

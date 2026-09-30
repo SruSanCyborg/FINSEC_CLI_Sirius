@@ -40,7 +40,7 @@ transaction authentication, fraud detection or wallet security.
 Run these three, in order. They orient faster than any amount of reading:
 
 ```bash
-pnpm install && pnpm --filter finsec-sirius build
+pnpm install && pnpm --filter @srusan/sirius build
 node packages/cli/dist/cli.js brief --plain          # what this is, in two minutes
 node packages/cli/dist/cli.js guard gen feed
 node packages/cli/dist/cli.js guard eval feed --narrate
@@ -173,13 +173,13 @@ CLI flags > env (SIRIUS_*) > .siriuslintrc (nearest dir, walking up)
 ```bash
 pnpm install
 pnpm mock                      # Prism REST :4010 + WS frame replay :4011
-pnpm --filter finsec-sirius build     # tsc → packages/cli/dist
-pnpm --filter finsec-sirius test      # vitest
+pnpm --filter @srusan/sirius build     # tsc → packages/cli/dist
+pnpm --filter @srusan/sirius test      # vitest
 pnpm fixtures                  # regenerate contract/fixtures/demo.jsonl
 pnpm contract:lint             # redocly lint
 pnpm contract:types            # regenerate packages/cli/src/api/types.ts
 node contract/mock/smoke.mjs   # assert the mock still matches the PRD mockup
-pnpm --filter finsec-sirius build && \
+pnpm --filter @srusan/sirius build && \
   node packages/cli/dist/cli.js scan contract/fixtures/rule-gallery   # every rule, once
 pnpm rehearse                  # the scan/fix beat, in a real pty
 pnpm rehearse:revenue          # the revenue beat, with per-beat timings

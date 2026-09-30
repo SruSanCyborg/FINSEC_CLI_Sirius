@@ -1,4 +1,4 @@
-# sirius
+# Sirius, by SruSan
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/SruSanCyborg/FINSEC_CLI_Sirius/main/media/sirius-demo.gif" alt="sirius running in a terminal" width="640">
@@ -13,14 +13,14 @@ Needs [Node.js](https://nodejs.org) 22 or newer.
 
 ```bash
 # try it without installing
-npx finsec-sirius --help
+npx @srusan/sirius --help
 
 # or install the `sirius` command globally
-npm install -g finsec-sirius
+npm install -g @srusan/sirius
 sirius --help
 ```
 
-Also works with `pnpm add -g finsec-sirius`, `yarn global add finsec-sirius` and `bunx finsec-sirius`.
+Also works with `pnpm add -g @srusan/sirius`, `yarn global add @srusan/sirius` and `bunx @srusan/sirius`.
 
 ## Quick start
 
