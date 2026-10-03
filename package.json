@@ -24,7 +24,9 @@
     "rehearse:revenue": "bash scripts/rehearse-revenue.sh",
     "shell:check": "bash scripts/shell-check.sh",
     "artifact": "node scripts/artifact/collect.mjs && node scripts/artifact/build.mjs",
-    "artifact:check": "node scripts/artifact/check.mjs"
+    "artifact:check": "node scripts/artifact/check.mjs",
+    "demo:stage": "bash scripts/demo-stage.sh",
+    "demo:record": "pnpm build && bash scripts/demo-stage.sh && PATH=$HOME/sirus-demo/.bin:$PATH vhs scripts/demo.tape"
   },
   "devDependencies": {
     "@redocly/cli": "^2.46.1",
