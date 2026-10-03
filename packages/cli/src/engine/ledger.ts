@@ -9,9 +9,9 @@
  * So each report's canonical digest becomes a leaf in a Merkle tree, and the
  * root is written beside it. Two things follow, both offline and both cheap:
  *
- *   `sirius report --verify <file>`   proves that exact report is in the log,
+ *   `sirus report --verify <file>`   proves that exact report is in the log,
  *                                     in log(n) hashes
- *   `sirius ledger verify`            proves the log only ever appended — that
+ *   `sirus ledger verify`            proves the log only ever appended — that
  *                                     no earlier entry was rewritten or removed
  *
  * The construction is Certificate Transparency's and Rekor's. What is not
@@ -49,7 +49,7 @@ export interface LedgerEntry {
 }
 
 export interface Ledger {
-  schema: 'sirius.ledger/v1';
+  schema: 'sirus.ledger/v1';
   entries: LedgerEntry[];
   /** The Merkle root over every leaf, recomputed on each append. */
   root: string;
@@ -64,15 +64,15 @@ export interface InclusionEvidence {
   entry: LedgerEntry;
 }
 
-export const ledgerPath = (root: string): string => join(root, '.sirius', 'ledger.json');
+export const ledgerPath = (root: string): string => join(root, '.sirus', 'ledger.json');
 
 export function loadLedger(root: string): Ledger {
   const path = ledgerPath(root);
-  if (!existsSync(path)) return { schema: 'sirius.ledger/v1', entries: [], root: '' };
+  if (!existsSync(path)) return { schema: 'sirus.ledger/v1', entries: [], root: '' };
 
   try {
     const parsed = JSON.parse(readFileSync(path, 'utf8')) as Ledger;
-    return parsed.entries ? parsed : { schema: 'sirius.ledger/v1', entries: [], root: '' };
+    return parsed.entries ? parsed : { schema: 'sirus.ledger/v1', entries: [], root: '' };
   } catch {
     // A corrupt ledger is not an empty one, and quietly starting a new log over
     // the top of it would destroy exactly the history it exists to keep.
@@ -107,7 +107,7 @@ const leavesOf = (ledger: Ledger): Buffer[] => ledger.entries.map((entry) => unh
  * Appends one report, or returns the entry it already has.
  *
  * Recording the same report twice would put two identical leaves in the log and
- * make its size a count of `sirius report` invocations rather than of distinct
+ * make its size a count of `sirus report` invocations rather than of distinct
  * reports. The digest is the identity — the same scan of the same tree produces
  * the same one.
  */

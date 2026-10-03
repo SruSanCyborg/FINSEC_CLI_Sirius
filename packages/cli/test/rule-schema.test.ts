@@ -27,7 +27,7 @@ rule:
     kind: ast
     pattern: render_template_string($X)
   fix: { action: sanitize_input }
-  suppress: "# sirius-ignore: SIR-SEC-012"
+  suppress: "# sirus-ignore: SIR-SEC-012"
 `;
 
 const errors = (source: string) =>

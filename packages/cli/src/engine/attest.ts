@@ -7,7 +7,7 @@
  * key was published anywhere. A signature nobody can verify is decoration.
  *
  * So the report is signed here, with a key that lives on this machine, and
- * `sirius report --verify` checks it. Ed25519: small keys, no parameter
+ * `sirus report --verify` checks it. Ed25519: small keys, no parameter
  * choices to get wrong, and in Node's standard library.
  *
  * **What this proves, precisely.** That the report was produced by whoever holds
@@ -26,7 +26,7 @@ import { homedir } from 'node:os';
 /** Where the signing key lives. Same directory as the credentials, same 0600. */
 export function keyPath(): string {
   const base =
-    process.env.SIRIUS_CONFIG_HOME ?? join(process.env.XDG_CONFIG_HOME ?? join(homedir(), '.config'), 'sirius');
+    process.env.SIRUS_CONFIG_HOME ?? join(process.env.XDG_CONFIG_HOME ?? join(homedir(), '.config'), 'sirus');
   return join(base, 'signing-key.pem');
 }
 

@@ -29,7 +29,7 @@ async function drain(): Promise<WsFrame[]> {
 describe('deriveWsUrl', () => {
   it('upgrades the scheme', () => {
     expect(deriveWsUrl('http://localhost:4010')).toBe('ws://localhost:4010');
-    expect(deriveWsUrl('https://api.sirius.dev/api/v1')).toBe('wss://api.sirius.dev/api/v1');
+    expect(deriveWsUrl('https://api.sirus.dev/api/v1')).toBe('wss://api.sirus.dev/api/v1');
   });
 
   it('prefers an explicit override, since the mock splits REST and WS ports', () => {

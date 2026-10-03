@@ -30,7 +30,7 @@ const respond = (status: number) =>
   vi.fn(async () => new Response(status === 200 ? '{}' : '', { status })) as unknown as typeof fetch;
 
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'sirius-validate-'));
+  dir = mkdtempSync(join(tmpdir(), 'sirus-validate-'));
   mkdirSync(join(dir, 'src'), { recursive: true });
   writeFileSync(join(dir, 'src', 'config.py'), `import os\n\nSTRIPE_KEY = "${KEY}"\n`, 'utf8');
 });

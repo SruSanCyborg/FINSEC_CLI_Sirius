@@ -1,10 +1,10 @@
-<title>Sirius Command Map</title>
+<title>Sirus Command Map</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 
 <style>
-  /* sirius's own tokens (scripts/artifact/style.html, ui/theme.ts) so this page
+  /* sirus's own tokens (scripts/artifact/style.html, ui/theme.ts) so this page
      and the revenue page read as one product. Single-theme on purpose: the
      material is literal terminal output. Every colour is painted explicitly so
      the page holds on whatever ground the host paints behind it. */
@@ -257,10 +257,10 @@
 <div class="wrap">
 
   <header class="mast">
-    <div class="brandline"><b>sirius</b><span class="sep">/</span><span>v0.4.0</span><span class="sep">/</span><span>command map</span></div>
+    <div class="brandline"><b>sirus</b><span class="sep">/</span><span>v0.4.0</span><span class="sep">/</span><span>command map</span></div>
     <h1>Twenty commands, in the order you meet them</h1>
     <p class="thesis">
-      sirius finds money at risk in two different places, and almost every confusion about it
+      sirus finds money at risk in two different places, and almost every confusion about it
       comes from mixing them up. <strong>One half reads your code.</strong> The other half reads
       your <strong>operations</strong> — failed payments, abandoned checkouts, ageing invoices,
       books that disagree. Same binary, same shell, entirely different inputs.
@@ -297,20 +297,20 @@
     </div>
 
     <div class="flow">
-      <span class="step lead">sirius scan .</span>
+      <span class="step lead">sirus scan .</span>
       <span class="arrow">→</span>
-      <span class="step">sirius explain SIR-SEC-001</span>
+      <span class="step">sirus explain SIR-SEC-001</span>
       <span class="arrow">→</span>
-      <span class="step">sirius fix SIR-SEC-001</span>
+      <span class="step">sirus fix SIR-SEC-001</span>
       <span class="arrow">→</span>
-      <span class="step">sirius report</span>
+      <span class="step">sirus report</span>
     </div>
 
-    <div class="term"><span class="c">$ sirius scan .</span>
+    <div class="term"><span class="c">$ sirus scan .</span>
 
   <span class="h">✗ CRITICAL</span>  SIR-SEC-001  Hardcoded Stripe secret key
      src/config.py:14 · PCI-DSS 8.6.2 · RBI-DPSC · DPDP §8   <span class="w">₹42,00,000</span>
-     ↳ fix: env_lookup      run  sirius fix SIR-SEC-001
+     ↳ fix: env_lookup      run  sirus fix SIR-SEC-001
 
   ────────────────────────────────────────────────────────────
    Findings    2 critical   2 high   2 medium
@@ -363,7 +363,7 @@
           <tr>
             <td class="cmd"><span class="name">/triage</span><span class="use">/triage [--severity level]</span><span class="tag full">full screen</span></td>
             <td class="does">Walks the findings one at a time so you can accept, dismiss or suppress each.</td>
-            <td class="back">Decisions saved to <code>.sirius/</code>. Press <code>q</code> to come back to the shell.</td>
+            <td class="back">Decisions saved to <code>.sirus/</code>. Press <code>q</code> to come back to the shell.</td>
           </tr>
           <tr>
             <td class="cmd"><span class="name">/watch</span><span class="use">/watch [path]</span><span class="tag full">full screen</span></td>
@@ -464,7 +464,7 @@
             <td class="back">A badge for a README that only moves when someone scans and commits.</td></tr>
           <tr><td class="cmd"><span class="name">/baseline</span><span class="use">/baseline [set|show]</span></td>
             <td class="does">Records today's findings as accepted, so later scans show only what is new.</td>
-            <td class="back">A stored fingerprint set in <code>.sirius/</code>. Totals respect it too.</td></tr>
+            <td class="back">A stored fingerprint set in <code>.sirus/</code>. Totals respect it too.</td></tr>
           <tr><td class="cmd"><span class="name">/suppress</span><span class="use">/suppress &lt;rule&gt; --reason "…"</span></td>
             <td class="does">Silences a rule — and requires a reason and an expiry date to do it.</td>
             <td class="back">A suppression that stops counting in the totals, not just in the list.</td></tr>
@@ -491,7 +491,7 @@
             <td class="does">Self-tests both engines, names the working directory, checks the terminal's unicode and colour, and refuses a signing key that is not 0600.</td>
             <td class="back">Which config layer every value came from — so "why did it do that?" has an answer.</td></tr>
           <tr><td class="cmd"><span class="name">/init</span></td>
-            <td class="does">Scaffolds <code>sirius.yaml</code> and <code>.siriusignore</code>, including the revenue policy thresholds.</td>
+            <td class="does">Scaffolds <code>sirus.yaml</code> and <code>.sirusignore</code>, including the revenue policy thresholds.</td>
             <td class="back">Config you can read and edit. Nothing hidden.</td></tr>
           <tr><td class="cmd"><span class="name">/login</span><span class="use">/login --api-key &lt;key&gt;</span></td>
             <td class="does">Verifies a key, then stores it at 0600. Only needed for hosted history — scanning never requires it.</td>
@@ -523,7 +523,7 @@
     </div>
     <p class="thesis" style="font-size:15px;margin-top:18px">
       In a pipeline that should not block, the escape hatch is
-      <code class="mono" style="color:var(--cool)">sirius scan . || true</code>.
+      <code class="mono" style="color:var(--cool)">sirus scan . || true</code>.
     </p>
   </section>
 
@@ -554,8 +554,8 @@
   </section>
 
   <footer>
-    Every command works as <code class="mono">sirius &lt;name&gt;</code> from your shell, or
-    <code class="mono">/&lt;name&gt;</code> inside <code class="mono">sirius shell</code>.
+    Every command works as <code class="mono">sirus &lt;name&gt;</code> from your shell, or
+    <code class="mono">/&lt;name&gt;</code> inside <code class="mono">sirus shell</code>.
     The scan engine, the rules, the money model and the whole revenue surface run with no backend
     and no network.
   </footer>

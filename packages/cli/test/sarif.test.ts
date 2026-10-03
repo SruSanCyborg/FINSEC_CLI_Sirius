@@ -53,7 +53,7 @@ describe('buildSarif', () => {
     expect(sarif.$schema).toContain('sarif-schema-2.1.0.json');
   });
 
-  it('emits one rule per distinct sirius rule', () => {
+  it('emits one rule per distinct sirus rule', () => {
     expect(sarif.runs[0].tool.driver.rules).toHaveLength(4);
     expect(sarif.runs[0].tool.driver.rules[0].id).toBe('SIR-SEC-001');
   });
@@ -64,7 +64,7 @@ describe('buildSarif', () => {
   });
 
   it('exposes the fingerprint as a partialFingerprint so GitHub can track findings', () => {
-    expect(sarif.runs[0].results[0].partialFingerprints.siriusFingerprint).toBe('fp_1');
+    expect(sarif.runs[0].results[0].partialFingerprints.sirusFingerprint).toBe('fp_1');
   });
 
   it('marks suppressed findings as suppressed rather than dropping them', () => {

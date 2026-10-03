@@ -32,24 +32,24 @@ cp -R "$SOURCE"/. "$STAGE"/
 # a live key is refused outright: this script sends whatever it is given to
 # Stripe, and that is not a thing to do with a credential that can move money.
 SCAN_FLAGS=""
-DEMO_KEY="${SIRIUS_DEMO_STRIPE_KEY:-}"
+DEMO_KEY="${SIRUS_DEMO_STRIPE_KEY:-}"
 
 if [ -n "$DEMO_KEY" ]; then
   case "$DEMO_KEY" in
     sk_test_*|rk_test_*)
-      printf '\n# Supplied by SIRIUS_DEMO_STRIPE_KEY for the rehearsal. Test mode.\n' >>"$STAGE/src/config.py"
+      printf '\n# Supplied by SIRUS_DEMO_STRIPE_KEY for the rehearsal. Test mode.\n' >>"$STAGE/src/config.py"
       printf 'STRIPE_TEST_KEY = "%s"\n' "$DEMO_KEY" >>"$STAGE/src/config.py"
       SCAN_FLAGS=" --validate-secrets"
       echo "demo key: test-mode key staged, validation on"
       ;;
     *)
-      echo "demo key: REFUSED — SIRIUS_DEMO_STRIPE_KEY is not an sk_test_/rk_test_ key." >&2
+      echo "demo key: REFUSED — SIRUS_DEMO_STRIPE_KEY is not an sk_test_/rk_test_ key." >&2
       echo "          This script sends it to Stripe. Never give it one that can move money." >&2
       exit 2
       ;;
   esac
 else
-  echo "demo key: none — set SIRIUS_DEMO_STRIPE_KEY to a Stripe *test* key to rehearse the VERIFIED LIVE badge"
+  echo "demo key: none — set SIRUS_DEMO_STRIPE_KEY to a Stripe *test* key to rehearse the VERIFIED LIVE badge"
 fi
 
 # A repo of its own, so the git archaeology in the threat stage has history to

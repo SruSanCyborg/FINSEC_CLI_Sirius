@@ -1,5 +1,5 @@
 /**
- * `sirius fix [finding]` — request a Cerebus suggestion and optionally apply it.
+ * `sirus fix [finding]` — request a Cerebus suggestion and optionally apply it.
  *
  * Applying a diff is the only place this CLI writes to the user's files, so the
  * safety rules here are deliberate and non-negotiable:
@@ -96,7 +96,7 @@ export function applyDiffToFile(filePath: string, expectedLine: number, diff: st
 
   if (index < 0) {
     throw new CliError(`Could not find the line to replace in ${filePath}.`, {
-      hint: 'The file has changed since the scan. Re-run `sirius scan .` and try again.',
+      hint: 'The file has changed since the scan. Re-run `sirus scan .` and try again.',
     });
   }
 
@@ -105,7 +105,7 @@ export function applyDiffToFile(filePath: string, expectedLine: number, diff: st
   const replacement = added.map((line, i) => (i === 0 ? indent + line : indent + line));
   lines.splice(index, removed.length, ...replacement);
 
-  const backup = `${filePath}.sirius-backup`;
+  const backup = `${filePath}.sirus-backup`;
   copyFileSync(filePath, backup);
   writeFileSync(filePath, lines.join('\n'), 'utf8');
   return { backup };
@@ -122,7 +122,7 @@ export async function runFix(identifier: string | undefined, flags: FixFlags, gl
   // non-interactive triage. `fix` has two, so the hint names them instead of
   // telling somebody their pipeline is the wrong place to be.
   if (!flags.apply && !flags.dryRun && !process.stdin.isTTY) {
-    throw new CliError('`sirius fix` needs a terminal to accept the diff.', {
+    throw new CliError('`sirus fix` needs a terminal to accept the diff.', {
       hint: 'Pass --dry-run to see the change, or --apply to take it without being asked.',
     });
   }
@@ -131,7 +131,7 @@ export async function runFix(identifier: string | undefined, flags: FixFlags, gl
   const found = locateLastScan(cwd, flags.target);
   if (!found) {
     throw new CliError('No recent scan to fix from.', {
-      hint: 'Run `sirius scan .` first — fix resolves rule ids against the last scan.',
+      hint: 'Run `sirus scan .` first — fix resolves rule ids against the last scan.',
     });
   }
   const { root, cache, how } = found;
@@ -157,13 +157,13 @@ export async function runFix(identifier: string | undefined, flags: FixFlags, gl
   const local = cache.source !== 'api';
   if (cache.source === 'replay') {
     throw new CliError('The last scan was a replay of a recorded fixture, so there is nothing to fix.', {
-      hint: 'Run `sirius scan .` to analyse real files.',
+      hint: 'Run `sirus scan .` to analyse real files.',
     });
   }
 
   if (!identifier && !flags.all) {
     throw new CliError('Which finding? Pass a rule id, a finding id, or --all.', {
-      hint: `e.g. sirius fix ${cache.findings[0]?.rule_id ?? 'SIR-SEC-001'}`,
+      hint: `e.g. sirus fix ${cache.findings[0]?.rule_id ?? 'SIR-SEC-001'}`,
     });
   }
 
@@ -210,7 +210,7 @@ export async function runFix(identifier: string | undefined, flags: FixFlags, gl
     const filePath = resolve(root, finding.file);
 
     // The local engine has no scan on any server, but it has the rules and the
-    // file, which is everything a fix needs. Without this branch `sirius fix`
+    // file, which is everything a fix needs. Without this branch `sirus fix`
     // was unreachable in the default configuration — the Response stage existed
     // only against a backend nobody has running.
     const suggestion = local
@@ -235,7 +235,7 @@ export async function runFix(identifier: string | undefined, flags: FixFlags, gl
             `decorator to apply. Adding authentication here is a design decision.`
           : hasTemplate
             ? `${finding.file}:${finding.line} no longer looks like what the scan found there.\n` +
-              `  The file has probably changed since. Re-run \`sirius scan\` and try again.`
+              `  The file has probably changed since. Re-run \`sirus scan\` and try again.`
             : `no local fix template for ${finding.rule_id} (${finding.fix_action ?? 'no action'}).`;
       process.stderr.write(`${reason}\n`);
       continue;
@@ -310,7 +310,7 @@ export async function runFix(identifier: string | undefined, flags: FixFlags, gl
           );
           continue;
         }
-        backup = `${filePath}.sirius-backup`;
+        backup = `${filePath}.sirus-backup`;
         copyFileSync(filePath, backup);
         writeFileSync(filePath, verified.verified_source, 'utf8');
       } else {

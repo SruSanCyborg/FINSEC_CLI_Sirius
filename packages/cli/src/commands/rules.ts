@@ -1,5 +1,5 @@
 /**
- * `sirius rules list|show|validate|test`
+ * `sirus rules list|show|validate|test`
  *
  * `test` is deliberately absent: it would need to run an *authored* rule against
  * a fixture, which means a YAML rule interpreter. The engine here runs compiled
@@ -154,7 +154,7 @@ async function listRules(flags: RulesFlags, globals: GlobalFlags): Promise<void>
 
 async function showRule(ruleId: string | undefined, flags: RulesFlags, globals: GlobalFlags): Promise<void> {
   if (!ruleId) {
-    throw new CliError('Which rule?', { hint: 'e.g. sirius rules show SIR-SEC-001' });
+    throw new CliError('Which rule?', { hint: 'e.g. sirus rules show SIR-SEC-001' });
   }
 
   const local = useLocalCatalog(globals);
@@ -165,7 +165,7 @@ async function showRule(ruleId: string | undefined, flags: RulesFlags, globals: 
     rule = localRule(ruleId, VERSION);
     if (!rule) {
       throw new CliError(`No rule "${ruleId}" in the local engine.`, {
-        hint: `Known: ${localRuleIds().slice(0, 6).join(', ')}…  Run \`sirius rules list\` for all.`,
+        hint: `Known: ${localRuleIds().slice(0, 6).join(', ')}…  Run \`sirus rules list\` for all.`,
       });
     }
   } else {
@@ -231,7 +231,7 @@ async function showRule(ruleId: string | undefined, flags: RulesFlags, globals: 
  */
 async function validateRule(path: string | undefined, globals: GlobalFlags): Promise<void> {
   if (!path) {
-    throw new CliError('Which file?', { hint: 'e.g. sirius rules validate my-rule.yaml' });
+    throw new CliError('Which file?', { hint: 'e.g. sirus rules validate my-rule.yaml' });
   }
 
   const filePath = resolve(process.cwd(), path);
@@ -242,7 +242,7 @@ async function validateRule(path: string | undefined, globals: GlobalFlags): Pro
   // not an answer to "which file did you mean?".
   if (statSync(filePath).isDirectory()) {
     throw new CliError(`${path} is a directory, and validate takes one rule file.`, {
-      hint: 'e.g. sirius rules validate rules/my-rule.yaml',
+      hint: 'e.g. sirus rules validate rules/my-rule.yaml',
     });
   }
 
@@ -283,7 +283,7 @@ async function validateRule(path: string | undefined, globals: GlobalFlags): Pro
     askedServer
       ? `\nChecked: schema, vocabularies and clause numbers here; patterns by the API.\n`
       : `\nChecked: schema, vocabularies and clause numbers. Whether the pattern matches\n` +
-          `what you think it matches is not checked here — run \`sirius rules test\` for that.\n`,
+          `what you think it matches is not checked here — run \`sirus rules test\` for that.\n`,
   );
 
   // Exit 1, not 2. An invalid rule is the answer to the question asked, the same
@@ -311,7 +311,7 @@ function hexToRgb(hex: string): string {
  *
  * Semgrep's convention, because it is a good one and the whole project is built
  * on copying good ones: the fixture annotates its own expectations. A comment
- * `sirius-test: <rule-id>` says the *next* line must match, and `sirius-ok:
+ * `sirus-test: <rule-id>` says the *next* line must match, and `sirus-ok:
  * <rule-id>` says it must not. The fixture is therefore readable on its own,
  * and reviewing it is reviewing the rule.
  *
@@ -327,7 +327,7 @@ async function testRule(
 
   if (!target) {
     throw new CliError('Which rule?', {
-      hint: 'e.g. sirius rules test my-rule.yaml --fixture cases/my-rule.py',
+      hint: 'e.g. sirus rules test my-rule.yaml --fixture cases/my-rule.py',
     });
   }
 
@@ -335,7 +335,7 @@ async function testRule(
   if (!existsSync(rulePath)) throw new CliError(`No such file: ${target}`);
   if (statSync(rulePath).isDirectory()) {
     throw new CliError(`${target} is a directory, and test takes one rule file.`, {
-      hint: 'e.g. sirius rules test rules/my-rule.yaml',
+      hint: 'e.g. sirus rules test rules/my-rule.yaml',
     });
   }
 
@@ -371,7 +371,7 @@ async function testRule(
     process.stdout.write(
       JSON.stringify(
         {
-          schema: 'sirius.rules.test/v1',
+          schema: 'sirus.rules.test/v1',
           rule: run.id,
           fixture: relative(process.cwd(), fixturePath),
           expected: expectations.length,
@@ -402,8 +402,8 @@ async function testRule(
 
   if (expectations.length === 0) {
     out.push('  The fixture makes no claims, so this checked nothing.');
-    out.push('  Annotate it:  # sirius-test: ' + (run.id || 'SIR-SEC-NNN') + '   above a line that must match,');
-    out.push('                # sirius-ok:   ' + (run.id || 'SIR-SEC-NNN') + '   above one that must not.');
+    out.push('  Annotate it:  # sirus-test: ' + (run.id || 'SIR-SEC-NNN') + '   above a line that must match,');
+    out.push('                # sirus-ok:   ' + (run.id || 'SIR-SEC-NNN') + '   above one that must not.');
     process.stdout.write(out.join('\n') + '\n\n');
     process.exitCode = 1;
     return;
@@ -441,13 +441,13 @@ interface Expectation {
   text: string;
 }
 
-/** `# sirius-test: <id>` and `# sirius-ok: <id>`, each about the line below it. */
+/** `# sirus-test: <id>` and `# sirus-ok: <id>`, each about the line below it. */
 function expectationsIn(source: string, ruleId: string): Expectation[] {
   const lines = source.split('\n');
   const found: Expectation[] = [];
 
   lines.forEach((line, index) => {
-    const annotation = /(?:#|\/\/)\s*sirius-(test|ok)\s*:\s*([A-Za-z0-9-]+)/.exec(line);
+    const annotation = /(?:#|\/\/)\s*sirus-(test|ok)\s*:\s*([A-Za-z0-9-]+)/.exec(line);
     if (!annotation) return;
     // An annotation naming a different rule belongs to that rule's test.
     if (ruleId && annotation[2] !== ruleId) return;

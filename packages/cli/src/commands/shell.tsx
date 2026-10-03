@@ -1,5 +1,5 @@
 /**
- * `sirius` with no arguments — the interactive shell.
+ * `sirus` with no arguments — the interactive shell.
  *
  * Two renderers, chosen at startup:
  *
@@ -9,12 +9,12 @@
  * the alternate buffer a child process cannot be handed the terminal without
  * fighting our own drawing.
  *
- * **Inline** (`SIRIUS_NO_ALT_SCREEN=1`) keeps the native scrollback and hands
+ * **Inline** (`SIRUS_NO_ALT_SCREEN=1`) keeps the native scrollback and hands
  * the real terminal to each command, so `/scan` gets its genuine streaming view
  * and `/triage` its genuine keyboard UI. Slower to look at, higher fidelity.
  *
  * The captured path is not a downgrade for scanning: children run with
- * `SIRIUS_STREAM_PLAIN=1`, so findings are emitted line by line as they are
+ * `SIRUS_STREAM_PLAIN=1`, so findings are emitted line by line as they are
  * discovered and stream into the transcript live.
  */
 
@@ -81,8 +81,8 @@ export async function runShell(_flags: unknown, globals: GlobalFlags): Promise<v
   // Both streams must be a terminal: the palette needs keypresses, and the
   // commands need somewhere to draw.
   if (!capabilities.tty || !process.stdin.isTTY) {
-    throw new CliError('`sirius` with no arguments opens an interactive shell, which needs a terminal.', {
-      hint: 'Run a command directly instead, e.g. `sirius scan .`, or see `sirius --help`.',
+    throw new CliError('`sirus` with no arguments opens an interactive shell, which needs a terminal.', {
+      hint: 'Run a command directly instead, e.g. `sirus scan .`, or see `sirus --help`.',
     });
   }
 
@@ -111,7 +111,7 @@ function sessionContext(glyphs: Glyphs, globals: GlobalFlags): string {
     const project = findProjectRoot(cwd);
     return [
       `scanning ${shortPath(cwd)}`,
-      project ? `project ${project.dir.split('/').pop()}` : 'no sirius.yaml',
+      project ? `project ${project.dir.split('/').pop()}` : 'no sirus.yaml',
       config.projectId ? `api ${config.apiUrl.replace(/^https?:\/\//, '')}` : 'local engine',
     ].join(glyphs.separator);
   } catch {
@@ -132,7 +132,7 @@ export function tokenize(line: string): string[] {
   return tokens;
 }
 
-/** Global flags typed once on `sirius` should apply to everything run inside. */
+/** Global flags typed once on `sirus` should apply to everything run inside. */
 function inheritedFlags(globals: GlobalFlags): string[] {
   const flags: string[] = [];
   if (globals.apiUrl) flags.push('--api-url', globals.apiUrl);
@@ -293,7 +293,7 @@ async function runFullScreen(capabilities: Capabilities, glyphs: Glyphs, globals
       // config from disk, which is a large part of why output felt laggy.
       const context = sessionContext(glyphs, globals);
       // The wordmark does not repeat the context. It was printing the same
-      // "scanning … · no sirius.yaml · local engine" the header shows, one line
+      // "scanning … · no sirus.yaml · local engine" the header shows, one line
       // below the header showing it — and the header's copy is the one that
       // stays put when the banner scrolls away.
       const banner = renderWordmark(
@@ -409,7 +409,7 @@ async function runFullScreen(capabilities: Capabilities, glyphs: Glyphs, globals
 
         // A printable marker, not a NUL byte: this has to be greppable in a
         // log and typeable in a test, and an invisible one was neither.
-        const DETAIL = '::sirius-why::';
+        const DETAIL = '::sirus-why::';
         const append = (text: string, kind: TranscriptLine['kind'] = 'output') => {
           // Evidence arrives inline, marked. It is stored hidden and revealed
           // by Ctrl+O rather than re-running the scan to answer "why?".
@@ -711,15 +711,15 @@ async function runFullScreen(capabilities: Capabilities, glyphs: Glyphs, globals
                 // Captured, so the child is not a TTY — ask for colour anyway,
                 // and for findings to stream out line by line as they arrive.
                 FORCE_COLOR: capabilities.color ? '1' : '0',
-                SIRIUS_STREAM_PLAIN: '1',
+                SIRUS_STREAM_PLAIN: '1',
                 // The child is a pipe and cannot measure the terminal, so hand
                 // it the transcript's usable width. Two columns for the gutter.
-                SIRIUS_WIDTH: String(Math.max(40, capabilities.width - 2)),
+                SIRUS_WIDTH: String(Math.max(40, capabilities.width - 2)),
                 // So a child telling the user what to run next can name the
                 // form that will actually work where they are: `/scan .` in
-                // here, `sirius scan .` from their own prompt.
-                SIRIUS_IN_SHELL: '1',
-                ...(capabilities.unicode ? { SIRIUS_UNICODE: '1' } : {}),
+                // here, `sirus scan .` from their own prompt.
+                SIRUS_IN_SHELL: '1',
+                ...(capabilities.unicode ? { SIRUS_UNICODE: '1' } : {}),
               },
             },
           );
@@ -758,7 +758,7 @@ async function runFullScreen(capabilities: Capabilities, glyphs: Glyphs, globals
           <FullScreenShell
             glyphs={glyphs}
             capabilities={capabilities}
-            header={`sirius v${VERSION}  ${context}`}
+            header={`sirus v${VERSION}  ${context}`}
             lines={lines}
             busy={busy}
             busyLabel={busyLabel}
@@ -777,7 +777,7 @@ async function runFullScreen(capabilities: Capabilities, glyphs: Glyphs, globals
       }
 
       const debug = (message: string) => {
-        if (process.env.SIRIUS_DEBUG) process.stderr.write(`[shell] ${message}\n`);
+        if (process.env.SIRUS_DEBUG) process.stderr.write(`[shell] ${message}\n`);
       };
 
       debug('rendering full-screen app');

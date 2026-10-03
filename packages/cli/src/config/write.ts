@@ -1,5 +1,5 @@
 /**
- * Writing `~/.config/sirius/config.toml`.
+ * Writing `~/.config/sirus/config.toml`.
  *
  * Kept separate from `load.ts` because this is the only module that mutates the
  * user's credentials, and it has one rule: the file holds secrets, so it is
@@ -29,7 +29,7 @@ function readRaw(): ConfigToml {
     return configTomlSchema.parse(parseToml(readFileSync(path, 'utf8')) ?? {});
   } catch (cause) {
     throw new CliError(`${path} is not valid`, {
-      hint: 'Fix or delete it, then run `sirius login` again.',
+      hint: 'Fix or delete it, then run `sirus login` again.',
       cause,
     });
   }

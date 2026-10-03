@@ -15,9 +15,9 @@ const GROUPED = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 });
 /**
  * `₹`, or `Rs.` where the terminal cannot draw it.
  *
- * AGENTS.md names `SIRIUS_ASCII=1` the projector safety net and lists `₹` as
+ * AGENTS.md names `SIRUS_ASCII=1` the projector safety net and lists `₹` as
  * the first character it protects. It did not: this module hardcoded the symbol
- * and knew nothing about the terminal, so under `SIRIUS_ASCII=1` a scan still
+ * and knew nothing about the terminal, so under `SIRUS_ASCII=1` a scan still
  * emitted nine of them. Only the revenue renderer honoured the flag, through
  * `palette.rupee` — so the same variable meant two different things in the two
  * demo beats, and `doctor`'s glyph self-test rendered `Rs.42,00,000` through a
@@ -34,7 +34,7 @@ const GROUPED = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 });
  */
 function symbol(): string {
   const env = process.env;
-  const ascii = env.SIRIUS_ASCII === '1' || env.SIRIUS_ASCII === 'true';
+  const ascii = env.SIRUS_ASCII === '1' || env.SIRUS_ASCII === 'true';
   return ascii ? 'Rs.' : '₹';
 }
 

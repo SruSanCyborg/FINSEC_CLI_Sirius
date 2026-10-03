@@ -1,7 +1,7 @@
 /**
  * Real AST parsing, via tree-sitter compiled to WebAssembly.
  *
- * This is the part that makes sirius a scanner rather than a client for one.
+ * This is the part that makes sirus a scanner rather than a client for one.
  * Findings come from walking a genuine syntax tree, not from grepping — which
  * is what lets a rule tell `cur.execute(query)` apart from
  * `cur.execute("..." % uid)`, and what keeps the false-positive rate low enough

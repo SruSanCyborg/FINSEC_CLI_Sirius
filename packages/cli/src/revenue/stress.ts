@@ -107,7 +107,7 @@ export interface StressRow {
 }
 
 export interface StressReport {
-  schema: 'sirius.revenue.stress/v1';
+  schema: 'sirus.revenue.stress/v1';
   seeds: string[];
   capacity_share: number;
   rows: StressRow[];
@@ -199,7 +199,7 @@ export function stress(options: StressOptions = {}): StressReport {
     invoices: options.invoices ?? 40,
   };
   const share = options.capacityShare ?? 0.05;
-  const seeds = Array.from({ length: options.seeds ?? 4 }, (_, i) => `sirius-stress-${i + 1}`);
+  const seeds = Array.from({ length: options.seeds ?? 4 }, (_, i) => `sirus-stress-${i + 1}`);
 
   const rows: StressRow[] = [];
 
@@ -272,7 +272,7 @@ export function stress(options: StressOptions = {}): StressReport {
   );
 
   return {
-    schema: 'sirius.revenue.stress/v1',
+    schema: 'sirus.revenue.stress/v1',
     seeds,
     capacity_share: share,
     rows,

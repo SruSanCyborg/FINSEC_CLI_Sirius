@@ -1,4 +1,4 @@
-# `sirius revenue` and `sirius reconcile`
+# `sirus revenue` and `sirus reconcile`
 
 The scanner prices money at risk in **code**. This prices it in **operations** —
 failed payments, abandoned checkouts, receivables going stale, and three sets of
@@ -9,19 +9,19 @@ Three loops, each closing end to end with no backend:
 
 | Loop | Command | What it answers |
 |---|---|---|
-| Detect + measure | `sirius revenue detect \| eval` | which records are worth working, and how well the detector actually does on data it never saw |
-| Decide + recover | `sirius revenue recover` | what to do about each one, what that recovered, and where it had to stop |
-| Reconcile | `sirius reconcile` | which captures, settlements and bank lines are the same money, and what is left unexplained |
+| Detect + measure | `sirus revenue detect \| eval` | which records are worth working, and how well the detector actually does on data it never saw |
+| Decide + recover | `sirus revenue recover` | what to do about each one, what that recovered, and where it had to stop |
+| Reconcile | `sirus reconcile` | which captures, settlements and bank lines are the same money, and what is left unexplained |
 
 ```bash
-sirius revenue gen batch          # a reproducible batch from a seed
-sirius revenue detect batch       # score it, diagnose it, price it
-sirius revenue eval batch         # measure it on the held-out half
-sirius revenue recover batch      # run the bounded workflow, write a signed trail
-sirius revenue audit --verify batch/recovery-<id>.json
+sirus revenue gen batch          # a reproducible batch from a seed
+sirus revenue detect batch       # score it, diagnose it, price it
+sirus revenue eval batch         # measure it on the held-out half
+sirus revenue recover batch      # run the bounded workflow, write a signed trail
+sirus revenue audit --verify batch/recovery-<id>.json
 
-sirius reconcile books --gen      # three sets of books that disagree
-sirius reconcile books            # match them, and list what did not match
+sirus reconcile books --gen      # three sets of books that disagree
+sirus reconcile books            # match them, and list what did not match
 ```
 
 ---
@@ -81,29 +81,34 @@ re-presentments, TRAI caps contact, and analysts are finite.
 ### The honest result
 
 On money, across eight seeds, expected-value ranking beats sorting by amount by
-**+1.5% at 20% capacity and +22.9% when capacity is tight at 3%**, winning on
-seven seeds of eight. When amounts span a hundredfold and probabilities span
-threefold, size is already most of the answer with room to spare — and the
-tighter capacity gets, the more the choice matters. Capacity is always tight.
+**+1.0% at 20% capacity and +4.0% at 5%**, winning on seven seeds of eight. When
+amounts span a hundredfold and probabilities span threefold, size is already
+most of the answer — and the edge is small. It is largest when capacity is
+tight, but not monotonically: at 3% it falls back to +2.2%, because with ten
+slots the highest expected value and the largest amount are mostly the same
+records.
 
 **The edge is a function of capacity, so it is reported as one:**
 
 | capacity | edge over the best runnable heuristic | share of the ceiling |
 |---|---|---|
-| 3% | +22.9% | 74% |
-| 5% | +10.2% | 80% |
-| 10% | +2.1% | 85% |
-| 20% | +1.5% | 88% |
-| 40% | +1.2% | 93% |
+| 3% | +2.2% | 72% |
+| 5% | +4.0% | 78% |
+| 10% | +0.7% | 83% |
+| 20% | +1.0% | 87% |
+| 40% | +0.6% | 92% |
 
 A single number invites "so your model is worth one percent". At the capacity it
-happened to be measured at, yes. `sirius revenue eval` prints this curve, and on
+happened to be measured at, yes. `sirus revenue eval` prints this curve, and on
 any *one* batch several of these points are frequently zero — at tight capacity
 the highest expected value and the largest amount are often the same records.
 That is why the table above is eight seeds and not one.
 
 **What replacing naive Bayes actually bought, and what it cost.** Both are
-measured, and the losses are not omitted:
+measured, and the losses are not omitted. This table is a record of that change,
+taken on the seeds as they were named before the rename to `sirus-*`
+(D-058), which moved every figure above, and naive Bayes is no longer in the
+tree to measure again:
 
 | | naive Bayes | logistic |
 |---|---|---|
@@ -126,12 +131,21 @@ Where the policies differ most is not money at all — it is **what gets
 touched**:
 
 ```
- chase everything   INFEASIBLE  ✗ touched 24 it must not   5.0× the 67 interventions available
-                   (₹9,77,302)                             what it would net if those limits did not exist
- biggest first       ₹7,54,709  ✗ touched  1 it must not    67 acted on
- newest first        ₹6,46,092  ✗ touched  6 it must not    67 acted on
-→ this detector      ₹7,50,992  ✓ touched none              67 acted on · 82% of what was reachable
- perfect foresight   ₹9,19,507  ✗ touched  1 it must not    67 acted on — the ceiling
+   POLICY                    NET  OUT OF BOUNDS  ACTED ON
+   chase everything   INFEASIBLE  ✗ 18           —
+      5.0× the 67 interventions available — no model at all — and far past
+      what any gateway or contact rule allows
+      ₹15,89,129 is what it would net if those limits did not exist
+   chase nothing              ₹0  ✓ none         0
+      what the money does when left alone
+   biggest first      ₹13,35,227  ✗ 1            67
+      the spreadsheet heuristic: sort by amount, work down the list
+   newest first       ₹10,68,273  ✗ 3            67
+      the queue heuristic: work the freshest failures
+→  this detector      ₹13,14,917  ✓ none         67
+      86% of what was reachable · ₹20.3K behind the best heuristic
+   perfect foresight  ₹15,20,829  ✓ none         67
+      the ceiling — the best possible choice of the same number of records
 ```
 
 `chase everything` nets more than the detector and more than the ceiling, and
@@ -148,8 +162,9 @@ together would let us disqualify `biggest first`, which beats us on the headline
 batch, over a single touch. That is the same trick with the sign reversed.
 
 Out of bounds means an open dispute, an issuer risk block, or a shared-signal
-cluster. Even perfect foresight breaks the rule, because it optimises money
-alone — it is an upper bound, not a policy anyone may run.
+cluster. Perfect foresight is not bound by that rule, because it optimises money
+alone — on this batch it happens to touch nothing, and on others it does. It is
+an upper bound, not a policy anyone may run.
 
 That column exists because the evaluation caught the agent itself retrying a
 `risk_block`. The issuer had already refused it, and **a low probability is not
@@ -158,9 +173,45 @@ a prohibition**.
 ### Asking why
 
 ```
-sirius revenue explain pay_00051 --split test
+sirus revenue explain pay_00054 --split test
 ```
 
+  pay_00054   ₹68,199   nach_mandate insufficient_funds · attempt 1 · kaveri-pg
+  scored against split=test — capacity and ranking are relative to the records
+  it competed with
+
+  HOW THE SCORE WAS REACHED
+    start                 base rate 21.1% — how often acting pays off at all
+    dispute                 +7.0  false ×1.62
+    attempts                +6.8  1 ×1.60
+    amount                  +4.8  50k+ ×1.40
+    tenure                  +2.0  long ×1.15
+    failure×rail            +1.8  insufficient_funds|nach_mandate ×1.13
+    ring                    +1.4  false ×1.10
+    kind                    +1.3  payment ×1.10
+    history                 −1.0  some ×0.93
+    rail                    +0.9  nach_mandate ×1.07
+    tenure×history          +0.9  long|some ×1.07
+    failure×attempts        +0.8  insufficient_funds|1 ×1.06
+    failure                 +0.6  insufficient_funds ×1.04
+    degraded                −0.6  false ×0.96
+    failure×degraded        +0.6  insufficient_funds|false ×1.04
+    shrink                ×1.3283 — fitted on 713 training records, because the model is overconfident
+    score                     70  the chance this comes back BECAUSE the agent …
+
+  WHAT THAT IS WORTH
+    0.70 × ₹68,199 × 1 (recovery share for payment:insufficient_funds)
+      = ₹48,056 expected, against ₹3 to act
+
+  WHAT THE AGENT DOES
+    ◆ retry_after_cooldown
+    inside this run's capacity of 67 (20% of the batch — a stand-in for one
+    cycle of operational headroom)
+    ✓ retry_after_cooldown is permitted right now
+
+  WHAT ACTUALLY HAPPENS   from the labels — not used to score
+    recoverable, and only if somebody acts
+    ₹68,199 of it, and the action that works is retry_after_cooldown
 ```
   pay_00051   ₹29,733   upi_collect network_timeout · attempt 2 · tatva
 
@@ -197,7 +248,7 @@ no part in the score, and the layout says so by position.
 ### When the world stops matching the training data
 
 ```bash
-sirius revenue stress
+sirus revenue stress
 ```
 
 The honest objection to every number above is that the model was fitted to the
@@ -214,22 +265,24 @@ and therefore cannot go stale. Six scenarios, written down before they were run:
 
 | world | before | after | retrained | out of bounds |
 |---|---|---|---|---|
-| no gateway outage at all | +2.3% | **+20.9%** | +27.7% | none |
-| book shifts to NACH mandates | +2.3% | **−10.4%** | −10.4% | none |
-| card share triples | +2.3% | **−7.6%** | −4.6% | none |
-| tickets four times larger | +2.3% | **+6.4%** | −1.8% | none |
-| failures recover 25% less often | +2.3% | **−1.9%** | −17.3% | none |
-| issuers tighten, risk blocks triple | +2.3% | **+3.0%** | +16.4% | none |
+| no gateway outage at all | −2.2% | **−2.7%** | −2.9% | none |
+| book shifts to NACH mandates | −2.2% | **+2.9%** | +3.6% | none |
+| card share triples | −2.2% | **−2.5%** | +1.5% | none |
+| tickets four times larger | −2.2% | **+4.6%** | +5.5% | none |
+| failures recover 25% less often | −2.2% | **+6.5%** | +0.0% | none |
+| issuers tighten, risk blocks triple | −2.2% | **−5.9%** | −4.0% | none |
 
 `after` against `before` is what the shift cost. `after` against `retrained` is
 how much a refit would recover, which is the only number that says whether to
 retrain or to redesign.
 
-**The money edge held in three worlds of six.** It is a real edge and it is not
-robust: in a mandate-heavy book the detector loses to sorting by amount and
-retraining does not help, because in that world the heuristic is simply better.
-That is printed in the same table and the same weight as the wins, because a
-robustness report listing only survivals is a marketing document.
+**The money edge held in three worlds of six** — and it did not hold in the
+unshifted world either. On these four seeds at 5% capacity the detector starts
+2.2% *behind* sorting by amount, so `before` is a loss, not a margin to defend.
+It is not a robust edge: a risk-block wave costs it most, and retraining wins
+back less than two points. That is printed in the same table and the same weight
+as the wins, because a robustness report listing only survivals is a marketing
+document.
 
 **It touched nothing out of bounds in any of them.** That is the result worth
 the section. The money edge is a preference; not contacting a disputed record,
@@ -237,12 +290,13 @@ not retrying an issuer's risk block, not working a shared-signal cluster is a
 rule — and a rule that only holds on the distribution you trained on is not a
 rule. Under six shifts it never broke once.
 
-Two of the scenarios are worth reading twice. Removing the gateway outage
-*improves* the edge, because the outage is where the heuristics get their easy
-wins: a cluster of large, highly recoverable failures that sorting by amount
-finds by accident. And where `retrained` is worse than `after`, refitting made
-things worse — a model with nothing to say about a portfolio it was not designed
-for cannot be trained into having something to say.
+Two of the scenarios are worth reading twice. Removing the gateway outage makes
+the detector *worse*, because degradation is the signal it leans on hardest, and
+with it gone there is little left to rank on but size — which the heuristic
+already does. And where `retrained` is worse than `after` — harder recovery,
+where a refit gives back all 6.5 points — refitting made things worse: a model
+with nothing to say about a portfolio it was not designed for cannot be trained
+into having something to say.
 
 ---
 
@@ -281,7 +335,7 @@ the record. Deferrals are capped, which is what guarantees termination.
 
 ### They are your numbers
 
-Every threshold above is set in `sirius.yaml`, and `sirius init` scaffolds the
+Every threshold above is set in `sirus.yaml`, and `sirus init` scaffolds the
 block commented out. Pin only what you argue about; the rest falls back to a
 documented default.
 
@@ -312,15 +366,17 @@ to edit the obligation the threshold answers to.
 ### The number
 
 ```
-  at risk                 ₹29,43,248  the money these records represent
-  recovered                ₹8,87,331  came back during the run
-  would have anyway       -₹2,21,666  the same records recover this much untouched
-  attributable             ₹6,65,664  recovered because the agent acted
-  spent                        -₹852
-  net                      ₹6,64,812
+  at risk                 ₹36,54,915  the money these records represent
+  recovered               ₹11,24,061  came back during the run
+  would have anyway       -₹2,96,309  the same records recover this much untouc…
+  ────────────────────────────────────
+  attributable             ₹8,27,752  recovered because the agent acted
+  spent                        -₹848  retries, messages and review time
+  ────────────────────────────────────
+  net                      ₹8,26,904  attributable less what it cost
 ```
 
-With no agent at all, the same records return ₹3,37,599.
+With no agent at all, the same records return ₹4,99,092.
 
 The counterfactual is computed **up front, on the same set**, so it cannot be
 assembled afterwards from whatever looks best.
@@ -359,9 +415,9 @@ percentage hides which is which:
 Three numbers print together, because any one alone is game-able:
 
 ```
-  matched           97.3%   214 of 220 captures
-  matched (₹)       99.1%   ₹8,26,862 of ₹8,34,123
-  correct          100.0%   226 of 226 pairings verified against the true links
+  matched           96.4%  █████████████████████████░  212 of 220 captures
+  matched (₹)       92.0%  ████████████████████████░░  ₹5,80,270 of ₹6,30,887
+  correct          100.0%  ██████████████████████████  225 of 225 pairings veri…
 ```
 
 Real books have no answer key, and the report says so rather than inventing the
@@ -377,17 +433,17 @@ anything is unexplained, so a nightly close can gate on it.
 ## Tuning the policy
 
 ```bash
-sirius revenue watch batch
+sirus revenue watch batch
 ```
 
-Re-runs when the batch or `sirius.yaml` changes, and prints **only what moved**:
+Re-runs when the batch or `sirus.yaml` changes, and prints **only what moved**:
 
 ```
- changed  sirius.yaml changed
-    actions taken                  82 →            64   ▼ 18
-    actions refused                37 →            39   ▲ 2
-    attributable            ₹6,65,664 →     ₹6,37,094   ▼ ₹28,570
-      contact_frequency            17 →            21   ▲ 4
+ changed  sirus.yaml changed
+    actions taken                  76 →            61   ▼ 15
+    actions refused                36 →            39   ▲ 3
+    attributable            ₹8,27,752 →     ₹8,20,677   ▼ ₹7,075
+      contact_frequency            16 →            20   ▲ 4
 ```
 
 That is what tightening `contacts_per_day` from 2 to 1 costs, stated rather than
@@ -403,31 +459,33 @@ cannot drift.
 ## Is it stable, and did that change help?
 
 ```bash
-sirius revenue sweep --seeds 8 --save baseline.json
+sirus revenue sweep --seeds 8 --save baseline.json
 # ... change the model ...
-sirius revenue sweep --seeds 8 --against baseline.json
+sirus revenue sweep --seeds 8 --against baseline.json
 ```
 
 One batch is an anecdote. The sweep runs the whole evaluation over
 independently generated batches and prints **the rows, not just the mean** — a
-mean edge of +2.0% built from eight agreeing batches is a different claim from
-the same mean built from five wins and three losses, and only the rows say which
+mean edge of +1.0% built from eight agreeing batches is a different claim from
+the same mean built from seven wins and one loss of three points, and only the rows say which
 one you have.
 
 ```
   seed           precision   recall  recall ₹  vs heuristic  of ceiling  touched
-  sirius-sweep-1     53.3%    27.6%     87.7%         -0.3%       90.8%        0
-  sirius-sweep-3     63.3%    32.2%     88.3%         +5.1%       93.5%        0
+  sirus-sweep-1      47.8%    23.9%     87.9%         +0.0%       91.4%        0
+  sirus-sweep-2      35.8%    18.3%     80.5%         +3.0%       85.1%        0
   ...
-  mean               47.7%    24.9%     82.0%         +2.0%       86.4%        0
+  mean               45.1%    23.6%     82.6%         +1.0%       87.2%        0
 
-  beat every capacity-matched heuristic on 5 of 6 batches
-  over the same batches the heuristics touched 10 records nothing may touch; this touched 0
+  beat every capacity-matched heuristic on 7 of 8 batches · mean calibration gap
+  5.7%
+  over the same batches the heuristics touched 26 records nothing may touch;
+  this touched 0
 ```
 
 `--against` prints the deltas since a saved run, **including the ones that got
-worse** — tightening capacity to 5%, for instance, buys +2.2pp of edge over the
-heuristics and costs 19.7pp of recall, and the table says "1 better, 5 worse"
+worse** — tightening capacity to 5%, for instance, buys +3.0pp of edge over the
+heuristics and costs 16.9pp of recall, and the table says "2 better, 4 worse"
 rather than leading with the improvement. Measures where lower is better are
 marked as such.
 
@@ -450,7 +508,7 @@ test suite cannot see.
 Everything on the demo path is paced for that reason: `detect` a record at a
 time, `recover` a decision at a time, `reconcile` a block at a time. Roughly six
 seconds of terminal time across the three, so the rest of the slot is narration.
-`SIRIUS_REVENUE_PACE` sets the per-line delay and `0` turns it off — as it is
+`SIRUS_REVENUE_PACE` sets the per-line delay and `0` turns it off — as it is
 automatically for `--json`, a pipe, and CI.
 
 ## The published page
@@ -499,7 +557,7 @@ scripts.
 error: …/batch already holds a different batch.
   It was generated from seed "first" (1050 records, 2026-08-26), and its
   truth.jsonl is the only thing that can score it.
-    Write it somewhere else:  sirius revenue gen <other-dir> --seed second
+    Write it somewhere else:  sirus revenue gen <other-dir> --seed second
     Or replace it on purpose: --force
 ```
 

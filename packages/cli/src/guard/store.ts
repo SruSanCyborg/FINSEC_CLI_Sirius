@@ -45,7 +45,7 @@ export function loadFeed(dir: string): LoadedFeed {
 
   if (!existsSync(agentsPath) || !existsSync(actionsPath)) {
     throw new CliError(`No agent feed at ${dir}.`, {
-      hint: 'Generate one:  sirius guard gen ' + dir,
+      hint: 'Generate one:  sirus guard gen ' + dir,
     });
   }
 

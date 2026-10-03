@@ -247,7 +247,7 @@ export function renderPdf(blocks: readonly Block[], options: PdfOptions): Buffer
     `<< /Type /Pages /Count ${pageNumbers.length} /Kids [${pageNumbers.map((n) => `${n} 0 R`).join(' ')}] >>`;
 
   const info = add(
-    `<< /Title (${literal(options.title)}) /Producer (sirius) /Creator (sirius) >>`,
+    `<< /Title (${literal(options.title)}) /Producer (sirus) /Creator (sirus) >>`,
   );
   const catalog = add(`<< /Type /Catalog /Pages ${pagesObject} 0 R >>`);
 

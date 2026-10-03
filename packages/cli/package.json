@@ -1,7 +1,7 @@
 {
-  "name": "@srusan/sirius",
+  "name": "@srusan/sirus",
   "version": "0.4.0",
-  "description": "Sirius by SruSan: a security and control layer for AI agents that move money, and a compliance linter for money-handling code. Runs locally, no account.",
+  "description": "Sirus by SruSan: a security and control layer for AI agents that move money, and a compliance linter for money-handling code. Runs locally, no account.",
   "keywords": [
     "security",
     "fintech",
@@ -16,18 +16,18 @@
   ],
   "author": "Sanjay Sivakumar (https://github.com/SruSanCyborg)",
   "license": "MIT",
-  "homepage": "https://github.com/SruSanCyborg/FINSEC_CLI_Sirius#readme",
+  "homepage": "https://github.com/SruSanCyborg/FINSEC_CLI_Sirus#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SruSanCyborg/FINSEC_CLI_Sirius.git",
+    "url": "git+https://github.com/SruSanCyborg/FINSEC_CLI_Sirus.git",
     "directory": "packages/cli"
   },
   "bugs": {
-    "url": "https://github.com/SruSanCyborg/FINSEC_CLI_Sirius/issues"
+    "url": "https://github.com/SruSanCyborg/FINSEC_CLI_Sirus/issues"
   },
   "type": "module",
   "bin": {
-    "sirius": "dist/cli.js"
+    "sirus": "dist/cli.js"
   },
   "files": [
     "dist",

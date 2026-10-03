@@ -23,7 +23,7 @@ import { localRule } from '../src/engine/catalog.js';
 
 let dir: string;
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'sirius-supply-'));
+  dir = mkdtempSync(join(tmpdir(), 'sirus-supply-'));
   // A repository boundary, so the lockfile search never escapes into the
   // developer's home directory and finds somebody else's lock.
   mkdirSync(join(dir, '.git'), { recursive: true });
@@ -135,12 +135,12 @@ describe('an install-time script', () => {
 
 describe('reading package.json as data rather than as lines', () => {
   it('does not mistake a bin entry for a dependency', () => {
-    // This was a real false positive on this repository: `"sirius":
+    // This was a real false positive on this repository: `"sirus":
     // "./dist/cli.js"` under `bin` was reported as a dependency resolved
     // outside the registry. A key-value pair looks the same everywhere in a
     // JSON file, and only its position says what it means.
     const body = JSON.stringify(
-      { name: 'sirius', bin: { sirius: './dist/cli.js' }, dependencies: { ink: '5.0.1' } },
+      { name: 'sirus', bin: { sirus: './dist/cli.js' }, dependencies: { ink: '5.0.1' } },
       null,
       2,
     );
@@ -165,7 +165,7 @@ describe('reading package.json as data rather than as lines', () => {
 describe('how the rule describes itself', () => {
   it('says which manifests it reads, not which languages', () => {
     // It inherited the default python/javascript/typescript list, so
-    // `sirius rules show SIR-SEC-060` claimed it applied to source files it
+    // `sirus rules show SIR-SEC-060` claimed it applied to source files it
     // never opens.
     const rule = localRule('SIR-SEC-060', '0.0.0');
     expect(rule?.languages).toEqual(['package.json', 'requirements.txt']);

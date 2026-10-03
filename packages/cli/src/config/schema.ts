@@ -5,10 +5,10 @@
  * precedence below is decided in AGENTS.md and enforced in `load.ts`. Each file
  * has a narrow job:
  *
- *   ~/.config/sirius/config.toml   auth and profiles only (Stripe's model)
- *   sirius.yaml                    project: rules, policy, project id
- *   .siriuslintrc                  per-directory overrides
- *   .siriusignore                  path globs (a result filter, not config)
+ *   ~/.config/sirus/config.toml   auth and profiles only (Stripe's model)
+ *   sirus.yaml                    project: rules, policy, project id
+ *   .siruslintrc                  per-directory overrides
+ *   .sirusignore                  path globs (a result filter, not config)
  */
 
 import { z } from 'zod';
@@ -16,7 +16,7 @@ import { z } from 'zod';
 const severity = z.enum(['critical', 'high', 'medium', 'low', 'info']);
 const failOn = z.enum(['all', 'new', 'verified-secrets']);
 
-/** `~/.config/sirius/config.toml` — credentials, keyed by profile. */
+/** `~/.config/sirus/config.toml` — credentials, keyed by profile. */
 export const configTomlSchema = z.object({
   default_profile: z.string().optional(),
   profile: z
@@ -41,7 +41,7 @@ export const configTomlSchema = z.object({
  * is a constant with a good comment.
  *
  * Every field is optional and falls back to the built-in default, so an existing
- * `sirius.yaml` keeps working and a team can pin only the numbers it argues
+ * `sirus.yaml` keeps working and a team can pin only the numbers it argues
  * about. Bounds are enforced here rather than at the call site: a negative
  * cooldown or a 25-hour quiet-hours window should be rejected when the file is
  * read, naming the file, not silently clamped three layers down.
@@ -94,7 +94,7 @@ export const revenueConfigSchema = z.object({
 
 export type RevenueConfig = z.infer<typeof revenueConfigSchema>;
 
-/** `sirius.yaml` — project settings. Also the shape `sirius init` scaffolds. */
+/** `sirus.yaml` — project settings. Also the shape `sirus init` scaffolds. */
 export const projectConfigSchema = z.object({
   project_id: z.string().optional(),
   api_url: z.string().url().optional(),
@@ -117,7 +117,7 @@ export const projectConfigSchema = z.object({
   revenue: revenueConfigSchema.optional(),
 });
 
-/** `.siriuslintrc` — the same keys, applied per directory. */
+/** `.siruslintrc` — the same keys, applied per directory. */
 export const rcConfigSchema = projectConfigSchema;
 
 export type ConfigToml = z.infer<typeof configTomlSchema>;
@@ -155,12 +155,12 @@ export interface ResolvedConfig {
   policy: NonNullable<ProjectConfig['policy']> | undefined;
   /** The recovery agent's limits, as far as the project file sets them. */
   revenue: RevenueConfig | undefined;
-  /** Where each value came from, for `sirius config` and for debugging. */
+  /** Where each value came from, for `sirus config` and for debugging. */
   sources: Record<string, string>;
 }
 
 export const DEFAULTS = {
-  apiUrl: 'https://api.sirius.dev/api/v1',
+  apiUrl: 'https://api.sirus.dev/api/v1',
   severityThreshold: 'high',
   failOn: 'all',
   rulesets: ['p/fintech-core'],

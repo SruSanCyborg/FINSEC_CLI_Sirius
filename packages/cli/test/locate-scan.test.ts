@@ -1,8 +1,8 @@
 /**
  * Finding the scan that `fix` should act on.
  *
- * This exists because of a near-miss worth remembering. `sirius scan <path>`
- * writes its cache *inside the target*, but `sirius fix` runs from wherever the
+ * This exists because of a near-miss worth remembering. `sirus scan <path>`
+ * writes its cache *inside the target*, but `sirus fix` runs from wherever the
  * user is — so `fix` searched for the newest cache below the working directory,
  * found one in a directory nobody had mentioned, and rewrote the source files
  * there. A rehearsal caught it modifying the committed fixtures.
@@ -42,7 +42,7 @@ const seed = (dir: string, ruleId = 'SIR-SEC-001') => {
 };
 
 beforeEach(() => {
-  base = mkdtempSync(join(tmpdir(), 'sirius-locate-'));
+  base = mkdtempSync(join(tmpdir(), 'sirus-locate-'));
 });
 
 afterEach(() => {

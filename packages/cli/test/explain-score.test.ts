@@ -2,7 +2,7 @@
  * The other headline number, and where it comes from.
  *
  * `Compliance 60/100` sits on the scan footer beside a rupee figure that can be
- * traced to a public anchor. `sirius explain` exists precisely because "how did
+ * traced to a public anchor. `sirus explain` exists precisely because "how did
  * you get ₹42,00,000?" is the first question anyone sensible asks — and asking
  * the same question about the score got:
  *
@@ -34,7 +34,7 @@ function run(args: string[], cwd: string): string {
       cwd,
       encoding: 'utf8',
       stdio: ['ignore', 'pipe', 'ignore'],
-      env: { ...process.env, SIRIUS_SCAN_PACE: '0', NO_COLOR: '1' },
+      env: { ...process.env, SIRUS_SCAN_PACE: '0', NO_COLOR: '1' },
     });
   } catch (error) {
     return (error as { stdout?: string }).stdout ?? '';
@@ -43,7 +43,7 @@ function run(args: string[], cwd: string): string {
 
 let dir: string;
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'sirius-score-'));
+  dir = mkdtempSync(join(tmpdir(), 'sirus-score-'));
   writeFileSync(
     join(dir, 'pay.py'),
     [
@@ -59,7 +59,7 @@ beforeEach(() => {
 });
 afterEach(() => rmSync(dir, { recursive: true, force: true }));
 
-describe('sirius explain score', () => {
+describe('sirus explain score', () => {
   it('answers instead of refusing', () => {
     const output = run(['explain', 'score'], dir);
     expect(output).not.toContain('No exposure model');

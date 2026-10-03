@@ -93,7 +93,7 @@ export async function startServer(options: ServeOptions): Promise<RunningServer>
     const isHealth = path === '/healthz' || path === '/health';
 
     if (!isHealth && !tokenMatches(token, tokenFrom(req, url.searchParams))) {
-      throw new HttpError(401, 'Missing or invalid API token.', 'SIRIUS_ERR_AUTH');
+      throw new HttpError(401, 'Missing or invalid API token.', 'SIRUS_ERR_AUTH');
     }
 
     const matched = router.match(req.method ?? 'GET', path);
@@ -220,7 +220,7 @@ function listen(server: Server, port: number, host: string): Promise<void> {
       if (error.code === 'EADDRINUSE') {
         rejectListen(
           new Error(
-            `Port ${port} is already in use — another \`sirius serve\` is probably still running.\n` +
+            `Port ${port} is already in use — another \`sirus serve\` is probably still running.\n` +
               `  Stop it, or start this one on another port with --port.`,
           ),
         );

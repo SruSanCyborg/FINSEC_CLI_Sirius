@@ -13,7 +13,7 @@ import { describe, expect, it } from 'vitest';
 
 import { buildLocalFix } from '../src/engine/fix.js';
 
-const PY = '/tmp/sirius-fix-test/sample.py';
+const PY = '/tmp/sirus-fix-test/sample.py';
 
 describe('env_lookup moves a hardcoded secret out of the file', () => {
   const source = ['import os', '', 'STRIPE_KEY = "sk_live_51H8xR2eZvNOTAREALKE"', ''].join('\n');

@@ -35,13 +35,13 @@ describe('the sequence', () => {
   });
 
   it('takes an editor scheme, because file:// forgets the line', () => {
-    const previous = process.env.SIRIUS_LINK_SCHEME;
-    process.env.SIRIUS_LINK_SCHEME = 'vscode';
+    const previous = process.env.SIRUS_LINK_SCHEME;
+    process.env.SIRUS_LINK_SCHEME = 'vscode';
     try {
       expect(hyperlink('a.py:9', '/repo/a.py', 9)).toContain('vscode://file//repo/a.py:9');
     } finally {
-      if (previous === undefined) delete process.env.SIRIUS_LINK_SCHEME;
-      else process.env.SIRIUS_LINK_SCHEME = previous;
+      if (previous === undefined) delete process.env.SIRUS_LINK_SCHEME;
+      else process.env.SIRUS_LINK_SCHEME = previous;
     }
   });
 });
@@ -67,19 +67,19 @@ function withEnv(env: Record<string, string | undefined>, body: () => void): voi
 describe('when it switches on', () => {
   it('is off in a pipe, where nothing can click anything', () => {
     // Which is also the case every test and every CI log takes.
-    withEnv({ SIRIUS_LINKS: undefined, TERM_PROGRAM: 'iTerm.app' }, () => {
+    withEnv({ SIRUS_LINKS: undefined, TERM_PROGRAM: 'iTerm.app' }, () => {
       expect(detectCapabilities({}).hyperlinks).toBe(false);
     });
   });
 
   it('obeys an explicit yes', () => {
-    withEnv({ SIRIUS_LINKS: '1' }, () => {
+    withEnv({ SIRUS_LINKS: '1' }, () => {
       expect(detectCapabilities({}).hyperlinks).toBe(true);
     });
   });
 
   it('can be forced off, for a terminal that lies about itself', () => {
-    withEnv({ SIRIUS_LINKS: '0', TERM_PROGRAM: 'iTerm.app' }, () => {
+    withEnv({ SIRUS_LINKS: '0', TERM_PROGRAM: 'iTerm.app' }, () => {
       expect(detectCapabilities({}).hyperlinks).toBe(false);
     });
   });
@@ -89,7 +89,7 @@ describe('when it switches on', () => {
     // every finding, which is far worse than a location that is not clickable.
     withEnv(
       {
-        SIRIUS_LINKS: undefined,
+        SIRUS_LINKS: undefined,
         TERM_PROGRAM: 'SomeoneElsesTerminal',
         KITTY_WINDOW_ID: undefined,
         WT_SESSION: undefined,

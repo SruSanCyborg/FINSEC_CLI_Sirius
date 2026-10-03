@@ -11,7 +11,7 @@ import type { ExitCodeValue, Problem } from '../domain.js';
 
 export class CliError extends Error {
   readonly exitCode: ExitCodeValue;
-  /** The `SIRIUS_ERR_*` code, when the server supplied one. */
+  /** The `SIRUS_ERR_*` code, when the server supplied one. */
   readonly code: string | undefined;
   /** Actionable next step shown under the message. */
   readonly hint: string | undefined;
@@ -69,10 +69,10 @@ export function problemToError(status: number, body: unknown, url: string): CliE
 }
 
 function hintForStatus(status: number, code?: string): string | undefined {
-  if (code === 'SIRIUS_ERR_RULE_SCHEMA') return 'Run `sirius rules validate <file>` to see the schema errors.';
+  if (code === 'SIRUS_ERR_RULE_SCHEMA') return 'Run `sirus rules validate <file>` to see the schema errors.';
   switch (status) {
     case 401:
-      return 'Check your API key — run `sirius login`, or set SIRIUS_API_KEY.';
+      return 'Check your API key — run `sirus login`, or set SIRUS_API_KEY.';
     case 403:
       return 'That key is valid but lacks permission for this project.';
     case 404:
@@ -91,8 +91,8 @@ function hintForStatus(status: number, code?: string): string | undefined {
 /** Network-level failures, which are never the user's fault to diagnose alone. */
 export function networkError(url: string, cause: unknown): CliError {
   const reason = cause instanceof Error ? cause.message : String(cause);
-  return new CliError(`Cannot reach the sirius API at ${url} (${reason})`, {
-    hint: 'Check SIRIUS_API_URL, or run `pnpm mock` to start the local mock backend.',
+  return new CliError(`Cannot reach the sirus API at ${url} (${reason})`, {
+    hint: 'Check SIRUS_API_URL, or run `pnpm mock` to start the local mock backend.',
     cause,
   });
 }

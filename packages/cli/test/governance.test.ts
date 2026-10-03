@@ -48,7 +48,7 @@ describe('credential storage', () => {
   const savedXdg = process.env.XDG_CONFIG_HOME;
 
   beforeEach(() => {
-    home = mkdtempSync(join(tmpdir(), 'sirius-xdg-'));
+    home = mkdtempSync(join(tmpdir(), 'sirus-xdg-'));
     process.env.XDG_CONFIG_HOME = home;
   });
 

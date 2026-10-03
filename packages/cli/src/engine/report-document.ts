@@ -1,18 +1,18 @@
 /**
  * The signed report payload, built in one place.
  *
- * `sirius report` built this inline, which was fine while it was the only thing
+ * `sirus report` built this inline, which was fine while it was the only thing
  * that produced a report. It is not any more: the desktop app downloads the same
  * document over `GET /scans/{id}/report`, and a report signed over one shape by
  * one surface and a slightly different shape by the other cannot be verified by
- * a single `sirius report --verify`. The signature covers these exact bytes, so
+ * a single `sirus report --verify`. The signature covers these exact bytes, so
  * there has to be exactly one function that decides what they are.
  */
 
 import type { CachedFinding, CachedSummary } from '../session.js';
 
 export interface ReportPayload {
-  schema: 'sirius.report/v1';
+  schema: 'sirus.report/v1';
   scan_id: string;
   scanned_at: string;
   root: string;
@@ -51,12 +51,12 @@ export interface BuildReportInput {
 
 export function buildReportPayload(input: BuildReportInput): ReportPayload {
   return {
-    schema: 'sirius.report/v1',
+    schema: 'sirus.report/v1',
     scan_id: input.scanId,
     scanned_at: input.scannedAt,
     root: input.root,
     source: input.source,
-    tool: { name: 'sirius', version: input.version },
+    tool: { name: 'sirus', version: input.version },
     summary: {
       findings: input.findings.length,
       counts: input.counts,

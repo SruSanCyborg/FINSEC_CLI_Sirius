@@ -3,7 +3,7 @@
  *
  * `triage` was written as a pure client and never revisited: it read findings
  * from the API and PATCHed each decision back. With no project configured —
- * which is what `sirius scan .` defaults to — it refused to open at all,
+ * which is what `sirus scan .` defaults to — it refused to open at all,
  * reporting the local scan it found as "a replay".
  *
  * The risk in fixing that is recording a judgement nothing acts on. So these
@@ -25,7 +25,7 @@ import type { Finding } from '../src/domain.js';
 let dir: string;
 
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'sirius-triage-'));
+  dir = mkdtempSync(join(tmpdir(), 'sirus-triage-'));
 });
 afterEach(() => rmSync(dir, { recursive: true, force: true }));
 

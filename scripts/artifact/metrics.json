@@ -1,100 +1,111 @@
 {
-  "generated_at": "2026-08-28T20:00:32.995Z",
+  "generated_at": "2026-10-03T19:26:35.444Z",
   "seeds": {
-    "batch": "sirius-2026",
-    "books": "sirius-books"
+    "batch": "sirus-2026",
+    "books": "sirus-books"
   },
   "tests": 871,
   "batch": {
     "records": 333,
     "capacity": 67,
     "capacity_rule": "20% of the batch — a stand-in for one cycle of operational headroom",
-    "floor": 16,
+    "floor": 10,
     "degradations": 1,
     "rings": 1,
-    "ring_parties": 12,
-    "degradation_failures": 15,
-    "degradation_lift": 30
+    "ring_parties": 5,
+    "degradation_failures": 14,
+    "degradation_lift": 28
   },
   "eval": {
     "records": 333,
-    "trained_on": 710,
+    "trained_on": 713,
     "matrix": {
-      "true_positive": 28,
-      "false_positive": 39,
-      "true_negative": 174,
-      "false_negative": 92
+      "true_positive": 31,
+      "false_positive": 36,
+      "true_negative": 170,
+      "false_negative": 96
     },
-    "precision": "41.8%",
-    "recall": "23.3%",
-    "money_precision": "32.9%",
-    "money_recall": "76.7%",
-    "calibration_error": "2.2%",
+    "precision": "46.3%",
+    "recall": "24.4%",
+    "money_precision": "44.4%",
+    "money_recall": "82.7%",
+    "calibration_error": "5.4%",
     "calibration_warning": null,
     "calibration": [
       {
         "from": 0,
         "to": 20,
-        "count": 47,
-        "predicted": 0.0826,
-        "actual": 0.0638,
+        "count": 80,
+        "predicted": 0.1053,
+        "actual": 0.175,
         "enough": true,
-        "predicted_text": "8.3%",
-        "actual_text": "6.4%",
-        "gap_text": "-1.9pp"
+        "predicted_text": "10.5%",
+        "actual_text": "17.5%",
+        "gap_text": "+7.0pp"
       },
       {
         "from": 20,
         "to": 40,
-        "count": 145,
-        "predicted": 0.3091,
-        "actual": 0.3034,
+        "count": 101,
+        "predicted": 0.2878,
+        "actual": 0.3366,
         "enough": true,
-        "predicted_text": "30.9%",
-        "actual_text": "30.3%",
-        "gap_text": "-0.6pp"
+        "predicted_text": "28.8%",
+        "actual_text": "33.7%",
+        "gap_text": "+4.9pp"
       },
       {
         "from": 40,
         "to": 60,
-        "count": 129,
-        "predicted": 0.4647,
-        "actual": 0.5039,
+        "count": 106,
+        "predicted": 0.4905,
+        "actual": 0.434,
         "enough": true,
-        "predicted_text": "46.5%",
-        "actual_text": "50.4%",
-        "gap_text": "+3.9pp"
+        "predicted_text": "49.0%",
+        "actual_text": "43.4%",
+        "gap_text": "-5.6pp"
       },
       {
         "from": 60,
         "to": 80,
-        "count": 12,
-        "predicted": 0.6325,
-        "actual": 0.6667,
+        "count": 41,
+        "predicted": 0.6749,
+        "actual": 0.7073,
+        "enough": true,
+        "predicted_text": "67.5%",
+        "actual_text": "70.7%",
+        "gap_text": "+3.2pp"
+      },
+      {
+        "from": 80,
+        "to": 100,
+        "count": 5,
+        "predicted": 0.836,
+        "actual": 0.8,
         "enough": false,
-        "predicted_text": "63.2%",
-        "actual_text": "66.7%",
-        "gap_text": "+3.4pp"
+        "predicted_text": "83.6%",
+        "actual_text": "80.0%",
+        "gap_text": "-3.6pp"
       }
     ],
     "forbidden": {
-      "in_population": 24,
+      "in_population": 18,
       "touched": 0
     },
-    "share_of_ceiling": "82%",
+    "share_of_ceiling": "86%",
     "cost": {
-      "recovered": "₹7,51,197",
-      "false_positive_bill": "₹66",
-      "annoyance": "₹96",
-      "net": "₹7,50,992",
-      "forgone": "₹2,27,663"
+      "recovered": "₹13,15,173",
+      "false_positive_bill": "₹58",
+      "annoyance": "₹144",
+      "net": "₹13,14,917",
+      "forgone": "₹2,75,455"
     },
     "baselines": [
       {
         "name": "chase everything",
-        "net": "₹9,77,302",
+        "net": "₹15,89,129",
         "flagged": 333,
-        "harmful_touches": 24,
+        "harmful_touches": 18,
         "over_capacity": true,
         "feasible": false,
         "infeasible_because": "5.0× the 67 interventions available",
@@ -114,7 +125,7 @@
       },
       {
         "name": "biggest first",
-        "net": "₹7,54,709",
+        "net": "₹13,35,227",
         "flagged": 67,
         "harmful_touches": 1,
         "over_capacity": false,
@@ -125,9 +136,9 @@
       },
       {
         "name": "newest first",
-        "net": "₹6,46,092",
+        "net": "₹10,68,273",
         "flagged": 67,
-        "harmful_touches": 6,
+        "harmful_touches": 3,
         "over_capacity": false,
         "feasible": true,
         "infeasible_because": null,
@@ -136,9 +147,9 @@
       },
       {
         "name": "perfect foresight",
-        "net": "₹9,19,507",
+        "net": "₹15,20,829",
         "flagged": 67,
-        "harmful_touches": 1,
+        "harmful_touches": 0,
         "over_capacity": false,
         "feasible": true,
         "infeasible_because": null,
@@ -147,7 +158,7 @@
       }
     ],
     "detector": {
-      "net": "₹7,50,992",
+      "net": "₹13,14,917",
       "flagged": 67,
       "harmful_touches": 0
     }
@@ -156,86 +167,86 @@
     "seeds": 8,
     "wins": 7,
     "mean": {
-      "precision": "47.0%",
-      "recall": "24.5%",
-      "money_recall": "83.8%",
-      "edge": "+1.5%",
-      "share_of_ceiling": "88%",
-      "calibration_error": "6.2%"
+      "precision": "45.1%",
+      "recall": "23.6%",
+      "money_recall": "82.6%",
+      "edge": "+1.0%",
+      "share_of_ceiling": "87%",
+      "calibration_error": "5.7%"
     },
     "forbidden_touched": 0,
     "heuristic_forbidden_touched": 26,
     "rows": [
       {
-        "seed": "sirius-sweep-1",
-        "precision": "45.6%",
-        "recall": "24.6%",
-        "money_recall": "85.5%",
-        "edge": "+3.3%",
-        "ceiling": "89%",
-        "forbidden_touched": 0
-      },
-      {
-        "seed": "sirius-sweep-2",
-        "precision": "41.2%",
-        "recall": "23.3%",
-        "money_recall": "84.6%",
-        "edge": "+0.4%",
-        "ceiling": "88%",
-        "forbidden_touched": 0
-      },
-      {
-        "seed": "sirius-sweep-3",
+        "seed": "sirus-sweep-1",
         "precision": "47.8%",
-        "recall": "25.8%",
-        "money_recall": "88.6%",
-        "edge": "+0.2%",
-        "ceiling": "92%",
+        "recall": "23.9%",
+        "money_recall": "87.9%",
+        "edge": "+0.0%",
+        "ceiling": "91%",
         "forbidden_touched": 0
       },
       {
-        "seed": "sirius-sweep-4",
-        "precision": "46.3%",
-        "recall": "22.6%",
-        "money_recall": "78.1%",
-        "edge": "+2.9%",
+        "seed": "sirus-sweep-2",
+        "precision": "35.8%",
+        "recall": "18.3%",
+        "money_recall": "80.5%",
+        "edge": "+3.0%",
         "ceiling": "85%",
         "forbidden_touched": 0
       },
       {
-        "seed": "sirius-sweep-5",
+        "seed": "sirus-sweep-3",
         "precision": "51.5%",
-        "recall": "24.3%",
-        "money_recall": "80.2%",
+        "recall": "27.1%",
+        "money_recall": "79.9%",
         "edge": "+1.0%",
-        "ceiling": "87%",
+        "ceiling": "85%",
         "forbidden_touched": 0
       },
       {
-        "seed": "sirius-sweep-6",
-        "precision": "47.8%",
-        "recall": "26.5%",
-        "money_recall": "83.8%",
-        "edge": "+2.8%",
-        "ceiling": "88%",
-        "forbidden_touched": 0
-      },
-      {
-        "seed": "sirius-sweep-7",
-        "precision": "48.5%",
-        "recall": "25.0%",
-        "money_recall": "85.6%",
-        "edge": "+2.1%",
+        "seed": "sirus-sweep-4",
+        "precision": "50.0%",
+        "recall": "26.2%",
+        "money_recall": "85.2%",
+        "edge": "+1.1%",
         "ceiling": "90%",
         "forbidden_touched": 0
       },
       {
-        "seed": "sirius-sweep-8",
-        "precision": "47.8%",
-        "recall": "24.1%",
-        "money_recall": "84.1%",
-        "edge": "-0.8%",
+        "seed": "sirus-sweep-5",
+        "precision": "52.9%",
+        "recall": "26.5%",
+        "money_recall": "78.2%",
+        "edge": "+1.3%",
+        "ceiling": "85%",
+        "forbidden_touched": 0
+      },
+      {
+        "seed": "sirus-sweep-6",
+        "precision": "36.8%",
+        "recall": "19.5%",
+        "money_recall": "85.5%",
+        "edge": "+1.7%",
         "ceiling": "89%",
+        "forbidden_touched": 0
+      },
+      {
+        "seed": "sirus-sweep-7",
+        "precision": "39.7%",
+        "recall": "21.8%",
+        "money_recall": "81.9%",
+        "edge": "-3.0%",
+        "ceiling": "85%",
+        "forbidden_touched": 0
+      },
+      {
+        "seed": "sirus-sweep-8",
+        "precision": "46.3%",
+        "recall": "25.4%",
+        "money_recall": "81.5%",
+        "edge": "+2.8%",
+        "ceiling": "86%",
         "forbidden_touched": 0
       }
     ]
@@ -244,73 +255,73 @@
     {
       "share": 0.03,
       "label": "capacity 3%",
-      "edge": 0.2292,
-      "edge_text": "+22.9%",
-      "ceiling": 0.7404,
-      "ceiling_text": "74%",
+      "edge": 0.0219,
+      "edge_text": "+2.2%",
+      "ceiling": 0.723,
+      "ceiling_text": "72%",
       "forbidden_touched": 0,
       "heuristic_forbidden_touched": 0
     },
     {
       "share": 0.05,
       "label": "capacity 5%",
-      "edge": 0.1024,
-      "edge_text": "+10.2%",
-      "ceiling": 0.7981,
-      "ceiling_text": "80%",
+      "edge": 0.0404,
+      "edge_text": "+4.0%",
+      "ceiling": 0.7841,
+      "ceiling_text": "78%",
       "forbidden_touched": 0,
       "heuristic_forbidden_touched": 0
     },
     {
       "share": 0.1,
       "label": "capacity 10%",
-      "edge": 0.0215,
-      "edge_text": "+2.1%",
-      "ceiling": 0.8549,
-      "ceiling_text": "85%",
+      "edge": 0.0071,
+      "edge_text": "+0.7%",
+      "ceiling": 0.8309,
+      "ceiling_text": "83%",
       "forbidden_touched": 0,
-      "heuristic_forbidden_touched": 5
+      "heuristic_forbidden_touched": 4
     },
     {
       "share": 0.2,
       "label": "capacity 20%",
-      "edge": 0.0148,
-      "edge_text": "+1.5%",
-      "ceiling": 0.8843,
-      "ceiling_text": "88%",
+      "edge": 0.01,
+      "edge_text": "+1.0%",
+      "ceiling": 0.8716,
+      "ceiling_text": "87%",
       "forbidden_touched": 0,
       "heuristic_forbidden_touched": 26
     },
     {
       "share": 0.4,
       "label": "capacity 40%",
-      "edge": 0.0119,
-      "edge_text": "+1.2%",
-      "ceiling": 0.9276,
-      "ceiling_text": "93%",
+      "edge": 0.006,
+      "edge_text": "+0.6%",
+      "ceiling": 0.9231,
+      "ceiling_text": "92%",
       "forbidden_touched": 0,
-      "heuristic_forbidden_touched": 60
+      "heuristic_forbidden_touched": 66
     }
   ],
   "recover": {
     "considered": 333,
-    "worked": 62,
-    "actions": 83,
-    "blocked": 38,
-    "escalations": 46,
-    "entries": 387,
+    "worked": 58,
+    "actions": 76,
+    "blocked": 36,
+    "escalations": 39,
+    "entries": 378,
     "trail_mode": "simulated",
-    "at_risk": "₹29,43,248",
-    "recovered": "₹8,75,765",
-    "anyway": "₹2,21,253",
-    "attributable": "₹6,54,512",
-    "spent": "₹847",
-    "net": "₹6,53,664",
-    "counterfactual": "₹3,37,599",
+    "at_risk": "₹36,54,915",
+    "recovered": "₹11,24,061",
+    "anyway": "₹2,96,309",
+    "attributable": "₹8,27,752",
+    "spent": "₹848",
+    "net": "₹8,26,904",
+    "counterfactual": "₹4,99,092",
     "blocked_by": [
       {
         "rule": "contact_frequency",
-        "count": 18
+        "count": 16
       },
       {
         "rule": "consent",
@@ -318,72 +329,68 @@
       },
       {
         "rule": "quiet_hours",
-        "count": 4
-      },
-      {
-        "rule": "cooldown",
-        "count": 4
-      },
-      {
-        "rule": "mandate_cap",
-        "count": 1
-      },
-      {
-        "rule": "retry_cap",
-        "count": 1
+        "count": 3
       },
       {
         "rule": "dnd",
-        "count": 1
+        "count": 3
+      },
+      {
+        "rule": "cooldown",
+        "count": 3
+      },
+      {
+        "rule": "mandate_cap",
+        "count": 2
       }
     ]
   },
   "reconcile": {
     "captures": 220,
     "settlements": 235,
-    "bank": 13,
-    "match_rate": "97.3%",
-    "value_match_rate": "99.1%",
-    "matched_value": "₹8,26,862",
-    "ledger_value": "₹8,34,123",
-    "correct": 226,
-    "checked": 226,
-    "deductions": "₹6,718",
+    "bank": 15,
+    "match_rate": "96.4%",
+    "value_match_rate": "92.0%",
+    "matched_value": "₹5,80,270",
+    "ledger_value": "₹6,30,887",
+    "correct": 225,
+    "checked": 225,
+    "deductions": "₹4,782",
     "tiers": [
       {
         "tier": "exact",
-        "count": 90
+        "count": 81
       },
       {
         "tier": "fee-aware",
-        "count": 100
+        "count": 104
       },
       {
         "tier": "split",
-        "count": 11
+        "count": 8
       },
       {
         "tier": "grouped",
-        "count": 12
+        "count": 13
       },
       {
         "tier": "fuzzy",
-        "count": 13
+        "count": 19
       }
     ],
-    "exceptions": 7,
-    "exception_value": "₹8,725",
+    "exceptions": 10,
+    "exception_value": "₹1,65,511",
     "exception_kinds": [
       {
         "kind": "never settled",
-        "count": 6,
-        "value": "₹7,260",
+        "count": 8,
+        "value": "₹50,617",
         "next_step": "the most expensive exception here: the gateway owes this money. Chase it with the capture id"
       },
       {
         "kind": "duplicate bank line",
-        "count": 1,
-        "value": "₹1,465",
+        "count": 2,
+        "value": "₹1,14,894",
         "next_step": "do not reconcile twice; ask the bank to reverse the duplicate posting"
       }
     ]

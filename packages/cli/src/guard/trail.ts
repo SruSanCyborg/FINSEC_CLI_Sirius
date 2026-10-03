@@ -47,7 +47,7 @@ export interface TrailEntry {
 }
 
 export interface GuardTrail {
-  schema: 'sirius.guard.trail/v1';
+  schema: 'sirus.guard.trail/v1';
   run_id: string;
   started_at: string;
   feed: string;
@@ -108,7 +108,7 @@ export class GuardTrailLog {
 
   seal(): GuardTrail {
     const trail: GuardTrail = {
-      schema: 'sirius.guard.trail/v1',
+      schema: 'sirus.guard.trail/v1',
       run_id: this.runId,
       started_at: this.startedAt,
       feed: this.feed,
@@ -134,10 +134,10 @@ export function verifyGuardTrail(document: unknown, expectKey?: string): TrailVe
   if (
     typeof document !== 'object' ||
     document === null ||
-    (document as GuardTrail).schema !== 'sirius.guard.trail/v1' ||
+    (document as GuardTrail).schema !== 'sirus.guard.trail/v1' ||
     !Array.isArray((document as GuardTrail).entries)
   ) {
-    return { ok: false, reason: 'not a sirius guard trail' };
+    return { ok: false, reason: 'not a sirus guard trail' };
   }
 
   const trail = document as GuardTrail;

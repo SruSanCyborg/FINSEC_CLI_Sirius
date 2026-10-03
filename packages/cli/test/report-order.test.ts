@@ -26,8 +26,8 @@ function scan(args: string[] = []): string {
       encoding: 'utf8',
       env: {
         ...process.env,
-        SIRIUS_PROJECT_ID: '',
-        SIRIUS_SCAN_PACE: '0',
+        SIRUS_PROJECT_ID: '',
+        SIRUS_SCAN_PACE: '0',
         NO_COLOR: '1',
       },
     });

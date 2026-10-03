@@ -26,7 +26,7 @@ import { fileURLToPath } from 'node:url';
 const here = dirname(fileURLToPath(import.meta.url));
 const committedPath = join(here, 'metrics.json');
 
-const stage = mkdtempSync(join(tmpdir(), 'sirius-artifact-check-'));
+const stage = mkdtempSync(join(tmpdir(), 'sirus-artifact-check-'));
 const freshPath = join(stage, 'metrics.json');
 
 try {

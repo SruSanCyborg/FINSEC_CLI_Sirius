@@ -1,7 +1,7 @@
 /**
  * A compliance badge, drawn here rather than fetched from a server.
  *
- * `sirius badge` printed a URL to `GET /projects/{id}/badge.svg` and refused to
+ * `sirus badge` printed a URL to `GET /projects/{id}/badge.svg` and refused to
  * do anything without a project id — so the one artefact a README wants was the
  * one thing that required signing up. A scan already computes the score; the
  * badge is that number and a colour.
@@ -21,7 +21,7 @@ export interface BadgeInput {
   color: string;
 }
 
-/** Shields' palette, so a sirius badge sits next to a CI badge without clashing. */
+/** Shields' palette, so a sirus badge sits next to a CI badge without clashing. */
 const COLORS = {
   brightgreen: '#4c1',
   green: '#97ca00',

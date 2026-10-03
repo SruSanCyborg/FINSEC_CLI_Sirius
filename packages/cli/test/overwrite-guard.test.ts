@@ -28,7 +28,7 @@ const ENTRY = fileURLToPath(new URL('../src/cli.ts', import.meta.url));
 let dir: string;
 
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'sirius-guard-'));
+  dir = mkdtempSync(join(tmpdir(), 'sirus-guard-'));
 });
 afterEach(() => rmSync(dir, { recursive: true, force: true }));
 

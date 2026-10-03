@@ -2,11 +2,11 @@
  * The list of directories the daemon will serve.
  *
  * The CLI has never had a concept of a project: it scans the directory you are
- * standing in, and `sirius.yaml` marks the root. The GUI has a project switcher,
+ * standing in, and `sirus.yaml` marks the root. The GUI has a project switcher,
  * which needs a list — so a project here is exactly one thing, a directory on
  * this machine, and the list is the directories someone has opened in the GUI.
  *
- * Kept beside `config.toml` rather than in `.sirius/`, because it is a fact
+ * Kept beside `config.toml` rather than in `.sirus/`, because it is a fact
  * about this user's window, not about any of the projects in it. Registering a
  * project must not write a file into a repository the user did not ask to
  * modify.
@@ -29,7 +29,7 @@ export interface ProjectRecord {
 
 function projectsPath(): string {
   const xdg = process.env.XDG_CONFIG_HOME;
-  return xdg ? join(xdg, 'sirius', 'projects.json') : join(homedir(), '.config', 'sirius', 'projects.json');
+  return xdg ? join(xdg, 'sirus', 'projects.json') : join(homedir(), '.config', 'sirus', 'projects.json');
 }
 
 /**
@@ -79,7 +79,7 @@ export function register(path: string): ProjectRecord {
   const absolute = resolve(path);
 
   if (!existsSync(absolute) || !statSync(absolute).isDirectory()) {
-    throw new HttpError(400, `Not a directory on this machine: ${absolute}`, 'SIRIUS_ERR_NO_TARGET');
+    throw new HttpError(400, `Not a directory on this machine: ${absolute}`, 'SIRUS_ERR_NO_TARGET');
   }
 
   const existing = read();
@@ -103,9 +103,9 @@ export function findProject(root: string, id: string): ProjectRecord | undefined
 /**
  * Where a project's state lives, which is not always the project itself.
  *
- * `.sirius/` holds the baseline, the suppressions and the triage decisions —
+ * `.sirus/` holds the baseline, the suppressions and the triage decisions —
  * facts about a codebase, not about a subdirectory of it — so the CLI writes it
- * at the nearest `sirius.yaml` and reads it from there. The daemon has to agree,
+ * at the nearest `sirus.yaml` and reads it from there. The daemon has to agree,
  * or the two surfaces keep separate baselines and each shows findings the other
  * has already accepted. That is the failure the golden rule was written to
  * prevent, arriving through the back door.
@@ -120,7 +120,7 @@ export function storeRoot(dir: string): string {
 export interface ResolvedProject {
   /** The directory to scan. */
   dir: string;
-  /** The directory `.sirius/` lives in. At or above `dir`. */
+  /** The directory `.sirus/` lives in. At or above `dir`. */
   store: string;
 }
 

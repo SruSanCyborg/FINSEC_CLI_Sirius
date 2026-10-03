@@ -1,5 +1,5 @@
 /**
- * `sirius scan [path]` — the demo centerpiece.
+ * `sirus scan [path]` — the demo centerpiece.
  *
  * Shape of the command: resolve config, decide where frames come from (the API
  * or a recorded fixture), consume the stream, compute the gate locally, and
@@ -79,7 +79,7 @@ function assertTarget(path: string): string {
 }
 
 /**
- * Writes plain output, transliterated when `SIRIUS_ASCII=1` asked for it.
+ * Writes plain output, transliterated when `SIRUS_ASCII=1` asked for it.
  *
  * The glyph table covers drawing characters, but prose punctuation never went
  * near it, so the projector fallback left `—`, `…`, `§` and `≥` on screen. The
@@ -138,7 +138,7 @@ export async function runScan(path: string, flags: ScanFlags, globals: GlobalFla
   let ruleCount: number | undefined;
 
   // The local engine is the default. It needs no backend, and it is what makes
-  // `sirius scan .` an actual scanner rather than a client for one — the Core
+  // `sirus scan .` an actual scanner rather than a client for one — the Core
   // API is an option for teams that want history and policy, not a requirement
   // for detection.
   const useLocalEngine = flags.local === true || (!flags.replay && !config.projectId);
@@ -150,7 +150,7 @@ export async function runScan(path: string, flags: ScanFlags, globals: GlobalFla
         hint: 'Generate one with `pnpm fixtures`.',
       });
     }
-    const speed = process.env.SIRIUS_REPLAY_SPEED ? Number(process.env.SIRIUS_REPLAY_SPEED) : 1;
+    const speed = process.env.SIRUS_REPLAY_SPEED ? Number(process.env.SIRUS_REPLAY_SPEED) : 1;
     frames = replayStream(fixture, Number.isFinite(speed) ? speed : 1);
     scanSource = `replay · ${flags.replay} (recorded, not a live analysis)`;
   } else if (useLocalEngine) {
@@ -165,9 +165,9 @@ export async function runScan(path: string, flags: ScanFlags, globals: GlobalFla
     interactivePacing =
       !machineMode &&
       !flags.sarif &&
-      (process.env.SIRIUS_STREAM_PLAIN === '1' || Boolean(process.stdout.isTTY));
+      (process.env.SIRUS_STREAM_PLAIN === '1' || Boolean(process.stdout.isTTY));
 
-    // `rulesets:` was written into every scaffolded sirius.yaml and read by
+    // `rulesets:` was written into every scaffolded sirus.yaml and read by
     // nobody: the engine ran all twelve rules whatever it said. Narrowing a
     // scan and getting the full catalogue anyway is a quiet way to mistrust the
     // config file.
@@ -178,7 +178,7 @@ export async function runScan(path: string, flags: ScanFlags, globals: GlobalFla
       rules = rulesFor(config.rulesets);
     } catch (failure) {
       throw new CliError(failure instanceof Error ? failure.message : String(failure), {
-        hint: 'Set `rulesets:` in sirius.yaml, or pass --ruleset.',
+        hint: 'Set `rulesets:` in sirus.yaml, or pass --ruleset.',
       });
     }
 
@@ -203,7 +203,7 @@ export async function runScan(path: string, flags: ScanFlags, globals: GlobalFla
       throw new NoTargetError(
         `Nothing to scan under ${path} — no supported files found.`,
         `Looked for ${SUPPORTED_EXTENSIONS.join(' ')} and package manifests. ` +
-          `Check the path, or whether .siriusignore and \`exclude:\` rule everything out.`,
+          `Check the path, or whether .sirusignore and \`exclude:\` rule everything out.`,
       );
     }
 
@@ -217,7 +217,7 @@ export async function runScan(path: string, flags: ScanFlags, globals: GlobalFla
     }
 
     let source: AsyncIterable<WsFrame> = scanDirectory(target, {
-      // `.siriusignore` as well as the config's `exclude:`. AGENTS.md documents
+      // `.sirusignore` as well as the config's `exclude:`. AGENTS.md documents
       // the file as one of three suppression layers and `init` writes one, but
       // nothing was reading it during a scan — only `watch` ever did.
       ignorePatterns,
@@ -248,7 +248,7 @@ export async function runScan(path: string, flags: ScanFlags, globals: GlobalFla
     // above — but the API needs one and the type system is right to insist.
     if (!config.projectId) {
       throw new CliError('No project id configured for a hosted scan.', {
-        hint: 'Run `sirius init --project <id>`, or drop --project to scan locally.',
+        hint: 'Run `sirus init --project <id>`, or drop --project to scan locally.',
       });
     }
 
@@ -293,7 +293,7 @@ export async function runScan(path: string, flags: ScanFlags, globals: GlobalFla
   const outcome = capabilities.tty
     ? await renderInteractive({ frames, config, glyphs, capabilities, computeGate, flags, ruleCount })
     : await collect(frames, {
-        stream: process.env.SIRIUS_STREAM_PLAIN === '1',
+        stream: process.env.SIRUS_STREAM_PLAIN === '1',
         render: lineRenderOptions(capabilities),
       });
 
@@ -326,7 +326,7 @@ export async function runScan(path: string, flags: ScanFlags, globals: GlobalFla
   // used to be printed before the attack paths, which meant twenty lines of
   // threat analysis pushed it off the top of the screen. The last thing on
   // screen should be the thing the reader is meant to act on.
-  const streamed = process.env.SIRIUS_STREAM_PLAIN === '1';
+  const streamed = process.env.SIRUS_STREAM_PLAIN === '1';
 
   // When findings were not streamed line by line, they still have to appear
   // before the threat stage — that stage reasons about them by rule id, and
@@ -455,14 +455,14 @@ export async function runScan(path: string, flags: ScanFlags, globals: GlobalFla
   if (
     outcome.serverExitCode !== null &&
     outcome.serverExitCode !== gate.exitCode &&
-    process.env.SIRIUS_DEBUG
+    process.env.SIRUS_DEBUG
   ) {
     process.stderr.write(
       `note: server proposed exit ${outcome.serverExitCode}, local gate computed ${gate.exitCode}\n`,
     );
   }
 
-  // ---- remember, so `sirius fix SIR-SEC-001` can resolve a rule id later
+  // ---- remember, so `sirus fix SIR-SEC-001` can resolve a rule id later
 
   if (outcome.findings.length > 0) {
     const root = findProjectRoot(target)?.dir ?? target;
@@ -619,7 +619,7 @@ async function collect(
           // away until Ctrl+O. Sending it up front avoids re-running the scan
           // just to answer "why did you flag that?".
           for (const line of renderFindingDetail(frame.finding, options.render)) {
-            process.stdout.write(`::sirius-why::${line}\n`);
+            process.stdout.write(`::sirus-why::${line}\n`);
           }
         }
         break;
@@ -642,11 +642,11 @@ async function collect(
  * Line-renderer settings.
  *
  * When the full-screen shell captures this output it is not a TTY, so the width
- * has to be handed over explicitly — `SIRIUS_WIDTH` — or every line would be
+ * has to be handed over explicitly — `SIRUS_WIDTH` — or every line would be
  * composed for a default 80 columns and then wrapped by the transcript.
  */
 function lineRenderOptions(capabilities: ReturnType<typeof detectCapabilities>): RenderOptions {
-  const declared = Number.parseInt(process.env.SIRIUS_WIDTH ?? '', 10);
+  const declared = Number.parseInt(process.env.SIRUS_WIDTH ?? '', 10);
   return {
     color: capabilities.color,
     unicode: capabilities.unicode,

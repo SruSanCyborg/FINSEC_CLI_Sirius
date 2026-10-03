@@ -115,7 +115,7 @@ describe('the compliance report itself', () => {
     scanned_at: '2026-08-27T10:24:47.981Z',
     root: '/repo',
     source: 'local',
-    tool: { name: 'sirius', version: '0.4.0' },
+    tool: { name: 'sirus', version: '0.4.0' },
     summary: {
       findings: 2,
       counts: { critical: 1, medium: 1 },

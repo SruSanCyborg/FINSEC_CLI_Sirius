@@ -39,7 +39,7 @@ export interface SweepRow {
 }
 
 export interface SweepSummary {
-  schema: 'sirius.revenue.sweep/v1';
+  schema: 'sirus.revenue.sweep/v1';
   measured_at: string;
   seeds: string[];
   size: { payments: number; checkouts: number; invoices: number };
@@ -134,7 +134,7 @@ export function sweep(options: SweepOptions): SweepSummary {
     round(rows.reduce((sum, row) => sum + pick(row), 0) / Math.max(1, rows.length));
 
   return {
-    schema: 'sirius.revenue.sweep/v1',
+    schema: 'sirus.revenue.sweep/v1',
     measured_at: new Date().toISOString(),
     seeds,
     size: { payments: options.payments, checkouts: options.checkouts, invoices: options.invoices },

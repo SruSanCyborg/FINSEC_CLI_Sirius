@@ -229,11 +229,11 @@ export function rule(width: number, label?: string, glyph = '─'): string {
  *
  * The scheme is configurable because "open this file at this line" has no
  * standard. `file://` opens the file and usually forgets the line; editors each
- * have their own, and `SIRIUS_LINK_SCHEME=vscode` gives
+ * have their own, and `SIRUS_LINK_SCHEME=vscode` gives
  * `vscode://file/<abs>:<line>`, which does jump to it.
  */
 export function hyperlink(text: string, path: string, line?: number): string {
-  const scheme = process.env.SIRIUS_LINK_SCHEME ?? 'file';
+  const scheme = process.env.SIRUS_LINK_SCHEME ?? 'file';
   const target =
     scheme === 'file'
       ? `file://${path}${line ? `#L${line}` : ''}`
@@ -245,12 +245,12 @@ export function hyperlink(text: string, path: string, line?: number): string {
 }
 
 /**
- * Everything `SIRIUS_ASCII=1` promises, and did not deliver.
+ * Everything `SIRUS_ASCII=1` promises, and did not deliver.
  *
  * The flag is documented as the projector safety net: a presentation machine
  * whose font lacks `₹`, box drawing or a braille spinner still has to produce a
  * readable screen. The glyph table handled the drawing characters, but prose
- * punctuation went straight through — a scan under `SIRIUS_ASCII=1` still
+ * punctuation went straight through — a scan under `SIRUS_ASCII=1` still
  * emitted `—`, `…`, `·`, `§` and `≥`.
  *
  * Substitutions are chosen so a line keeps its meaning at the same width or
@@ -281,7 +281,7 @@ export function toAscii(text: string): string {
 
 /** Whether the environment asked for ASCII output. */
 export function asciiRequested(env: NodeJS.ProcessEnv = process.env): boolean {
-  return env.SIRIUS_ASCII === '1' || env.SIRIUS_ASCII === 'true';
+  return env.SIRUS_ASCII === '1' || env.SIRUS_ASCII === 'true';
 }
 
 /**

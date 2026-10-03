@@ -18,12 +18,12 @@ const DEMO = join(ROOT, 'demo');
 const DEMO_SRC = join(DEMO, 'src');
 
 // Artifacts a rehearsal leaves behind, all safe to remove.
-const LEAVINGS = [/\.sirius-backup$/, /\.sarif$/, /^sirius-report-.*\.json$/, /^\.env\.example$/];
+const LEAVINGS = [/\.sirus-backup$/, /\.sarif$/, /^sirus-report-.*\.json$/, /^\.env\.example$/];
 
 mkdirSync(DEMO_SRC, { recursive: true });
 
 // Clear the scan cache so `fix` and `triage` do not resolve against a stale scan.
-rmSync(join(DEMO, '.sirius'), { recursive: true, force: true });
+rmSync(join(DEMO, '.sirus'), { recursive: true, force: true });
 
 let removed = 0;
 for (const dir of [DEMO, DEMO_SRC]) {

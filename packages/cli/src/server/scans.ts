@@ -1,15 +1,15 @@
 /**
- * Scan history on disk: `.sirius/scans/<id>.json`.
+ * Scan history on disk: `.sirus/scans/<id>.json`.
  *
- * `.sirius/last-scan.json` holds exactly one scan, because everything that read
+ * `.sirus/last-scan.json` holds exactly one scan, because everything that read
  * it — `fix`, `report`, `badge` — only ever wanted the most recent one. A second
  * surface changes that: the GUI has a scan history view, and a history that
  * forgets everything but the last row is not a history.
  *
  * This is the file that makes the two surfaces one product. A scan run in the
  * terminal is written here, so it appears in the GUI without the GUI having
- * asked for it; a scan started from the GUI is written the same way, so `sirius
- * report` and `sirius fix` can act on it from a shell. Neither surface owns the
+ * asked for it; a scan started from the GUI is written the same way, so `sirus
+ * report` and `sirus fix` can act on it from a shell. Neither surface owns the
  * record — the project directory does.
  *
  * Deliberately the same discipline as the last-scan cache: no snippets. The
@@ -23,7 +23,7 @@ import { join, relative } from 'node:path';
 import type { CachedFinding, CachedSummary } from '../session.js';
 import type { ScanStatus } from '../domain.js';
 
-const DIR = '.sirius';
+const DIR = '.sirus';
 const SUBDIR = 'scans';
 
 /**
@@ -103,8 +103,8 @@ function isWithin(underPath: string, target: string): boolean {
  * Newest first, which is the order every caller wants and none should re-sort.
  *
  * `underPath`, when given, restricts results to scans whose `target` was that
- * directory or something inside it. Several projects can share one `.sirius/`
- * store — `findProjectRoot` walks up to the nearest `sirius.yaml`, so two
+ * directory or something inside it. Several projects can share one `.sirus/`
+ * store — `findProjectRoot` walks up to the nearest `sirus.yaml`, so two
  * directories in the same repo resolve to the same store — and without this a
  * project's history page shows every scan ever run against any of them,
  * indistinguishably. Filtering means reading every record instead of just the

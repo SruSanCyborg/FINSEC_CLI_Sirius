@@ -46,7 +46,7 @@ function setup(transcript: TranscriptLine[] = lines) {
     <FullScreenShell
       glyphs={glyphsFor(capabilities)}
       capabilities={capabilities}
-      header="sirius"
+      header="sirus"
       lines={transcript}
       busy={false}
       history={[]}

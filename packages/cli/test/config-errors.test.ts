@@ -7,7 +7,7 @@
  * `cause.message.split('\n')[0]`, and a Zod error's message is a pretty-printed
  * JSON array, so the first line is the opening bracket:
  *
- *     error: sirius.yaml has invalid settings
+ *     error: sirus.yaml has invalid settings
  *       [
  *
  * Every hand-written error in this CLI names the problem and the fix. This one
@@ -32,7 +32,7 @@ let warnings: string[];
 let restore: typeof process.stderr.write;
 
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'sirius-config-'));
+  dir = mkdtempSync(join(tmpdir(), 'sirus-config-'));
   warnings = [];
   restore = process.stderr.write.bind(process.stderr);
   process.stderr.write = ((chunk: string) => {
@@ -46,7 +46,7 @@ afterEach(() => {
   rmSync(dir, { recursive: true, force: true });
 });
 
-const writeConfig = (yaml: string) => writeFileSync(join(dir, 'sirius.yaml'), yaml, 'utf8');
+const writeConfig = (yaml: string) => writeFileSync(join(dir, 'sirus.yaml'), yaml, 'utf8');
 
 describe('a value the schema rejects', () => {
   it('names the key and what was expected', () => {

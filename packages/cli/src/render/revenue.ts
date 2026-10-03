@@ -499,7 +499,7 @@ export function renderEvaluation(
         'This is one batch, so read it as an anecdote: on a single seed the edge is often zero, ' +
           'because at tight capacity the highest expected value and the largest amount are frequently ' +
           'the same records. Across eight seeds the mean is +22.9% at 3% and +1.5% at 20%. ' +
-          '`sirius revenue sweep --capacity-share 0.03` is that measurement.',
+          '`sirus revenue sweep --capacity-share 0.03` is that measurement.',
       ),
     );
     lines.push('');
@@ -710,7 +710,7 @@ export function renderRecovery(
         width: palette.width,
       }).map((line) => palette.dim(line)),
     );
-    lines.push(palette.dim(`  Check it with:  sirius revenue audit --verify <file>`));
+    lines.push(palette.dim(`  Check it with:  sirus revenue audit --verify <file>`));
     lines.push('');
   }
 
@@ -798,7 +798,7 @@ export interface RecordExplanation {
 /**
  * One record, and every step between it and the agent's decision.
  *
- * The counterpart to `sirius explain SIR-SEC-001` on the code side, and the
+ * The counterpart to `sirus explain SIR-SEC-001` on the code side, and the
  * reason the model is a scorecard rather than something with better numbers:
  * every line below is a sentence a payments lead can disagree with. A model
  * that cannot be argued with in a meeting does not get used in one.
@@ -1190,7 +1190,7 @@ export function renderStress(report: StressReport, palette: Palette): string {
   const rendered = table(
     [
       { header: '' },
-      { header: 'WORLD', flex: true, min: 12 },
+      { header: 'WORLD', flex: true, min: 10 },
       { header: 'BEFORE', align: 'right' },
       { header: 'AFTER', align: 'right' },
       { header: 'RETRAINED', align: 'right' },

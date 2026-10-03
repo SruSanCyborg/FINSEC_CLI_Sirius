@@ -1,4 +1,4 @@
-# sirius — the CLI surface
+# sirus — the CLI surface
 
 Everything the `cli` branch needs. Read [`system-overview.md`](system-overview.md) first for the contract and vocabularies; this document covers only the terminal client.
 
@@ -10,14 +10,14 @@ Everything the `cli` branch needs. Read [`system-overview.md`](system-overview.m
 
 ## 1. Command tree
 
-This is the tree as the PRD specifies it, kept for reference. **`sirius --help` is authoritative** for what actually ships — it adds `doctor`, and several flags below gained siblings during implementation.
+This is the tree as the PRD specifies it, kept for reference. **`sirus --help` is authoritative** for what actually ships — it adds `doctor`, and several flags below gained siblings during implementation.
 
-Two deliberate divergences from the tree: `init` writes `sirius.yaml` + **`.siriusignore`** (not `.siriuslintrc` — the rc file is an override you add per directory, not something to scaffold), and `login` stores an API key rather than running a device flow, because the device-flow endpoints do not exist.
+Two deliberate divergences from the tree: `init` writes `sirus.yaml` + **`.sirusignore`** (not `.siruslintrc` — the rc file is an override you add per directory, not something to scaffold), and `login` stores an API key rather than running a device flow, because the device-flow endpoints do not exist.
 
 ```
-sirius
-├── login / logout                 # OAuth device flow → ~/.config/sirius/config.toml
-├── init                           # scaffold sirius.yaml + .siriuslintrc
+sirus
+├── login / logout                 # OAuth device flow → ~/.config/sirus/config.toml
+├── init                           # scaffold sirus.yaml + .siruslintrc
 ├── scan [path]                    # main; streaming findings
 │   ├── --diff --baseline <sha>    # diff-aware (Semgrep-style)
 │   ├── --severity-threshold <lvl> # gate level (Snyk-style)
@@ -45,10 +45,10 @@ Added by [`decisions.md`](decisions.md): global `--api-url`, `--project`, and `s
 |---|---|---|
 | `login` | `GET /healthz` to verify the key before storing it | Device-flow endpoints **do not exist** in the API table. Ships as `--api-key` storage at 0600, with `--profile` for multiple environments and `--list` to inspect them |
 | `logout` | `DELETE /auth/api-keys/{id}` or local-only | Scope undecided |
-| `init` | `GET/POST /projects`, `GET/PUT /projects/{id}/policy` | Writes `sirius.yaml` + `.siriuslintrc`; no template content specified in the PRD |
+| `init` | `GET/POST /projects`, `GET/PUT /projects/{id}/policy` | Writes `sirus.yaml` + `.siruslintrc`; no template content specified in the PRD |
 | `scan` | `POST /scans` → `WS /scans/{id}/stream` → `GET /scans/{id}/results`; `GET /scans/{id}` for polling fallback; `POST …/validate-secret` when `--validate-secrets` | §2 below |
-| `fix` | `POST /scans/{id}/findings/{fid}/fix` | Rule-id resolution via `.sirius/last-scan.json` |
-| `triage` | `GET /scans/{id}/results`, `PATCH /scans/{id}/findings/{fid}` | **S-auth only** — see the K/S contradiction. With no project it reads the local scan cache and writes decisions to `.sirius/triage.json` (D-021) |
+| `fix` | `POST /scans/{id}/findings/{fid}/fix` | Rule-id resolution via `.sirus/last-scan.json` |
+| `triage` | `GET /scans/{id}/results`, `PATCH /scans/{id}/findings/{fid}` | **S-auth only** — see the K/S contradiction. With no project it reads the local scan cache and writes decisions to `.sirus/triage.json` (D-021) |
 | `watch` | repeated `POST /scans` + WS; `DELETE /scans/{id}` to cancel superseded scans | debounce unspecified |
 | `rules` | `GET /rules`, `GET /rules/{id}`, `POST /rules/validate`, `POST /rules` | `test` has **no endpoint** |
 | `suppress` | `GET/POST /suppressions` | **S-auth only** |
@@ -110,9 +110,9 @@ Footer prints the verdict. Per [D-003](decisions.md), `--severity-threshold` set
 
 Modeled on Snyk: "0: success (scan completed), no vulnerabilities found; 1: action_needed (scan completed), vulnerabilities found; 2: failure, try to re-run the command; 3: failure, no supported projects detected."
 
-Escape hatch, verbatim: **`sirius scan … || true`**.
+Escape hatch, verbatim: **`sirus scan … || true`**.
 
-Undecided: whether per-file `SIRIUS_ERR_PARSE` frames escalate to `2` (the mockup implies they're non-fatal — treat them as warnings), and what a canceled scan returns.
+Undecided: whether per-file `SIRUS_ERR_PARSE` frames escalate to `2` (the mockup implies they're non-fatal — treat them as warnings), and what a canceled scan returns.
 
 ---
 
@@ -120,17 +120,17 @@ Undecided: whether per-file `SIRIUS_ERR_PARSE` frames escalate to `2` (the mocku
 
 | Artifact | Role | Lineage |
 |---|---|---|
-| `sirius.yaml` | project rules/policy | — |
-| `.siriuslintrc` | per-dir overrides | eslintrc |
-| `~/.config/sirius/config.toml` | auth | Stripe's `config.toml` |
-| `.siriusignore` | path globs | gitignore |
-| `# sirius-ignore: SIR-SEC-010` | inline suppression | Bandit `# nosec` / Ruff `# noqa: CODE` |
+| `sirus.yaml` | project rules/policy | — |
+| `.siruslintrc` | per-dir overrides | eslintrc |
+| `~/.config/sirus/config.toml` | auth | Stripe's `config.toml` |
+| `.sirusignore` | path globs | gitignore |
+| `# sirus-ignore: SIR-SEC-010` | inline suppression | Bandit `# nosec` / Ruff `# noqa: CODE` |
 | `--config <file>` | explicit override | — |
 | server `suppressions` | rule/path/fingerprint + reason + `expires_at` | `.snyk` |
 
-**Precedence is not stated anywhere in the PRD.** Decided in [`../AGENTS.md`](../AGENTS.md): flags > env > `.siriuslintrc` > `sirius.yaml` > `config.toml` > defaults.
+**Precedence is not stated anywhere in the PRD.** Decided in [`../AGENTS.md`](../AGENTS.md): flags > env > `.siruslintrc` > `sirus.yaml` > `config.toml` > defaults.
 
-Also undecided upstream: whether `.siriusignore` filters client-side (files never uploaded) or server-side; and whether inline `# sirius-ignore` findings still arrive over WS with `suppressed: true` (the DDL has a `suppressed BOOLEAN` column, which suggests yes — the worker must evaluate inline ignores since the CLI never parses code).
+Also undecided upstream: whether `.sirusignore` filters client-side (files never uploaded) or server-side; and whether inline `# sirus-ignore` findings still arrive over WS with `suppressed: true` (the DDL has a `suppressed BOOLEAN` column, which suggests yes — the worker must evaluate inline ignores since the CLI never parses code).
 
 ---
 
@@ -138,11 +138,11 @@ Also undecided upstream: whether `.siriusignore` filters client-side (files neve
 
 These are the visual spec. Reproduce component-for-component.
 
-### `sirius scan .`
+### `sirus scan .`
 
 ```
   ╭──────────────────────────────────────────────────────────────╮
-  │  sirius v0.4.0   ·   Sirius Compliance Scanner           │
+  │  sirus v0.4.0   ·   Sirus Compliance Scanner           │
   │  project: paykit-api   ·   ruleset: p/fintech-core (52 rules) │
   ╰──────────────────────────────────────────────────────────────╯
 
@@ -152,7 +152,7 @@ These are the visual spec. Reproduce component-for-component.
      src/config.py:14                          PCI-DSS 8.6.2 · DPDP §8
      14 │  STRIPE_KEY = "sk_live_51H8xR2eZv…"
         │               ╰── secret · ⚠ VERIFIED LIVE · ₹42,00,000 at risk
-     ↳ fix: env_lookup   run  sirius fix SIR-SEC-001
+     ↳ fix: env_lookup   run  sirus fix SIR-SEC-001
 
   ✗ CRITICAL  SIR-SEC-010  SQL built with string formatting
      src/ledger.py:88                          PCI-DSS 6.2.4 · CWE-89
@@ -170,7 +170,7 @@ These are the visual spec. Reproduce component-for-component.
   ────────────────────────────────────────────────────────────────
 ```
 
-### `sirius fix SIR-SEC-001`
+### `sirus fix SIR-SEC-001`
 
 ```
   ╭─ Cerebus fix · SIR-SEC-001 ──────────────────────────────────╮
@@ -192,7 +192,7 @@ These are the visual spec. Reproduce component-for-component.
 
 **Scan view**
 
-1. **`<Banner/>`** — rounded box `╭─╮│╰╯`, 2-space left indent, ~62 wide. Two lines: `sirius v{version}   ·   Sirius Compliance Scanner` and `project: {name}   ·   ruleset: {p/...} ({n} rules)`.
+1. **`<Banner/>`** — rounded box `╭─╮│╰╯`, 2-space left indent, ~62 wide. Two lines: `sirus v{version}   ·   Sirus Compliance Scanner` and `project: {name}   ·   ruleset: {p/...} ({n} rules)`.
 2. **`<ScanProgress/>`** — braille spinner (`⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏`) + `Scanning {total} files ` + dot-leader run of `·` + right-aligned `{pct}%` + block bar `▐████████▏` with half-block caps. Driven by `progress`/`file.scanning`.
 3. **`<FindingCard/>`** —
    - `<SeverityBadge/>`: glyph + padded uppercase severity, color from the token table
@@ -200,7 +200,7 @@ These are the visual spec. Reproduce component-for-component.
    - location line: `{file}:{line}` left, compliance refs right-aligned
    - `<CodeFrame/>`: `{lineno} │  {source}` — number gutter, `│` rule, two spaces
    - `<UnderlineAnnotation/>`: continuation gutter, then a `╰──` elbow column-aligned to the offending token, carrying `secret · ⚠ VERIFIED LIVE · ₹42,00,000 at risk`. **Alignment needs `col`, which is missing from the WS frame** — see [D-005](decisions.md)
-   - `<FixHint/>`: `↳ fix: {action}` + optional `   run  sirius fix {RULE-ID}`
+   - `<FixHint/>`: `↳ fix: {action}` + optional `   run  sirus fix {RULE-ID}`
 4. **`<Summary/>`** — `────` rules (~64 wide) around four rows: counters · secrets validity · money-at-risk + score meter · gate verdict.
 
 **Fix view**
@@ -219,7 +219,7 @@ Verbatim from the PRD: "Respect `NO_COLOR`, detect TTY (auto-switch to plain whe
 - TTY detection via `process.stdout.isTTY` → plain renderer when piped; **never** emit spinners or cursor escapes to a pipe
 - `--json` forces machine mode and suppresses Ink entirely
 - `--sarif <file>` writes a real file consumable by `github/codeql-action/upload-sarif@v3`
-- `SIRIUS_ASCII=1` (our addition) swaps every box-drawing/braille/`₹` glyph for ASCII
+- `SIRUS_ASCII=1` (our addition) swaps every box-drawing/braille/`₹` glyph for ASCII
 
 **The plain renderer is a second, unmocked spec.** Every mockup is hard-coded to ~64 columns with right-aligned compliance refs. Decide the narrow/plain layout deliberately — one line per finding:
 
@@ -235,11 +235,11 @@ Read `process.stdout.columns`; degrade below ~70.
 
 ## 7. Distribution
 
-From the PRD: `npm i -g sirius` · `brew install sirius` · `pipx install sirius` · `curl … | sh` single-binary · Docker `sirius/cli` · **`npx sirius scan` for a zero-install demo**.
+From the PRD: `npm i -g sirus` · `brew install sirus` · `pipx install sirus` · `curl … | sh` single-binary · Docker `sirus/cli` · **`npx sirus scan` for a zero-install demo**.
 
 Only npm/npx is in scope for the two-day build; it is also the demo path.
 
-Distribution-adjacent artifacts the CLI feeds: `sirius/scan-action@v1` (GitHub Action), a GitLab CI template, and a pre-commit hook.
+Distribution-adjacent artifacts the CLI feeds: `sirus/scan-action@v1` (GitHub Action), a GitLab CI template, and a pre-commit hook.
 
 ---
 
@@ -247,15 +247,15 @@ Distribution-adjacent artifacts the CLI feeds: `sirius/scan-action@v1` (GitHub A
 
 The CLI owns **105 of the ~240 demo seconds**.
 
-**Beat 2 — (60s) live scan.** "`sirius scan .` — streaming findings, color-coded, PCI/RBI/DPDP clauses, a **VERIFIED LIVE** Stripe test key with ₹ money-at-risk. **This is the wow moment.**"
+**Beat 2 — (60s) live scan.** "`sirus scan .` — streaming findings, color-coded, PCI/RBI/DPDP clauses, a **VERIFIED LIVE** Stripe test key with ₹ money-at-risk. **This is the wow moment.**"
 
 Must hold up: time-to-first-finding <10s · the `⚠ VERIFIED LIVE` badge and `₹42,00,000 at risk` strings are what judges remember · every glyph survives the presentation terminal · `--replay` works with the network unplugged.
 
-**Beat 3 — (45s) Cerebus fix.** "`sirius fix SIR-SEC-001` — show quarantined→diff→verifier PASS, accept the diff."
+**Beat 3 — (45s) Cerebus fix.** "`sirus fix SIR-SEC-001` — show quarantined→diff→verifier PASS, accept the diff."
 
 Must hold up: the three-line provenance panel renders even with the LLM down (deterministic templates + a cached suggestion per demo finding) · `✓ PASS` appears · `[y]` visibly writes the file · rule-id resolution works without a scan id.
 
-Beat 4 (CI gate) runs this same CLI inside the Action with `severity_threshold: high`, `fail_on: verified-secrets`, `sarif: sirius.sarif`, `diff_aware: true`.
+Beat 4 (CI gate) runs this same CLI inside the Action with `severity_threshold: high`, `fail_on: verified-secrets`, `sarif: sirus.sarif`, `diff_aware: true`.
 
 ---
 
@@ -268,9 +268,9 @@ All thirteen commands are implemented (`doctor` was added beyond the PRD's tree)
 | Gap | How it was settled |
 |---|---|
 | **Output truncation** | `--max-findings <n>` caps rendered cards; the remainder collapses to a count. Plain output sorts most-severe-first, then by path, so it is deterministic regardless of arrival order. |
-| **`watch` semantics** | 400ms debounce; a full re-scan, not incremental; a burst during a scan queues exactly one follow-up rather than a backlog; the exit code reflects the last scan. It ignores `node_modules`, `.git`, editor scratch files, and its own `.sirius/` cache — without that last one, every scan's state write would retrigger a scan forever. |
-| **`triage` vs `fix`** | D-015 adds a `triage_state` enum (`open\|accepted\|dismissed\|suppressed`), with `suppressed` derived from it so existing gate logic is untouched. `f` in triage prints the `sirius fix` command rather than launching it — nesting one full-screen Ink app in another corrupts the terminal. |
-| **`report` destination and signing** | Writes to `sirius-report-<id>.<format>` in the cwd, or `-o <file>`. It reports that a detached JWS is present and states plainly that it did **not** verify it, because no public-key endpoint exists. A security tool implying a check it did not perform is worse than one admitting the gap. |
+| **`watch` semantics** | 400ms debounce; a full re-scan, not incremental; a burst during a scan queues exactly one follow-up rather than a backlog; the exit code reflects the last scan. It ignores `node_modules`, `.git`, editor scratch files, and its own `.sirus/` cache — without that last one, every scan's state write would retrigger a scan forever. |
+| **`triage` vs `fix`** | D-015 adds a `triage_state` enum (`open\|accepted\|dismissed\|suppressed`), with `suppressed` derived from it so existing gate logic is untouched. `f` in triage prints the `sirus fix` command rather than launching it — nesting one full-screen Ink app in another corrupts the terminal. |
+| **`report` destination and signing** | Writes to `sirus-report-<id>.<format>` in the cwd, or `-o <file>`. It reports that a detached JWS is present and states plainly that it did **not** verify it, because no public-key endpoint exists. A security tool implying a check it did not perform is worse than one admitting the gap. |
 | **`suppress` storage** | Server-side via `POST /suppressions`. A reason is mandatory and a past expiry is rejected — a permanent reasonless suppression is how a codebase quietly stops being audited. |
 | **`baseline set` source** | `HEAD` by default, `--commit <sha>` to override. Fingerprints are computed server-side; the CLI sends the scan to take them from, since it has no engine. |
 | **Housekeeping** | `--version` works; `doctor` added for preflight. |

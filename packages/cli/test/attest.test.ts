@@ -23,7 +23,7 @@ let dir: string;
 let key: ReturnType<typeof loadOrCreateKey>;
 
 const payload = {
-  schema: 'sirius.report/v1',
+  schema: 'sirus.report/v1',
   summary: { findings: 6, money_at_risk_inr: 8_930_000, counts: { critical: 2, high: 2 } },
   findings: [
     { rule_id: 'SIR-SEC-001', severity: 'critical', file: 'src/config.py', line: 14 },
@@ -32,7 +32,7 @@ const payload = {
 };
 
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'sirius-attest-'));
+  dir = mkdtempSync(join(tmpdir(), 'sirus-attest-'));
   key = loadOrCreateKey(join(dir, 'signing-key.pem'));
 });
 

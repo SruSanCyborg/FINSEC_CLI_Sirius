@@ -1,4 +1,4 @@
-# Paths sirius should not scan, gitignore syntax.
+# Paths sirus should not scan, gitignore syntax.
 # .gitignore is honored too; this file is for things you track but do not want scanned.
 
 # Dependencies and build output

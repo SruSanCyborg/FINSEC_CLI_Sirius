@@ -1,4 +1,4 @@
-# sirius — whole-system overview
+# sirus — whole-system overview
 
 Distilled from [`original-prd.md`](original-prd.md). This document is the fast path: read it instead of the 588-line PRD, and go back to the PRD only for the sections it points you at.
 
@@ -6,7 +6,7 @@ Distilled from [`original-prd.md`](original-prd.md). This document is the fast p
 
 ## 1. Thesis and personas
 
-Fintech teams ship code that touches cardholder data, auth flows, and money movement, but generic SAST tools don't speak PCI-DSS, RBI, or DPDP, and don't quantify business risk. `sirius` is a linter for financial data handling: AST-based detection via YAML rules, compliance mapping per finding, money-at-risk in ₹, a signed report CI can gate on, and a guardrailed LLM autofix.
+Fintech teams ship code that touches cardholder data, auth flows, and money movement, but generic SAST tools don't speak PCI-DSS, RBI, or DPDP, and don't quantify business risk. `sirus` is a linter for financial data handling: AST-based detection via YAML rules, compliance mapping per finding, money-at-risk in ₹, a signed report CI can gate on, and a guardrailed LLM autofix.
 
 | Persona | Wants |
 |---|---|
@@ -114,11 +114,11 @@ Plus `severity_threshold` and `fail_on`, added by [D-002](decisions.md#d-002--th
 ### Error envelope (RFC-7807 + one extra member)
 
 ```json
-{ "type": "https://sirius.dev/errors/rule-invalid", "title": "...", "status": 422,
-  "detail": "...", "instance": "...", "code": "SIRIUS_ERR_RULE_SCHEMA" }
+{ "type": "https://sirus.dev/errors/rule-invalid", "title": "...", "status": 422,
+  "detail": "...", "instance": "...", "code": "SIRUS_ERR_RULE_SCHEMA" }
 ```
 
-`code` is a non-standard sixth member in the `SIRIUS_ERR_*` namespace. Known values: `SIRIUS_ERR_RULE_SCHEMA`, `SIRIUS_ERR_PARSE`.
+`code` is a non-standard sixth member in the `SIRUS_ERR_*` namespace. Known values: `SIRUS_ERR_RULE_SCHEMA`, `SIRUS_ERR_PARSE`.
 
 ### WebSocket frames — six types
 
@@ -132,14 +132,14 @@ Plus `severity_threshold` and `fail_on`, added by [D-002](decisions.md#d-002--th
 { "type": "progress", "scanned": 64, "total": 128, "findings_so_far": 7 }
 { "type": "scan.completed", "compliance_score": 72.5,
   "counts": { "critical": 2, "high": 5, "medium": 9, "low": 3 }, "exit_code": 1 }
-{ "type": "error", "code": "SIRIUS_ERR_PARSE", "path": "src/x.py", "detail": "…" }
+{ "type": "error", "code": "SIRUS_ERR_PARSE", "path": "src/x.py", "detail": "…" }
 ```
 
 Precision notes: the payload nests under a `finding` key rather than being flattened; it is a *subset* of the `findings` columns (notably **`col` is missing** — see [D-005](decisions.md)); `exit_code` is server-computed; `error` frames are per-file and non-fatal; auth failure closes with **4401**.
 
 ### Webhook HMAC
 
-Inbound and outbound both use HMAC-SHA256 hex over the **raw body**, constant-time compared, modeled on Razorpay's `X-Razorpay-Signature` and GitHub's `X-Hub-Signature-256`. Headers: `X-Sirius-Signature: sha256=<hexdigest>`, `X-Sirius-Event`, `X-Sirius-Delivery` (UUID, for idempotency).
+Inbound and outbound both use HMAC-SHA256 hex over the **raw body**, constant-time compared, modeled on Razorpay's `X-Razorpay-Signature` and GitHub's `X-Hub-Signature-256`. Headers: `X-Sirus-Signature: sha256=<hexdigest>`, `X-Sirus-Event`, `X-Sirus-Delivery` (UUID, for idempotency).
 
 ---
 
@@ -199,7 +199,7 @@ rule:
   fix:
     action: env_lookup
     target: api_key
-  suppress: "# sirius-ignore: SIR-SEC-001"
+  suppress: "# sirus-ignore: SIR-SEC-001"
 ```
 
 ### Rule catalog
@@ -278,7 +278,7 @@ Use **v4.0** numbers. The v3.2.1 → v4.0 renumbering matters: injection moved `
 
 **Hour-by-hour (4 people, ~24h):** H0–2 freeze the contract and stand up the mock, all four branches scaffolded · H2–8 Core + CLI-against-mock + web shell + GUI shell · H8–14 worker + tree-sitter + 8–12 rules + WS end-to-end + secret validity + Cerebus loop · H14–20 JWS signing + GitHub Action + SARIF + score/money + GUI diff viewer + web charts · H20–23 chaos repo, polish, demo script, rehearse · H23–24 buffer.
 
-**Demo (3–5 min):** (30s) hook + chaos repo → **(60s) `sirius scan .`, streaming, VERIFIED LIVE key with ₹ money-at-risk — the wow moment** → (45s) `sirius fix SIR-SEC-001`, quarantined→diff→verifier PASS → (45s) PR opens, Action annotates and blocks, SARIF in the Security tab → (45s) web dashboard, attack-path graph, download the signed report and **verify the signature live** → (15s) close on India relevance.
+**Demo (3–5 min):** (30s) hook + chaos repo → **(60s) `sirus scan .`, streaming, VERIFIED LIVE key with ₹ money-at-risk — the wow moment** → (45s) `sirus fix SIR-SEC-001`, quarantined→diff→verifier PASS → (45s) PR opens, Action annotates and blocks, SARIF in the Security tab → (45s) web dashboard, attack-path graph, download the signed report and **verify the signature live** → (15s) close on India relevance.
 
 **Risk register:**
 

@@ -1,5 +1,5 @@
 /**
- * `sirius init` — scaffold `sirius.yaml` and `.siriusignore`.
+ * `sirus init` — scaffold `sirus.yaml` and `.sirusignore`.
  *
  * The PRD names both files but never says what goes in them, so the templates
  * here are the definition. They are written with comments: the config file is
@@ -40,14 +40,14 @@ function guessProjectName(dir: string): string {
 }
 
 function projectTemplate(name: string, projectId: string | undefined): string {
-  return `# sirius — project configuration
-# Docs: https://sirius.dev/docs/config
+  return `# sirus — project configuration
+# Docs: https://sirus.dev/docs/config
 #
 # Precedence, highest first:
-#   CLI flags > SIRIUS_* env > .siriuslintrc (nearest dir) > this file
-#   > ~/.config/sirius/config.toml > built-in defaults
+#   CLI flags > SIRUS_* env > .siruslintrc (nearest dir) > this file
+#   > ~/.config/sirus/config.toml > built-in defaults
 
-# Project this repo reports to. Get one with \`sirius login\` or from the dashboard.
+# Project this repo reports to. Get one with \`sirus login\` or from the dashboard.
 ${projectId ? `project_id: ${projectId}` : '# project_id: 00000000-0000-0000-0000-000000000000'}
 
 # Rulesets to run. p/fintech-core is the full catalogue; p/<category> narrows to
@@ -75,7 +75,7 @@ validate_secrets: false
 # diff_aware: true
 # baseline_commit: main
 
-# Paths to skip, in addition to .siriusignore and .gitignore.
+# Paths to skip, in addition to .sirusignore and .gitignore.
 # exclude:
 #   - "vendor/**"
 
@@ -87,13 +87,13 @@ validate_secrets: false
 #   min_compliance_score: 80
 
 # --- the recovery agent ------------------------------------------------------
-# What \`sirius revenue recover\` is allowed to do. Every line is optional and
+# What \`sirus revenue recover\` is allowed to do. Every line is optional and
 # falls back to a documented default, so pin only what you argue about.
 #
 # These are your numbers, not ours. The frameworks named in the output (NPCI
 # NACH re-presentment limits, TRAI contact rules, DPDP §6 consent) are pointers
 # to obligations you should check against your own compliance advice — the
-# thresholds below are what sirius will actually enforce.
+# thresholds below are what sirus will actually enforce.
 # revenue:
 #   capacity: 200            # interventions available in one run
 #   budget_inr: 50000        # what the run may spend, total
@@ -117,7 +117,7 @@ validate_secrets: false
 `;
 }
 
-const IGNORE_TEMPLATE = `# Paths sirius should not scan, gitignore syntax.
+const IGNORE_TEMPLATE = `# Paths sirus should not scan, gitignore syntax.
 # .gitignore is honored too; this file is for things you track but do not want scanned.
 
 # Dependencies and build output
@@ -138,8 +138,8 @@ build/
 
 export async function runInit(flags: InitFlags, globals: GlobalFlags): Promise<void> {
   const cwd = process.cwd();
-  const configPath = join(cwd, 'sirius.yaml');
-  const ignorePath = join(cwd, '.siriusignore');
+  const configPath = join(cwd, 'sirus.yaml');
+  const ignorePath = join(cwd, '.sirusignore');
 
   const existing = [configPath, ignorePath].filter((p) => existsSync(p));
   if (existing.length > 0 && !flags.force) {
@@ -149,18 +149,18 @@ export async function runInit(flags: InitFlags, globals: GlobalFlags): Promise<v
   }
 
   const name = guessProjectName(cwd);
-  const projectId = flags.project ?? globals.project ?? process.env.SIRIUS_PROJECT_ID;
+  const projectId = flags.project ?? globals.project ?? process.env.SIRUS_PROJECT_ID;
 
   writeFileSync(configPath, projectTemplate(name, projectId), 'utf8');
   writeFileSync(ignorePath, IGNORE_TEMPLATE, 'utf8');
 
-  process.stdout.write(`Initialized sirius for "${name}"\n`);
-  process.stdout.write(`  sirius.yaml\n  .siriusignore\n\n`);
+  process.stdout.write(`Initialized sirus for "${name}"\n`);
+  process.stdout.write(`  sirus.yaml\n  .sirusignore\n\n`);
 
-  process.stdout.write('Next:  sirius scan .\n');
+  process.stdout.write('Next:  sirus scan .\n');
 
   if (!projectId) {
-    // This used to read "set project_id in sirius.yaml, then sirius scan ." —
+    // This used to read "set project_id in sirus.yaml, then sirus scan ." —
     // written when a scan meant a call to the API. It no longer does, and
     // telling someone to go get an account before their first scan is the
     // opposite of what this tool should ask for.

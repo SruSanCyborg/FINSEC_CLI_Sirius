@@ -372,7 +372,7 @@ export interface components {
         Problem: {
             /**
              * Format: uri
-             * @example https://sirius.dev/errors/rule-invalid
+             * @example https://sirus.dev/errors/rule-invalid
              */
             type?: string;
             title: string;
@@ -380,9 +380,9 @@ export interface components {
             detail?: string;
             instance?: string;
             /**
-             * @description Non-standard sixth member, `SIRIUS_ERR_*` namespace.
-             * @example SIRIUS_ERR_RULE_SCHEMA
-             * @example SIRIUS_ERR_PARSE
+             * @description Non-standard sixth member, `SIRUS_ERR_*` namespace.
+             * @example SIRUS_ERR_RULE_SCHEMA
+             * @example SIRUS_ERR_PARSE
              */
             code?: string;
         };
@@ -531,7 +531,7 @@ export interface components {
              *
              *     The example is the SIR-SEC-001 fix from the demo fixture, and matches
              *     contract/fixtures/chaos-repo/src/config.py line for line so that
-             *     `sirius fix` works end to end against the mock.
+             *     `sirus fix` works end to end against the mock.
              * @example @@ -14 +14 @@
              *     -STRIPE_KEY = "sk_live_51H8xR2eZvNOTAREALKE"
              *     +STRIPE_KEY = os.environ["STRIPE_API_KEY"]
@@ -561,7 +561,7 @@ export interface components {
             languages?: string[];
             compliance_ref?: string[];
             fix_action?: components["schemas"]["FixAction"];
-            /** @example # sirius-ignore: SIR-SEC-001 */
+            /** @example # sirus-ignore: SIR-SEC-001 */
             suppress_token?: string;
             yaml_body?: string;
         };
@@ -675,7 +675,7 @@ export interface components {
              * @enum {string}
              */
             type: "error";
-            /** @example SIRIUS_ERR_PARSE */
+            /** @example SIRUS_ERR_PARSE */
             code: string;
             path?: string;
             detail?: string;
@@ -999,12 +999,12 @@ export interface operations {
             /**
              * @description The report. `json` and `sarif` are returned inline; `pdf` returns a
              *     download URI. The detached JWS (ES256 over canonical JSON) is in the
-             *     `X-Sirius-Signature-JWS` header for inline formats.
+             *     `X-Sirus-Signature-JWS` header for inline formats.
              */
             200: {
                 headers: {
                     /** @description Detached JWS signature over the canonical JSON body */
-                    "X-Sirius-Signature-JWS"?: string;
+                    "X-Sirus-Signature-JWS"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -1192,7 +1192,7 @@ export interface operations {
                      *           "CWE:798"
                      *         ],
                      *         "fix_action": "env_lookup",
-                     *         "suppress_token": "# sirius-ignore: SIR-SEC-001"
+                     *         "suppress_token": "# sirus-ignore: SIR-SEC-001"
                      *       },
                      *       {
                      *         "id": "SIR-SEC-002",
@@ -1211,7 +1211,7 @@ export interface operations {
                      *           "DPDP:8"
                      *         ],
                      *         "fix_action": "env_lookup",
-                     *         "suppress_token": "# sirius-ignore: SIR-SEC-002"
+                     *         "suppress_token": "# sirus-ignore: SIR-SEC-002"
                      *       },
                      *       {
                      *         "id": "SIR-SEC-010",
@@ -1231,7 +1231,7 @@ export interface operations {
                      *           "CWE:89"
                      *         ],
                      *         "fix_action": "parameterize_query",
-                     *         "suppress_token": "# sirius-ignore: SIR-SEC-010"
+                     *         "suppress_token": "# sirus-ignore: SIR-SEC-010"
                      *       },
                      *       {
                      *         "id": "SIR-SEC-011",
@@ -1249,7 +1249,7 @@ export interface operations {
                      *           "CWE:78"
                      *         ],
                      *         "fix_action": "sanitize_input",
-                     *         "suppress_token": "# sirius-ignore: SIR-SEC-011"
+                     *         "suppress_token": "# sirus-ignore: SIR-SEC-011"
                      *       },
                      *       {
                      *         "id": "SIR-SEC-020",
@@ -1267,7 +1267,7 @@ export interface operations {
                      *           "RBI-DPSC"
                      *         ],
                      *         "fix_action": "add_auth_decorator",
-                     *         "suppress_token": "# sirius-ignore: SIR-SEC-020"
+                     *         "suppress_token": "# sirus-ignore: SIR-SEC-020"
                      *       },
                      *       {
                      *         "id": "SIR-SEC-021",
@@ -1287,7 +1287,7 @@ export interface operations {
                      *           "RBI-DPSC"
                      *         ],
                      *         "fix_action": "enforce_jwt_verify",
-                     *         "suppress_token": "# sirius-ignore: SIR-SEC-021"
+                     *         "suppress_token": "# sirus-ignore: SIR-SEC-021"
                      *       },
                      *       {
                      *         "id": "SIR-SEC-030",
@@ -1307,7 +1307,7 @@ export interface operations {
                      *           "GDPR:Art.5"
                      *         ],
                      *         "fix_action": "redact_pii_log",
-                     *         "suppress_token": "# sirius-ignore: SIR-SEC-030"
+                     *         "suppress_token": "# sirus-ignore: SIR-SEC-030"
                      *       },
                      *       {
                      *         "id": "SIR-SEC-031",
@@ -1326,7 +1326,7 @@ export interface operations {
                      *           "RBI-DPSC"
                      *         ],
                      *         "fix_action": "tokenize_pan",
-                     *         "suppress_token": "# sirius-ignore: SIR-SEC-031"
+                     *         "suppress_token": "# sirus-ignore: SIR-SEC-031"
                      *       },
                      *       {
                      *         "id": "SIR-SEC-040",
@@ -1346,7 +1346,7 @@ export interface operations {
                      *           "RBI-DPSC"
                      *         ],
                      *         "fix_action": "upgrade_crypto",
-                     *         "suppress_token": "# sirius-ignore: SIR-SEC-040"
+                     *         "suppress_token": "# sirus-ignore: SIR-SEC-040"
                      *       },
                      *       {
                      *         "id": "SIR-SEC-041",
@@ -1365,7 +1365,7 @@ export interface operations {
                      *           "RBI-DPSC"
                      *         ],
                      *         "fix_action": "enforce_tls",
-                     *         "suppress_token": "# sirius-ignore: SIR-SEC-041"
+                     *         "suppress_token": "# sirus-ignore: SIR-SEC-041"
                      *       },
                      *       {
                      *         "id": "SIR-SEC-050",
@@ -1383,7 +1383,7 @@ export interface operations {
                      *           "RBI-DPSC"
                      *         ],
                      *         "fix_action": "add_rate_limit",
-                     *         "suppress_token": "# sirius-ignore: SIR-SEC-050"
+                     *         "suppress_token": "# sirus-ignore: SIR-SEC-050"
                      *       },
                      *       {
                      *         "id": "SIR-SEC-051",
@@ -1398,7 +1398,7 @@ export interface operations {
                      *         ],
                      *         "compliance_ref": [],
                      *         "fix_action": "add_idempotency_key",
-                     *         "suppress_token": "# sirius-ignore: SIR-SEC-051"
+                     *         "suppress_token": "# sirus-ignore: SIR-SEC-051"
                      *       },
                      *       {
                      *         "id": "SIR-SEC-060",
@@ -1415,7 +1415,7 @@ export interface operations {
                      *           "PCI-DSS:6.3.2"
                      *         ],
                      *         "fix_action": "pin_or_remove_dep",
-                     *         "suppress_token": "# sirius-ignore: SIR-SEC-060"
+                     *         "suppress_token": "# sirus-ignore: SIR-SEC-060"
                      *       }
                      *     ]
                      */
@@ -1461,8 +1461,8 @@ export interface operations {
                      *         "CWE:798"
                      *       ],
                      *       "fix_action": "env_lookup",
-                     *       "suppress_token": "# sirius-ignore: SIR-SEC-001",
-                     *       "yaml_body": "rule:\n  id: SIR-SEC-001\n  category: secrets\n  severity: critical\n  languages: [python, javascript, go]\n  message: \"Hardcoded payment-provider secret key detected.\"\n  metadata:\n    compliance:\n      pci_dss: [\"8.6.2\"]\n      rbi_dpsc: [\"card-payment-security\"]\n      dpdp: [\"8\"]\n    cwe: [\"CWE-798\"]\n    money_at_risk_model: \"provider_key\"\n    remediation_action: env_lookup\n  match:\n    kind: ast + regex\n    patterns:\n      - regex: '(sk_live_[0-9a-zA-Z]{24,}|rk_live_[0-9a-zA-Z]{24,})'\n      - entropy: { min_bits: 3.5 }\n    validity_check:\n      provider: stripe\n      method: GET\n      endpoint: \"https://api.stripe.com/v1/balance\"\n  fix:\n    action: env_lookup\n    target: api_key\n  suppress: \"# sirius-ignore: SIR-SEC-001\"\n"
+                     *       "suppress_token": "# sirus-ignore: SIR-SEC-001",
+                     *       "yaml_body": "rule:\n  id: SIR-SEC-001\n  category: secrets\n  severity: critical\n  languages: [python, javascript, go]\n  message: \"Hardcoded payment-provider secret key detected.\"\n  metadata:\n    compliance:\n      pci_dss: [\"8.6.2\"]\n      rbi_dpsc: [\"card-payment-security\"]\n      dpdp: [\"8\"]\n    cwe: [\"CWE-798\"]\n    money_at_risk_model: \"provider_key\"\n    remediation_action: env_lookup\n  match:\n    kind: ast + regex\n    patterns:\n      - regex: '(sk_live_[0-9a-zA-Z]{24,}|rk_live_[0-9a-zA-Z]{24,})'\n      - entropy: { min_bits: 3.5 }\n    validity_check:\n      provider: stripe\n      method: GET\n      endpoint: \"https://api.stripe.com/v1/balance\"\n  fix:\n    action: env_lookup\n    target: api_key\n  suppress: \"# sirus-ignore: SIR-SEC-001\"\n"
                      *     }
                      */
                     "application/json": components["schemas"]["Rule"];

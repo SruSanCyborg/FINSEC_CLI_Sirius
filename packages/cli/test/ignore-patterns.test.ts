@@ -1,11 +1,11 @@
 /**
- * `.siriusignore`, which was documented, scaffolded, and read by nothing.
+ * `.sirusignore`, which was documented, scaffolded, and read by nothing.
  *
  * AGENTS.md lists three suppression layers and this is one of them; `init`
  * writes the file; `ScanEngineOptions.ignorePatterns` declares the field; and
  * `scan` passed the config's `exclude:` into it. The scanner never read it.
  *
- * It hid behind its own defaults. The `.siriusignore` that `init` writes lists
+ * It hid behind its own defaults. The `.sirusignore` that `init` writes lists
  * `node_modules/`, `vendor/`, `dist/`, `build/` — every one of which is already
  * in the scanner's hardcoded SKIP_DIRS — so the file appeared to work perfectly
  * while any pattern a user added did nothing at all. A feature correct on the
@@ -23,7 +23,7 @@ import { collectFiles } from '../src/engine/scanner.js';
 let dir: string;
 
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'sirius-ignore-'));
+  dir = mkdtempSync(join(tmpdir(), 'sirus-ignore-'));
   for (const path of ['src/app.py', 'src/deep/inner.py', 'lib/util.py', 'generated/big.min.js']) {
     mkdirSync(join(dir, path, '..'), { recursive: true });
     writeFileSync(join(dir, path), 'x = 1\n', 'utf8');

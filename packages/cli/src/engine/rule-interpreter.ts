@@ -1,7 +1,7 @@
 /**
  * Executing a YAML rule, rather than asking a server to.
  *
- * `sirius rules test` was the last command that still answered "not
+ * `sirus rules test` was the last command that still answered "not
  * implemented", and the reason it gave had drifted from the truth. It said it
  * needed a rule-execution endpoint. It does not: it needs something able to
  * *run* a rule document, and no such thing existed anywhere — the engine's

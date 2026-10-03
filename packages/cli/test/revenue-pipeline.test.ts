@@ -22,7 +22,7 @@ import { generateBatch } from '../src/revenue/synth.js';
 let dir: string;
 
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'sirius-pipeline-'));
+  dir = mkdtempSync(join(tmpdir(), 'sirus-pipeline-'));
   writeBatch(dir, generateBatch({ seed: 'pipeline-seed', payments: 250, checkouts: 70, invoices: 50 }));
 });
 afterEach(() => rmSync(dir, { recursive: true, force: true }));

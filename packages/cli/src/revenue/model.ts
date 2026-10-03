@@ -104,7 +104,7 @@ export interface Calibration {
 }
 
 export interface Model {
-  schema: 'sirius.revenue.model/v1';
+  schema: 'sirus.revenue.model/v1';
   fitted_at: string;
   /** Records the fit saw. Test records were never loaded, let alone used. */
   trained_on: number;
@@ -244,7 +244,7 @@ export function fitModel(
     `train log-loss ${fit.log_loss.toFixed(4)}`;
 
   const uncalibrated: Model = {
-    schema: 'sirius.revenue.model/v1',
+    schema: 'sirus.revenue.model/v1',
     fitted_at: new Date().toISOString(),
     trained_on: training.length,
     base_rate: round(baseRate, 4),
@@ -261,7 +261,7 @@ export function fitModel(
   const calibration = refitCalibration(uncalibrated, training, truth, context);
 
   const draft: Model = {
-    schema: 'sirius.revenue.model/v1',
+    schema: 'sirus.revenue.model/v1',
     fitted_at: new Date().toISOString(),
     trained_on: training.length,
     base_rate: round(baseRate, 4),

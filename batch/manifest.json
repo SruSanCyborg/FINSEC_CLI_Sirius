@@ -1,6 +1,6 @@
 {
-  "schema": "sirius.batch/v1",
-  "seed": "sirius-2026",
+  "schema": "sirus.batch/v1",
+  "seed": "sirus-2026",
   "generated_at": "2026-08-27T18:03:23.856Z",
   "as_of": "2026-08-24T18:30:00.000Z",
   "counts": {

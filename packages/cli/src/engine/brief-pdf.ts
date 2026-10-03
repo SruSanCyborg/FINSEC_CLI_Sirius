@@ -57,7 +57,7 @@ export function briefToPdf(facts: BriefFacts): Buffer {
   const g = facts.guard;
 
   // ---------------------------------------------------------------- masthead
-  line('sirius', { size: 30, bold: true });
+  line('sirus', { size: 30, bold: true });
   line('A security and control layer for AI agents that can move money', {
     size: 13,
     grey: 0.25,
@@ -318,11 +318,11 @@ export function briefToPdf(facts: BriefFacts): Buffer {
   line('Run it yourself', { size: 15, bold: true, spaceBefore: 22 });
   blocks.push(RULE);
   for (const [cmd, what] of [
-    ['sirius guard gen feed', 'a feed of agent actions, with attacks planted in it'],
-    ['sirius guard eval feed', 'judge them, and stream the decisions'],
-    ['sirius guard explain <id>', 'the whole six-stage ladder for one action'],
-    ['sirius guard score feed', 'how it did against what was actually planted'],
-    ['sirius guard trail --verify <f>', 'check the signed decision trail'],
+    ['sirus guard gen feed', 'a feed of agent actions, with attacks planted in it'],
+    ['sirus guard eval feed', 'judge them, and stream the decisions'],
+    ['sirus guard explain <id>', 'the whole six-stage ladder for one action'],
+    ['sirus guard score feed', 'how it did against what was actually planted'],
+    ['sirus guard trail --verify <f>', 'check the signed decision trail'],
   ] as Array<[string, string]>) {
     line(cmd, { size: 10, bold: true, spaceBefore: 5 });
     line(`        ${what}`, { size: 9.5, grey: 0.35 });
@@ -335,5 +335,5 @@ export function briefToPdf(facts: BriefFacts): Buffer {
     { size: 9, grey: 0.45, spaceBefore: 8 },
   );
 
-  return renderPdf(blocks, { title: 'sirius — securing AI agents that can move money' });
+  return renderPdf(blocks, { title: 'sirus — securing AI agents that can move money' });
 }

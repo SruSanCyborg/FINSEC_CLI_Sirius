@@ -1,7 +1,7 @@
 /**
  * The local engine's rules, described in the shape the API returns.
  *
- * `sirius rules` asked a server what rules exist, which meant the command was
+ * `sirus rules` asked a server what rules exist, which meant the command was
  * unusable in the configuration everything else defaults to — while the rules
  * themselves sat compiled into this binary. Listing them is not a favour to the
  * user: a compliance linter that cannot say what it checks for, or which clause
@@ -37,7 +37,7 @@ export function localRules(version: string): ApiRule[] {
     languages: rule.languages ?? DEFAULT_LANGUAGES,
     compliance_ref: rule.compliance_ref,
     ...(rule.fix_action ? { fix_action: rule.fix_action as ApiRule['fix_action'] } : {}),
-    suppress_token: `# sirius-ignore: ${rule.id}`,
+    suppress_token: `# sirus-ignore: ${rule.id}`,
   }));
 }
 
@@ -55,7 +55,7 @@ export function localRuleIds(): string[] {
 /**
  * Which compiled rules a ruleset name selects.
  *
- * `rulesets:` sits in every scaffolded `sirius.yaml` and `--ruleset` is on both
+ * `rulesets:` sits in every scaffolded `sirus.yaml` and `--ruleset` is on both
  * `scan` and `watch`, but the local engine ran all twelve rules regardless — a
  * knob wired to nothing. It errs toward noise rather than silence, so it was
  * never going to be caught by a missing finding.

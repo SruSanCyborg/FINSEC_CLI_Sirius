@@ -1,11 +1,11 @@
-# sirius — project configuration
-# Docs: https://sirius.dev/docs/config
+# sirus — project configuration
+# Docs: https://sirus.dev/docs/config
 #
 # Precedence, highest first:
-#   CLI flags > SIRIUS_* env > .siriuslintrc (nearest dir) > this file
-#   > ~/.config/sirius/config.toml > built-in defaults
+#   CLI flags > SIRUS_* env > .siruslintrc (nearest dir) > this file
+#   > ~/.config/sirus/config.toml > built-in defaults
 
-# Project this repo reports to. Get one with `sirius login` or from the dashboard.
+# Project this repo reports to. Get one with `sirus login` or from the dashboard.
 # project_id: 00000000-0000-0000-0000-000000000000
 
 # Rulesets to run. p/fintech-core is the full catalogue; p/<category> narrows to
@@ -33,7 +33,7 @@ validate_secrets: false
 # diff_aware: true
 # baseline_commit: main
 
-# Paths to skip, in addition to .siriusignore and .gitignore.
+# Paths to skip, in addition to .sirusignore and .gitignore.
 # exclude:
 #   - "vendor/**"
 
@@ -45,13 +45,13 @@ validate_secrets: false
 #   min_compliance_score: 80
 
 # --- the recovery agent ------------------------------------------------------
-# What `sirius revenue recover` is allowed to do. Every line is optional and
+# What `sirus revenue recover` is allowed to do. Every line is optional and
 # falls back to a documented default, so pin only what you argue about.
 #
 # These are your numbers, not ours. The frameworks named in the output (NPCI
 # NACH re-presentment limits, TRAI contact rules, DPDP §6 consent) are pointers
 # to obligations you should check against your own compliance advice — the
-# thresholds below are what sirius will actually enforce.
+# thresholds below are what sirus will actually enforce.
 # revenue:
 #   capacity: 200            # interventions available in one run
 #   budget_inr: 50000        # what the run may spend, total

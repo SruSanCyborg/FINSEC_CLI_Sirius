@@ -826,7 +826,7 @@ const supplyChain: Rule = {
     };
 
     // package.json is data, so it is read as data. Scanning it line by line
-    // matched `"sirius": "./dist/cli.js"` under `bin` and called the package a
+    // matched `"sirus": "./dist/cli.js"` under `bin` and called the package a
     // dependency resolved outside the registry — a key-value pair looks the
     // same everywhere in a JSON file, and only its position says what it means.
     if (file.kind === 'npm') {

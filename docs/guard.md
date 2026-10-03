@@ -1,4 +1,4 @@
-# `sirius guard`
+# `sirus guard`
 
 The scanner asks whether the **code** is safe. `revenue` decides what a workflow
 may do to a batch of records. This asks the question in between, at the moment it
@@ -7,12 +7,12 @@ matters: **an autonomous agent is about to move money — should it?**
 Same product, same vocabulary, same refusal to print a number nobody computed.
 
 ```bash
-sirius guard gen feed              # a reproducible feed, attacks planted in it
-sirius guard eval feed --narrate   # judge every action, explained as it goes
-sirius guard explain act_00253     # the full six-stage ladder for one action
-sirius guard agents feed           # what each agent may do, and what it has done
-sirius guard score feed            # how it did against what was actually planted
-sirius guard trail --verify feed/decisions-<id>.json
+sirus guard gen feed              # a reproducible feed, attacks planted in it
+sirus guard eval feed --narrate   # judge every action, explained as it goes
+sirus guard explain act_00253     # the full six-stage ladder for one action
+sirus guard agents feed           # what each agent may do, and what it has done
+sirus guard score feed            # how it did against what was actually planted
+sirus guard trail --verify feed/decisions-<id>.json
 ```
 
 ---
@@ -195,7 +195,7 @@ So every decision, including the allowed ones, carries the hash of the one befor
 it, and the sealed trail is ed25519-signed.
 
 ```
-$ sirius guard trail --verify decisions-mtcnin36.json
+$ sirus guard trail --verify decisions-mtcnin36.json
 OK      decisions-mtcnin36.json
         278 decisions, chained and unbroken
         signed 2026-08-28T07:49:52.870Z by key e960b577e03659b4

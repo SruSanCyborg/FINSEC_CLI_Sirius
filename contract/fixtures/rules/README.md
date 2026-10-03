@@ -4,8 +4,8 @@ Two rules in the PRD's own YAML format, each with the fixture that tests it.
 Both are runnable:
 
 ```bash
-sirius rules validate contract/fixtures/rules/sql.yaml   # structure and clauses
-sirius rules test     contract/fixtures/rules/sql.yaml   # does it actually fire?
+sirus rules validate contract/fixtures/rules/sql.yaml   # structure and clauses
+sirus rules test     contract/fixtures/rules/sql.yaml   # does it actually fire?
 ```
 
 `validate` checks what this repo owns — the `SIR-SEC-NNN` numbering blocks, the
@@ -19,15 +19,15 @@ numbers. It says nothing about whether the pattern matches.
 Semgrep's convention, because it is a good one:
 
 ```python
-# sirius-test: SIR-SEC-003      the next line MUST match
+# sirus-test: SIR-SEC-003      the next line MUST match
 STRIPE_KEY = "sk_live_51H8xR2eZvKYlo2Cexam"
 
-# sirius-ok: SIR-SEC-003        the next line must NOT match
+# sirus-ok: SIR-SEC-003        the next line must NOT match
 STRIPE_KEY = os.environ["STRIPE_SECRET_KEY"]
 ```
 
 The fixture is readable on its own, and reviewing it is reviewing the rule. A
-rule that fires on everything fails, because the `sirius-ok` lines fail.
+rule that fires on everything fails, because the `sirus-ok` lines fail.
 
 The fixture is found automatically when it sits beside the rule with the same
 name (`sql.yaml` → `sql.py`); otherwise pass `--fixture <path>`.

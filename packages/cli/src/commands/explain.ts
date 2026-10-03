@@ -1,5 +1,5 @@
 /**
- * `sirius explain <rule>` — where a rupee figure comes from.
+ * `sirus explain <rule>` — where a rupee figure comes from.
  *
  * Exists because "how did you get ₹42,00,000?" is the first question anyone
  * sensible asks, and "it's a heuristic" is not an answer. Every number the
@@ -56,7 +56,7 @@ export async function runExplain(
       }
     }
     process.stdout.write(
-      `\n  ${paint('sirius explain SIR-SEC-001', BOLD)}${paint('  for one rule in full', DIM)}\n\n`,
+      `\n  ${paint('sirus explain SIR-SEC-001', BOLD)}${paint('  for one rule in full', DIM)}\n\n`,
     );
     return;
   }
@@ -76,8 +76,8 @@ export async function runExplain(
   if (!EXPOSURE_MODEL[id]) {
     throw new CliError(`No exposure model for "${ruleId}".`, {
       hint:
-        `Known rules: ${Object.keys(EXPOSURE_MODEL).slice(0, 5).join(', ')}…  Run \`sirius explain\` for all.\n` +
-        `  For the compliance score, \`sirius explain score\`.`,
+        `Known rules: ${Object.keys(EXPOSURE_MODEL).slice(0, 5).join(', ')}…  Run \`sirus explain\` for all.\n` +
+        `  For the compliance score, \`sirus explain score\`.`,
     });
   }
 

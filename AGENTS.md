@@ -1,10 +1,10 @@
-# sirius
+# sirus
 
 **A security and control layer for AI agents that can move money — and for the
 code they run on.**
 
 The lead surface is `guard`: an autonomous agent proposes a financial action, and
-sirius decides per action whether it should happen. Six checks — identity, intent
+sirus decides per action whether it should happen. Six checks — identity, intent
 against the authorised objective, explicit policy limits, counterparty and
 protocol risk, deviation from the agent's own measured behaviour, and whether the
 instruction behind it can be trusted — producing a graduated verdict
@@ -12,11 +12,11 @@ instruction behind it can be trusted — producing a graduated verdict
 decision, including the allowed ones.
 
 This answers **CSI ORIGIN 2026 Problem Statement 7**, "Securing AI Agents That Can
-Independently Control Financial Assets". Read the brief with `sirius brief
---plain`, or as a PDF with `sirius brief`.
+Independently Control Financial Assets". Read the brief with `sirus brief
+--plain`, or as a PDF with `sirus brief`.
 
 The original surface remains and is now supporting evidence: an agent is only as
-safe as the system it operates, so sirius also **scans that code** before
+safe as the system it operates, so sirus also **scans that code** before
 deployment, maps every finding to a specific compliance clause (PCI-DSS v4.0, RBI
 DPSC, DPDP 2023, GDPR), quantifies **money-at-risk in ₹**, emits a
 cryptographically signed report a CI pipeline can gate on, and proposes
@@ -40,7 +40,7 @@ transaction authentication, fraud detection or wallet security.
 Run these three, in order. They orient faster than any amount of reading:
 
 ```bash
-pnpm install && pnpm --filter @srusan/sirius build
+pnpm install && pnpm --filter @srusan/sirus build
 node packages/cli/dist/cli.js brief --plain          # what this is, in two minutes
 node packages/cli/dist/cli.js guard gen feed
 node packages/cli/dist/cli.js guard eval feed --narrate
@@ -112,15 +112,15 @@ What this means in practice:
 
 ## Locked decisions
 
-- **CLI is Ink (TypeScript + React-for-terminal)**, not Python Rich or Go Bubble Tea. Rationale: aesthetic parity with the PRD's ANSI mockups, `npx sirius scan` zero-install demo, and the local toolchain (Node 26 present; Python is 3.9.6 system-only with no uv/pipx). See [`docs/decisions.md`](docs/decisions.md).
-- **The CLI is a pure client.** It builds against the mock server first and swaps to the real Core with one env var: `SIRIUS_API_URL` (or `--api-url`).
+- **CLI is Ink (TypeScript + React-for-terminal)**, not Python Rich or Go Bubble Tea. Rationale: aesthetic parity with the PRD's ANSI mockups, `npx sirus scan` zero-install demo, and the local toolchain (Node 26 present; Python is 3.9.6 system-only with no uv/pipx). See [`docs/decisions.md`](docs/decisions.md).
+- **The CLI is a pure client.** It builds against the mock server first and swaps to the real Core with one env var: `SIRUS_API_URL` (or `--api-url`).
 - **Exit codes are computed client-side** by `gate.ts` and cross-checked against the server's value. Deterministic, testable, works offline.
 
 ---
 
 ## Conventions no surface may violate
 
-**Exit codes** (Snyk-modeled): `0` clean · `1` findings at/above threshold (*action needed, not an error*) · `2` CLI/execution failure (auth, network, parse) · `3` no supported target found. Escape hatch: `sirius scan … || true`.
+**Exit codes** (Snyk-modeled): `0` clean · `1` findings at/above threshold (*action needed, not an error*) · `2` CLI/execution failure (auth, network, parse) · `3` no supported target found. Escape hatch: `sirus scan … || true`.
 
 **Vocabularies** (from the DDL — these are the wire contract, do not drift):
 
@@ -134,7 +134,7 @@ What this means in practice:
 | `verifier_status` | `pass` `fail` `escalated` |
 | `source` / `trigger` | `upload` `git` `inline` / `manual` `ci` `webhook` `schedule` |
 
-**Every command works both ways.** `sirius x` and `/x` are the same command, and
+**Every command works both ways.** `sirus x` and `/x` are the same command, and
 `parity.test.ts` fails the build if either list grows without the other. Four
 entries are shell-only and each says why in that file: `cd` (a one-shot process
 cannot change its parent's directory), `clear`, `exit`, and `help` (commander
@@ -153,7 +153,7 @@ its totals do not move; coverage goes in the gallery. See D-028.
 
 **Rulesets** (D-022, decided here — the PRD names them but never defines membership): `p/fintech-core` is the whole catalogue; `p/<category>` is one category. Any other name is an error, never a silent full scan.
 
-**Suppression**, three layers: inline `# sirius-ignore: SIR-SEC-010` (Bandit `# nosec` lineage) · `.siriusignore` path globs · server-side `suppressions` rows with a mandatory `reason` and ISO-8601 `expires_at`.
+**Suppression**, three layers: inline `# sirus-ignore: SIR-SEC-010` (Bandit `# nosec` lineage) · `.sirusignore` path globs · server-side `suppressions` rows with a mandatory `reason` and ISO-8601 `expires_at`.
 
 **`compliance_ref`** is a JSON string array with colon namespacing: `["PCI-DSS:8.6.2","RBI-DPSC","DPDP:8"]`. Use **v4.0** PCI numbers — injection is `6.2.4` (not v3.2.1's `6.5.1`), MFA into the CDE is `8.4.2` (not `8.3.x`), hardcoded keys is `8.6.2`.
 
@@ -161,10 +161,10 @@ its totals do not move; coverage goes in the gallery. See D-028.
 
 **Config precedence** (highest wins) — not stated in the PRD, decided here:
 ```
-CLI flags > env (SIRIUS_*) > .siriuslintrc (nearest dir, walking up)
-          > sirius.yaml (project root) > ~/.config/sirius/config.toml > defaults
+CLI flags > env (SIRUS_*) > .siruslintrc (nearest dir, walking up)
+          > sirus.yaml (project root) > ~/.config/sirus/config.toml > defaults
 ```
-`config.toml` holds auth/profile only (modeled on Stripe's). `.siriusignore` and inline ignores are result filters, not config.
+`config.toml` holds auth/profile only (modeled on Stripe's). `.sirusignore` and inline ignores are result filters, not config.
 
 ---
 
@@ -173,13 +173,13 @@ CLI flags > env (SIRIUS_*) > .siriuslintrc (nearest dir, walking up)
 ```bash
 pnpm install
 pnpm mock                      # Prism REST :4010 + WS frame replay :4011
-pnpm --filter @srusan/sirius build     # tsc → packages/cli/dist
-pnpm --filter @srusan/sirius test      # vitest
+pnpm --filter @srusan/sirus build     # tsc → packages/cli/dist
+pnpm --filter @srusan/sirus test      # vitest
 pnpm fixtures                  # regenerate contract/fixtures/demo.jsonl
 pnpm contract:lint             # redocly lint
 pnpm contract:types            # regenerate packages/cli/src/api/types.ts
 node contract/mock/smoke.mjs   # assert the mock still matches the PRD mockup
-pnpm --filter @srusan/sirius build && \
+pnpm --filter @srusan/sirus build && \
   node packages/cli/dist/cli.js scan contract/fixtures/rule-gallery   # every rule, once
 pnpm rehearse                  # the scan/fix beat, in a real pty
 pnpm rehearse:revenue          # the revenue beat, with per-beat timings
@@ -191,8 +191,8 @@ pnpm artifact:check            # fail if the published figures no longer match
 Against the live mock:
 
 ```bash
-env SIRIUS_API_URL=http://localhost:4010 SIRIUS_WS_URL=http://localhost:4011 \
-    SIRIUS_API_KEY=demo-key SIRIUS_PROJECT_ID=11111111-1111-4111-8111-111111111111 \
+env SIRUS_API_URL=http://localhost:4010 SIRUS_WS_URL=http://localhost:4011 \
+    SIRUS_API_KEY=demo-key SIRUS_PROJECT_ID=11111111-1111-4111-8111-111111111111 \
     node packages/cli/dist/cli.js scan contract/fixtures/chaos-repo
 ```
 
@@ -203,7 +203,7 @@ node packages/cli/dist/cli.js scan contract/fixtures/chaos-repo \
      --replay contract/fixtures/demo.jsonl
 ```
 
-`--replay` exists because the PRD's risk register calls WebSocket instability a stage risk. The same JSONL fixture format feeds the mock server, `--replay`, and the deterministic streaming tests — write it once. `SIRIUS_REPLAY_SPEED=0` replays instantly; `0.15` is a good pace for rehearsal.
+`--replay` exists because the PRD's risk register calls WebSocket instability a stage risk. The same JSONL fixture format feeds the mock server, `--replay`, and the deterministic streaming tests — write it once. `SIRUS_REPLAY_SPEED=0` replays instantly; `0.15` is a good pace for rehearsal.
 
 ## Status
 
@@ -213,15 +213,15 @@ node packages/cli/dist/cli.js scan contract/fixtures/chaos-repo \
 | **`brief`** | Done — the whole argument as a six-page PDF written from a live run, or the same on screen with `--plain` |
 | Contract + mock backend | Done. `openapi.yaml` validates; `smoke.mjs` asserts the mockup totals |
 | Local engine | Real. tree-sitter AST, 13 rules, taint tracking (intra- and inter-procedural), fingerprints, money model. `rule-gallery` fires every one, in Python **and JavaScript** |
-| `sirius scan` | Done — streaming, paced, `--json`, `--sarif`, `--replay`, exit codes |
+| `sirus scan` | Done — streaming, paced, `--json`, `--sarif`, `--replay`, exit codes |
 | Threat stage | Done — live secret validation, git archaeology, attack paths |
-| `sirius fix` | Done — templates + a verifier that re-runs the rule; writes what it verified |
+| `sirus fix` | Done — templates + a verifier that re-runs the rule; writes what it verified |
 | `rules list\|show\|validate\|test` | Done, from the compiled catalogue. `validate` checks schema, vocabularies and clause numbers offline; `test` runs a YAML rule against an annotated fixture |
-| `baseline`, `suppress` | Done, stored in `.sirius/` and applied by `scan` — including the totals |
+| `baseline`, `suppress` | Done, stored in `.sirus/` and applied by `scan` — including the totals |
 | `report` | Done — ed25519-signed JSON carrying the compliance score, `--verify` gates on 0/1/2 and binds `key_id` to the key. `--key` pins the signer; without it a pass says *unmodified*, never *by whom*. `--format pdf` writes the page itself, no renderer |
 | `ledger` | Done — RFC 6962 Merkle log of every report. `--verify` proves inclusion; `ledger verify` proves the history only ever appended. The leaf covers the whole entry, so the metadata an auditor reads is chained too |
 | `init`, `login`, `logout` | Done — scaffolding and 0600 credential storage |
-| `triage` | Done — inline in the shell, one keypress per finding, revisable; or full-screen standalone. Decisions to `.sirius/`, or PATCHed to the API |
+| `triage` | Done — inline in the shell, one keypress per finding, revisable; or full-screen standalone. Decisions to `.sirus/`, or PATCHed to the API |
 | `doctor` | Done — reports against the mode the scan will actually run in, self-tests both engines, and fails on a signing key that is not 0600 |
 | `badge` | Done — writes an SVG from the last scan, or prints the hosted URL when a project is set |
 | `watch`, `explain` | Done — `explain score` derives the compliance figure and works the example against the last scan |
@@ -275,12 +275,12 @@ all of this was true, none of it caught by any of them:
 - A directory with nothing scannable in it reported `100/100 · PASSED · exit 0`
   — a perfect score for a scan that opened nothing.
 - A mistyped flag exited 1, the code reserved for *findings found*, so
-  `sirius scan . || true` swallowed the typo and went green having scanned
+  `sirus scan . || true` swallowed the typo and went green having scanned
   nothing (D-050).
 - At 64 columns the footer rendered `₹89,30,000` as `₹89,30,00`, and the Cerebus
   panel cut `nothing would select it again` at 120 columns with fifty spare
   (D-047).
-- `SIRIUS_ASCII=1`, documented here as the projector fallback, did not convert
+- `SIRUS_ASCII=1`, documented here as the projector fallback, did not convert
   `₹` anywhere on the scan surface — while `doctor`'s glyph self-test rendered
   `Rs.42,00,000` through a different code path and passed (D-049).
 
@@ -293,10 +293,10 @@ unfixed code, because `ink-testing-library`'s fake stdout hard-codes
 A first run on a real repo looks like:
 
 ```bash
-sirius init --project <id>     # writes sirius.yaml + .siriusignore
-sirius login --api-key <key>   # verifies, then stores at 0600
-sirius scan .
-sirius fix SIR-SEC-001
+sirus init --project <id>     # writes sirus.yaml + .sirusignore
+sirus login --api-key <key>   # verifies, then stores at 0600
+sirus scan .
+sirus fix SIR-SEC-001
 ```
 
 ---
@@ -308,10 +308,10 @@ sirius fix SIR-SEC-001
 checkouts, ageing receivables, and three sets of books that disagree.
 
 ```bash
-sirius revenue gen batch && sirius revenue detect batch
-sirius revenue eval batch          # held-out metrics, incl. what being wrong cost
-sirius revenue recover batch       # bounded workflow + signed audit trail
-sirius reconcile books --gen && sirius reconcile books
+sirus revenue gen batch && sirus revenue detect batch
+sirus revenue eval batch          # held-out metrics, incl. what being wrong cost
+sirus revenue recover batch       # bounded workflow + signed audit trail
+sirus reconcile books --gen && sirus reconcile books
 ```
 
 Full design and the honest findings: [`docs/revenue.md`](docs/revenue.md).
@@ -326,7 +326,7 @@ Three rules this surface does not bend:
   records all produce audit entries; "considered and left alone" must be
   distinguishable from "never looked".
 - **The thresholds belong to the project.** Capacity, budget, quiet hours,
-  contact limits, retry caps and the cost model all sit in `sirius.yaml`
+  contact limits, retry caps and the cost model all sit in `sirus.yaml`
   (`revenue:`, scaffolded by `init`). A run under a project's own policy names
   what moved, and every rule quotes the limit *actually in force* — in the
   report and in the trail. The **basis** is not configurable: a team sets its
@@ -338,7 +338,7 @@ Everything is simulated and says so. There is no `--execute`.
 
 The CLI owns the two highest-value beats of the ~4-minute pitch:
 
-1. **(60s) `sirius scan .`** — streaming findings, the PRD's "wow moment." Time-to-first-finding must be under 10s.
+1. **(60s) `sirus scan .`** — streaming findings, the PRD's "wow moment." Time-to-first-finding must be under 10s.
 
    **Two figures are on screen and they are not the same number.** The first
    finding line carries `₹42,00,000` — SIR-SEC-001 alone, the PRD's famous
@@ -349,13 +349,13 @@ The CLI owns the two highest-value beats of the ~4-minute pitch:
    The `⚠ VERIFIED LIVE` badge needs a credential the provider will actually
    accept, and the fixture's key is a non-functional placeholder — so validation
    correctly reports `inactive` and the badge never appears. Export a Stripe
-   **test** key as `SIRIUS_DEMO_STRIPE_KEY` and `pnpm rehearse` stages it into
+   **test** key as `SIRUS_DEMO_STRIPE_KEY` and `pnpm rehearse` stages it into
    the temp copy, turns on `--validate-secrets`, and reports whether the badge
    fired. It refuses an `sk_live_` outright: the script sends whatever it is
    given to Stripe. Nothing is overstated by using test mode — the exposure
    model already prices a test key at a hundredth of a live one (`medium`,
    ~₹40,000), so the badge means what it says: *this credential works right now*.
-2. **(45s) `sirius fix SIR-SEC-001`** — the Cerebus provenance panel (quarantined model → diff builder → verifier `✓ PASS`), then accept the diff. That panel *is* the security argument made visible.
+2. **(45s) `sirus fix SIR-SEC-001`** — the Cerebus provenance panel (quarantined model → diff builder → verifier `✓ PASS`), then accept the diff. That panel *is* the security argument made visible.
 
 A third beat now exists on the revenue side, rehearsed the same way
 (`pnpm rehearse:revenue`, which checks eight beats land and prints each one's
@@ -369,7 +369,7 @@ duration):
    the default money ranking puts invoices on top.
 
 Both must survive the presentation machine's terminal font (`₹`, braille
-spinner, box drawing) — there's an ASCII fallback behind `SIRIUS_ASCII=1`, and
+spinner, box drawing) — there's an ASCII fallback behind `SIRUS_ASCII=1`, and
 it is checked by asserting that *no non-ASCII byte survives* a scan or a
 `doctor` run, in both directions. It used to be checked by `doctor`'s glyph
 sample, which rendered through a different path from the scanner it vouched for
@@ -412,7 +412,7 @@ after. Eight isolated cycles and two full `shell:check` runs, all green.
 
 **Everything on the demo path is paced.** The work finishes in a tenth of a
 second and writes fifty lines; without pacing a terminal paints once and the
-audience sees the last screenful. `SIRIUS_SCAN_PACE` and `SIRIUS_REVENUE_PACE`
+audience sees the last screenful. `SIRUS_SCAN_PACE` and `SIRUS_REVENUE_PACE`
 set it, `0` turns it off, and it is off automatically for `--json`, pipes and
 CI — a pipeline must not pay deliberate delay to look good for nobody.
 

@@ -83,10 +83,10 @@ const SPINNER_INTERVAL_MS = 80;
 /**
  * Lines per wheel notch. Most terminals send exactly one event per physical
  * notch with no multiplier, so scrolling one line a notch feels broken. Three
- * matches vim's default; SIRIUS_SCROLL_SPEED overrides it.
+ * matches vim's default; SIRUS_SCROLL_SPEED overrides it.
  */
 const WHEEL_LINES = (() => {
-  const raw = Number.parseFloat(process.env.SIRIUS_SCROLL_SPEED ?? '');
+  const raw = Number.parseFloat(process.env.SIRUS_SCROLL_SPEED ?? '');
   return Number.isFinite(raw) && raw > 0 ? Math.max(1, Math.round(raw)) : 3;
 })();
 

@@ -37,7 +37,7 @@ function feedDir(root: string, requested: string | null): string {
     throw new HttpError(400, `Feed directory is outside the project: ${requested}`);
   }
   if (!existsSync(dir)) {
-    throw new HttpError(404, `No agent feed at ${dir}.`, 'SIRIUS_ERR_NO_FEED');
+    throw new HttpError(404, `No agent feed at ${dir}.`, 'SIRUS_ERR_NO_FEED');
   }
   return dir;
 }
@@ -91,7 +91,7 @@ async function fold(dir: string): Promise<Folded> {
 
 export function registerGuardRoutes(router: Router, ctx: ServerContext): void {
   // The feed is a directory in the project, so it is resolved against the
-  // project itself — not against `.sirius/`'s home, which may be above it.
+  // project itself — not against `.sirus/`'s home, which may be above it.
   const dirFor = (query: URLSearchParams): string =>
     feedDir(rootFor(ctx.root, query.get('projectId') ?? query.get('project_id')).dir, query.get('feed'));
 
@@ -234,7 +234,7 @@ export function registerGuardRoutes(router: Router, ctx: ServerContext): void {
    *
    * Produced on request rather than read from a file, so the trail the window
    * offers is a trail over the decisions currently on screen — and it is signed
-   * by the same key `sirius guard --verify` checks against.
+   * by the same key `sirus guard --verify` checks against.
    */
   router.get('/guard/trail', async ({ query }: RequestContext) => {
     const dir = dirFor(query);

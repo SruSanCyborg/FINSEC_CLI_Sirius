@@ -24,8 +24,8 @@ const strip = (s: string) => s.split(ESC).map((part, i) => (i === 0 ? part : par
 
 describe('wordmarkWidth', () => {
   it('measures the block letters including kerning', () => {
-    // S(7) I(2) R(7) I(2) U(7) S(7) + 5 single-space gaps
-    expect(wordmarkWidth()).toBe(37);
+    // S(7) I(2) R(7) U(7) S(7) + 4 single-space gaps
+    expect(wordmarkWidth()).toBe(34);
   });
 });
 
@@ -106,14 +106,14 @@ describe('renderWordmark', () => {
   it('falls back to a one-line title on a narrow terminal', () => {
     const out = strip(renderWordmark(content, { unicode: true, color: false, width: 40 }));
     expect(out).not.toContain('█');
-    expect(out).toContain('SIRIUS');
+    expect(out).toContain('SIRUS');
   });
 
   it('falls back to ASCII when the terminal cannot draw blocks', () => {
     const out = strip(renderWordmark(content, { unicode: false, color: false, width: 100 }));
     expect(out).not.toContain('█');
     expect(out).not.toContain('✦');
-    expect(out).toContain('* SIRIUS');
+    expect(out).toContain('* SIRUS');
   });
 
   it('emits no escape sequences when color is off', () => {

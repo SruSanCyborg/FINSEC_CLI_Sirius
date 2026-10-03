@@ -46,7 +46,7 @@ lines, so a rule that starts flagging the correct version fails the build.
 `"dayjs": "^1.11.10"` in `package.json` is a floating range and is **not**
 flagged. That is correct: the rule only reports a floating range when no
 lockfile governs it, and it looks *up* the tree for one — this fixture sits
-inside the sirius workspace, whose `pnpm-lock.yaml` pins every npm resolution.
+inside the sirus workspace, whose `pnpm-lock.yaml` pins every npm resolution.
 The pip case still fires because no Python lockfile exists here.
 
 It is left in deliberately. It is the clearest demonstration in the tree that the

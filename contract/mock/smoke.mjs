@@ -9,8 +9,8 @@
 
 import WebSocket from 'ws';
 
-const REST = process.env.SIRIUS_API_URL ?? 'http://localhost:4010';
-const WS = process.env.SIRIUS_WS_URL ?? 'ws://localhost:4011';
+const REST = process.env.SIRUS_API_URL ?? 'http://localhost:4010';
+const WS = process.env.SIRUS_WS_URL ?? 'ws://localhost:4011';
 const KEY = 'smoke-test-key';
 
 let failures = 0;

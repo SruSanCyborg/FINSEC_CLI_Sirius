@@ -2,7 +2,7 @@
  * The compliance report, laid out as a page.
  *
  * Separate from `pdf.ts` on purpose: that file knows how to put text on paper
- * and nothing about sirius, this one knows what a compliance report says and
+ * and nothing about sirus, this one knows what a compliance report says and
  * nothing about xref tables. The split is what keeps the PDF writer testable
  * against strings rather than against a scan.
  *
@@ -99,7 +99,7 @@ export function reportToPdf(document: ReportDocument): Buffer {
   // presented as a measurement is the way a report like this misleads.
   line(
     'Money at risk is an order-of-magnitude estimate for prioritisation, not an actuarial ' +
-      'figure. Run `sirius explain <rule>` for the derivation of any single number.',
+      'figure. Run `sirus explain <rule>` for the derivation of any single number.',
     { size: 8.5, grey: 0.5, spaceBefore: 10 },
   );
 
@@ -154,11 +154,11 @@ export function reportToPdf(document: ReportDocument): Buffer {
   // The honest limit of this artefact, on the artefact.
   line(
     'The signature covers the report payload, not this PDF. A verifier needs that payload ' +
-      'byte for byte: run `sirius report --format json` for the file it can check, and ' +
-      '`sirius report --verify <file>` to check it. The digest above is the same one, so the ' +
+      'byte for byte: run `sirus report --format json` for the file it can check, and ' +
+      '`sirus report --verify <file>` to check it. The digest above is the same one, so the ' +
       'two can be compared by eye.',
     { size: 8.5, grey: 0.5, spaceBefore: 10 },
   );
 
-  return renderPdf(blocks, { title: `sirius compliance report ${document.scan_id}` });
+  return renderPdf(blocks, { title: `sirus compliance report ${document.scan_id}` });
 }

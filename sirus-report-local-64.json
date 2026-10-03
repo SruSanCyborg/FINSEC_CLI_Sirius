@@ -1,11 +1,11 @@
 {
-  "schema": "sirius.report/v1",
+  "schema": "sirus.report/v1",
   "scan_id": "local-64a65ef4bf7a",
   "scanned_at": "2026-08-27T07:07:50.102Z",
   "root": "/Applications/Sanjay/personal/clifintech",
   "source": "local",
   "tool": {
-    "name": "sirius",
+    "name": "sirus",
     "version": "0.4.0"
   },
   "summary": {

@@ -5,13 +5,13 @@
  * never orders them):
  *
  *   1. CLI flags
- *   2. environment (SIRIUS_*)
- *   3. .siriuslintrc   nearest directory, walking up toward the project root
- *   4. sirius.yaml     project root
- *   5. ~/.config/sirius/config.toml
+ *   2. environment (SIRUS_*)
+ *   3. .siruslintrc   nearest directory, walking up toward the project root
+ *   4. sirus.yaml     project root
+ *   5. ~/.config/sirus/config.toml
  *   6. built-in defaults
  *
- * `.siriuslintrc` files merge shallowly from the outermost inward, so a nested
+ * `.siruslintrc` files merge shallowly from the outermost inward, so a nested
  * directory can override its parent without restating everything.
  */
 
@@ -30,12 +30,12 @@ import {
 } from './schema.js';
 import type { ConfigOverrides, ConfigToml, ProjectConfig, ResolvedConfig } from './schema.js';
 
-const PROJECT_FILES = ['sirius.yaml', 'sirius.yml'];
-const RC_FILE = '.siriuslintrc';
+const PROJECT_FILES = ['sirus.yaml', 'sirus.yml'];
+const RC_FILE = '.siruslintrc';
 
 export function configTomlPath(): string {
   const xdg = process.env.XDG_CONFIG_HOME;
-  return xdg ? join(xdg, 'sirius', 'config.toml') : join(homedir(), '.config', 'sirius', 'config.toml');
+  return xdg ? join(xdg, 'sirus', 'config.toml') : join(homedir(), '.config', 'sirus', 'config.toml');
 }
 
 /** Reads and validates a file, reporting the path when it is malformed. */
@@ -109,7 +109,7 @@ function warnAboutUnknownKeys(path: string, parsed: unknown, schema: { shape?: R
  * pretty-printed JSON array — so the first line is the opening bracket, and the
  * whole error read:
  *
- *     error: sirius.yaml has invalid settings
+ *     error: sirus.yaml has invalid settings
  *       [
  *
  * Which is the least useful string the program could have chosen. Every
@@ -149,7 +149,7 @@ function ancestors(from: string): string[] {
   return chain;
 }
 
-/** The nearest ancestor containing a `sirius.yaml`, if any. */
+/** The nearest ancestor containing a `sirus.yaml`, if any. */
 export function findProjectRoot(from: string): { dir: string; file: string } | undefined {
   for (const dir of ancestors(from)) {
     for (const name of PROJECT_FILES) {
@@ -163,11 +163,11 @@ export function findProjectRoot(from: string): { dir: string; file: string } | u
 function envOverrides(): ConfigOverrides {
   const env = process.env;
   return {
-    apiUrl: env.SIRIUS_API_URL,
-    wsUrl: env.SIRIUS_WS_URL,
-    apiKey: env.SIRIUS_API_KEY,
-    projectId: env.SIRIUS_PROJECT_ID,
-    profile: env.SIRIUS_PROFILE,
+    apiUrl: env.SIRUS_API_URL,
+    wsUrl: env.SIRUS_WS_URL,
+    apiKey: env.SIRUS_API_KEY,
+    projectId: env.SIRUS_PROJECT_ID,
+    profile: env.SIRUS_PROFILE,
   };
 }
 
@@ -194,7 +194,7 @@ export function loadConfig({ cwd, overrides = {} }: LoadOptions): ResolvedConfig
   if (existsSync(tomlPath)) {
     toml = readConfigFile(tomlPath, (raw) => parseToml(raw), configTomlSchema);
   }
-  const profileName = overrides.profile ?? process.env.SIRIUS_PROFILE ?? toml.default_profile ?? 'default';
+  const profileName = overrides.profile ?? process.env.SIRUS_PROFILE ?? toml.default_profile ?? 'default';
   const profile = toml.profile?.[profileName] ?? {};
   if (overrides.profile && !toml.profile?.[overrides.profile]) {
     throw new CliError(`No profile named "${overrides.profile}" in ${tomlPath}`, {
@@ -205,7 +205,7 @@ export function loadConfig({ cwd, overrides = {} }: LoadOptions): ResolvedConfig
   note('apiUrl', tomlPath, profile.api_url);
   note('projectId', tomlPath, profile.project_id);
 
-  // ---- layer 4: sirius.yaml at the project root
+  // ---- layer 4: sirus.yaml at the project root
   const explicit = overrides.configFile ? resolve(overrides.configFile) : undefined;
   if (explicit && !existsSync(explicit)) {
     throw new CliError(`Config file not found: ${overrides.configFile}`);
@@ -220,7 +220,7 @@ export function loadConfig({ cwd, overrides = {} }: LoadOptions): ResolvedConfig
     for (const key of Object.keys(defined(projectConfig))) note(key, project.file, true);
   }
 
-  // ---- layer 3: .siriuslintrc files, outermost first so nearest wins
+  // ---- layer 3: .siruslintrc files, outermost first so nearest wins
   const rcRoot = project?.dir ?? parsePath(resolve(cwd)).root;
   const rcChain = ancestors(cwd)
     .filter((dir) => dir === rcRoot || dir.startsWith(rcRoot))
@@ -265,11 +265,11 @@ export function loadConfig({ cwd, overrides = {} }: LoadOptions): ResolvedConfig
 }
 
 /**
- * Reads `.siriusignore` if present. Returns glob patterns in gitignore style;
+ * Reads `.sirusignore` if present. Returns glob patterns in gitignore style;
  * blank lines and `#` comments are dropped.
  */
 export function loadIgnorePatterns(dir: string): string[] {
-  const path = join(dir, '.siriusignore');
+  const path = join(dir, '.sirusignore');
   if (!existsSync(path)) return [];
   return readFileSync(path, 'utf8')
     .split('\n')

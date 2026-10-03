@@ -1,5 +1,5 @@
 /**
- * The SIRIUS wordmark.
+ * The SIRUS wordmark.
  *
  * Block-letter capitals in the lineage of Gemini CLI, Warp, and the
  * Daytona launcher — a terminal product's first screen is its logo, and a line
@@ -42,7 +42,7 @@ const GLYPHS: Record<string, string[]> = {
 };
 
 const ROWS = 5;
-const WORD = 'SIRIUS';
+const WORD = 'SIRUS';
 
 /** Printed width of the block-letter wordmark, glyphs plus single-space kerning. */
 export function wordmarkWidth(): number {
@@ -134,7 +134,7 @@ export interface WordmarkOptions {
 }
 
 /**
- * Builds the block-letter SIRIUS, gradient applied per column so the sweep is
+ * Builds the block-letter SIRUS, gradient applied per column so the sweep is
  * continuous across letter boundaries rather than banded per glyph.
  */
 function blockLetters({ color }: WordmarkOptions): string[] {
@@ -204,7 +204,7 @@ export function renderWordmark(content: BannerContent, options: WordmarkOptions)
   const lines: string[] = [''];
 
   if (compact) {
-    lines.push(`${pad}${bold}${accent}${star} SIRIUS${reset}${dim}  v${content.version}${reset}`);
+    lines.push(`${pad}${bold}${accent}${star} SIRUS${reset}${dim}  v${content.version}${reset}`);
   } else {
     for (const row of blockLetters(options)) lines.push(pad + row);
     lines.push('');

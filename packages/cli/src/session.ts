@@ -1,12 +1,12 @@
 /**
- * The last-scan cache: `.sirius/last-scan.json`.
+ * The last-scan cache: `.sirus/last-scan.json`.
  *
- * Exists because the demo runs `sirius fix SIR-SEC-001` — a rule id, with no
+ * Exists because the demo runs `sirus fix SIR-SEC-001` — a rule id, with no
  * scan id — while the endpoint is keyed by scan id plus finding id. Rather than
  * make the user paste UUIDs, every scan records enough to resolve a rule id back
  * to the findings it produced (decisions.md D-007).
  *
- * `.sirius/` is gitignored. Nothing sensitive goes in here: file paths, line
+ * `.sirus/` is gitignored. Nothing sensitive goes in here: file paths, line
  * numbers, rule ids, and the scan id — never snippets, which can contain the
  * very secrets we just found.
  */
@@ -17,7 +17,7 @@ import { dirname, join, resolve } from 'node:path';
 import { findProjectRoot } from './config/load.js';
 import type { Finding, Severity } from './domain.js';
 
-const DIR = '.sirius';
+const DIR = '.sirus';
 const FILE = 'last-scan.json';
 
 export interface CachedFinding {
@@ -31,7 +31,7 @@ export interface CachedFinding {
    * The rest is here so a report can be produced without re-scanning.
    *
    * The cache used to hold only what `fix` needed to resolve a rule id, which
-   * meant `sirius report` had nothing to build a compliance document out of —
+   * meant `sirus report` had nothing to build a compliance document out of —
    * no message, no clause references, no figure. Those are the report.
    */
   message?: string;
@@ -143,8 +143,8 @@ export function resolveFindings(cache: LastScan, identifier: string): CachedFind
 /**
  * Finds the most recent scan cache, searching the way a user expects.
  *
- * `sirius scan contract/fixtures/chaos-repo` writes its cache *inside the
- * target*, but `sirius fix SIR-SEC-001` is then run from wherever the user
+ * `sirus scan contract/fixtures/chaos-repo` writes its cache *inside the
+ * target*, but `sirus fix SIR-SEC-001` is then run from wherever the user
  * happens to be — usually the repo root. Looking only in the working directory
  * meant the documented two-command sequence failed with "no recent scan".
  *
@@ -182,7 +182,7 @@ export function locateLastScan(
   return undefined;
 }
 
-/** The directory of the most recently written `.sirius/last-scan.json` below `from`. */
+/** The directory of the most recently written `.sirus/last-scan.json` below `from`. */
 function newestCacheUnder(from: string, depth = 4): string | undefined {
   let best: { dir: string; at: number } | undefined;
 
@@ -207,7 +207,7 @@ function newestCacheUnder(from: string, depth = 4): string | undefined {
           const at = statSync(join(child, FILE)).mtimeMs;
           if (!best || at > best.at) best = { dir, at };
         } catch {
-          // No cache file in this .sirius directory.
+          // No cache file in this .sirus directory.
         }
         continue;
       }

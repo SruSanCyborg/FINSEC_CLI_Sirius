@@ -1,5 +1,5 @@
 /**
- * `sirius login` / `logout`.
+ * `sirus login` / `logout`.
  *
  * The PRD specifies login as an OAuth device flow, but no `/auth/device/*`
  * endpoints exist in the API table — that is one of the items blocked on the
@@ -34,7 +34,7 @@ const DEFAULT_PROFILE = 'default';
 async function promptForKey(): Promise<string> {
   if (!process.stdin.isTTY) {
     throw new CliError('No API key supplied and stdin is not a terminal.', {
-      hint: 'Pass --api-key <key>, or set SIRIUS_API_KEY.',
+      hint: 'Pass --api-key <key>, or set SIRUS_API_KEY.',
     });
   }
 
@@ -73,7 +73,7 @@ export async function runLogin(flags: LoginFlags, globals: GlobalFlags): Promise
   }
 
   const profileName = globals.profile ?? DEFAULT_PROFILE;
-  const apiKey = flags.apiKey ?? process.env.SIRIUS_API_KEY ?? (await promptForKey());
+  const apiKey = flags.apiKey ?? process.env.SIRUS_API_KEY ?? (await promptForKey());
 
   if (!apiKey) throw new CliError('No API key given.');
 
@@ -115,7 +115,7 @@ export async function runLogout(globals: GlobalFlags): Promise<void> {
 
   process.stdout.write(`Removed profile "${profileName}" from ${path}\n`);
   // Being explicit beats a confusing "still authenticated" surprise later.
-  if (process.env.SIRIUS_API_KEY) {
-    process.stdout.write('note: SIRIUS_API_KEY is still set in this environment and will override the file.\n');
+  if (process.env.SIRUS_API_KEY) {
+    process.stdout.write('note: SIRUS_API_KEY is still set in this environment and will override the file.\n');
   }
 }

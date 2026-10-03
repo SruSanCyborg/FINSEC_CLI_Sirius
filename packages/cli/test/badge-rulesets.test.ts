@@ -4,7 +4,7 @@
  * Two more things that existed only against a backend. `badge` printed a URL to
  * a hosted SVG and refused to do anything without a project id, so the one
  * artefact a README wants required signing up. And `rulesets:` was scaffolded
- * into every `sirius.yaml` while the engine ran all twelve rules regardless —
+ * into every `sirus.yaml` while the engine ran all twelve rules regardless —
  * a knob that erred toward noise, which is why nothing ever caught it.
  */
 
@@ -15,7 +15,7 @@ import { categoriesInCatalogue, rulesFor } from '../src/engine/catalog.js';
 import { RULES } from '../src/engine/rules.js';
 
 describe('the badge SVG', () => {
-  const badge = renderBadge({ label: 'sirius', message: '72/100', color: '#97ca00' });
+  const badge = renderBadge({ label: 'sirus', message: '72/100', color: '#97ca00' });
 
   it('is a self-contained SVG with no external references', () => {
     expect(badge).toMatch(/^<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/);
@@ -25,21 +25,21 @@ describe('the badge SVG', () => {
   });
 
   it('carries the text in both halves, and in the accessible label', () => {
-    expect(badge).toContain('>sirius<');
+    expect(badge).toContain('>sirus<');
     expect(badge).toContain('>72/100<');
-    expect(badge).toContain('aria-label="sirius: 72/100"');
+    expect(badge).toContain('aria-label="sirus: 72/100"');
   });
 
   it('sizes the two halves to their text', () => {
-    const narrow = renderBadge({ label: 'sirius', message: '9/100', color: '#97ca00' });
-    const wide = renderBadge({ label: 'sirius', message: '100/100', color: '#97ca00' });
+    const narrow = renderBadge({ label: 'sirus', message: '9/100', color: '#97ca00' });
+    const wide = renderBadge({ label: 'sirus', message: '100/100', color: '#97ca00' });
     const widthOf = (svg: string) => Number(/<svg[^>]*width="(\d+)"/.exec(svg)?.[1]);
 
     expect(widthOf(wide)).toBeGreaterThan(widthOf(narrow));
   });
 
   it('escapes text rather than letting it close a tag', () => {
-    const badge = renderBadge({ label: 'sirius', message: '<script>', color: '#e05d44' });
+    const badge = renderBadge({ label: 'sirus', message: '<script>', color: '#e05d44' });
     expect(badge).not.toContain('<script>');
     expect(badge).toContain('&lt;script&gt;');
   });
@@ -51,7 +51,7 @@ describe('the badge SVG', () => {
   });
 
   it('says the same thing in the shields payload as in the SVG', () => {
-    const input = { label: 'sirius', message: '72/100', color: '#97ca00' };
+    const input = { label: 'sirus', message: '72/100', color: '#97ca00' };
     expect(JSON.parse(shieldsEndpoint(input))).toEqual({ schemaVersion: 1, ...input });
   });
 });

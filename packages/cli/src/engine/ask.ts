@@ -77,7 +77,7 @@ export async function askCerebus(
     throw new HttpError(
       503,
       'Cerebus has no model configured — set GROQ_API_KEY to ask it questions.',
-      'SIRIUS_ERR_NO_MODEL',
+      'SIRUS_ERR_NO_MODEL',
     );
   }
 
@@ -99,7 +99,7 @@ export async function askCerebus(
     return await askGroq(messages, { temperature: 0.3, maxTokens: 350 });
   } catch (err) {
     if (err instanceof GroqError) {
-      throw new HttpError(502, `Cerebus's model call failed: ${err.message}`, 'SIRIUS_ERR_MODEL_CALL');
+      throw new HttpError(502, `Cerebus's model call failed: ${err.message}`, 'SIRUS_ERR_MODEL_CALL');
     }
     throw err;
   }

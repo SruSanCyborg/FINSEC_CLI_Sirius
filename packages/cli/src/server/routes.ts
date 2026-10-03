@@ -2,8 +2,8 @@
  * The scanner half of the local API.
  *
  * Every route here answers from the same code the CLI command of the same name
- * runs. `GET /rules` is `sirius rules list`; `GET /scans/{id}/report` is `sirius
- * report`; `POST .../fix` is `sirius fix --dry-run`. Where a route has no CLI
+ * runs. `GET /rules` is `sirus rules list`; `GET /scans/{id}/report` is `sirus
+ * report`; `POST .../fix` is `sirus fix --dry-run`. Where a route has no CLI
  * equivalent it is a projection of something the engine already computed, never
  * a second implementation of it.
  *
@@ -105,8 +105,8 @@ export function registerScannerRoutes(router: Router, ctx: ServerContext): void 
   router.get('/projects/:id/history', ({ params, query }: RequestContext) => {
     const { dir, store } = rootFor(ctx.root, params.id);
     const limit = Number(query.get('limit') ?? 25);
-    // `store` is where `.sirius/scans/` physically lives — the nearest
-    // `sirius.yaml` above `dir`, which several registered projects can share.
+    // `store` is where `.sirus/scans/` physically lives — the nearest
+    // `sirus.yaml` above `dir`, which several registered projects can share.
     // Filtering to `dir` is what keeps one project's history from showing
     // every scan ever run against any of its siblings.
     return listScans(store, Number.isFinite(limit) ? limit : 25, dir).map(scanView);
@@ -139,7 +139,7 @@ export function registerScannerRoutes(router: Router, ctx: ServerContext): void 
     const target = resolve(dir, requested);
     const inside = relative(dir, target);
     if (inside.startsWith('..')) {
-      throw new HttpError(400, `Scan target is outside the project: ${requested}`, 'SIRIUS_ERR_NO_TARGET');
+      throw new HttpError(400, `Scan target is outside the project: ${requested}`, 'SIRUS_ERR_NO_TARGET');
     }
 
     const rulesets = Array.isArray(input.rulesets)
@@ -189,7 +189,7 @@ export function registerScannerRoutes(router: Router, ctx: ServerContext): void 
     let items = scan.findings.map((f) => findingView(f, scan));
     if (severity) items = items.filter((f) => f.severity === severity);
 
-    // A cursor that never advances is how `sirius triage` hung forever against
+    // A cursor that never advances is how `sirus triage` hung forever against
     // the mock. The whole result set fits in one page here, so the honest
     // answer is a null cursor rather than an echo of the one we were given.
     return { items, next_cursor: null, total: items.length };
@@ -226,9 +226,9 @@ export function registerScannerRoutes(router: Router, ctx: ServerContext): void 
   });
 
   /**
-   * Triage, written where `sirius triage` reads it.
+   * Triage, written where `sirus triage` reads it.
    *
-   * Both surfaces record decisions into `.sirius/triage.json` through the same
+   * Both surfaces record decisions into `.sirus/triage.json` through the same
    * function, so a finding accepted in the window is already accepted when the
    * terminal next opens the list. That shared file is most of what "the two
    * surfaces talk to each other" means in practice.
@@ -287,7 +287,7 @@ export function registerScannerRoutes(router: Router, ctx: ServerContext): void 
   /**
    * A proposed fix, built and verified but never written.
    *
-   * `sirius fix` prompts before it writes; the daemon has nobody to prompt, so
+   * `sirus fix` prompts before it writes; the daemon has nobody to prompt, so
    * this is the `--dry-run` half only. Applying it is a separate, explicit
    * request — a background HTTP call that edits source files because a webview
    * rendered a panel is not a thing this should be able to do.
@@ -325,7 +325,7 @@ export function registerScannerRoutes(router: Router, ctx: ServerContext): void 
     if (!fix) {
       // No template covers this rule. Saying so is the point: a panel that
       // renders a plausible patch nobody generated is worse than an empty one.
-      throw new HttpError(422, `No fix template covers ${finding.rule_id} yet.`, 'SIRIUS_ERR_NO_FIX');
+      throw new HttpError(422, `No fix template covers ${finding.rule_id} yet.`, 'SIRUS_ERR_NO_FIX');
     }
 
     return fixView(finding, fix);
@@ -369,13 +369,13 @@ export function registerScannerRoutes(router: Router, ctx: ServerContext): void 
       ...(auth ? { context: { auth: { name: auth.name, ...(auth.importLine ? { importLine: auth.importLine } : {}) } } } : {}),
     });
 
-    if (!fix) throw new HttpError(422, `No fix template covers ${finding.rule_id} yet.`, 'SIRIUS_ERR_NO_FIX');
+    if (!fix) throw new HttpError(422, `No fix template covers ${finding.rule_id} yet.`, 'SIRUS_ERR_NO_FIX');
 
     if (fix.applicability !== 'machine-applicable') {
       throw new HttpError(
         409,
-        `This fix is ${fix.applicability} and needs a person reading the diff — the same rule \`sirius fix\` applies without --unsafe-fixes.`,
-        'SIRIUS_ERR_UNSAFE_FIX',
+        `This fix is ${fix.applicability} and needs a person reading the diff — the same rule \`sirus fix\` applies without --unsafe-fixes.`,
+        'SIRUS_ERR_UNSAFE_FIX',
       );
     }
 
@@ -631,11 +631,11 @@ export function registerScannerRoutes(router: Router, ctx: ServerContext): void 
   });
 
   /**
-   * `.sirius/suppressions.json` only ever keys a suppression by rule id — see
+   * `.sirus/suppressions.json` only ever keys a suppression by rule id — see
    * `engine/store.ts`'s `removeSuppression`. A suppression scoped to a path
    * glob or a single fingerprint cannot be revoked individually through this
    * route; the CLI has the same limit today. Revoking removes every
-   * suppression for the rule, which is the same thing `sirius suppress`
+   * suppression for the rule, which is the same thing `sirus suppress`
    * overwriting an entry does.
    */
   router.delete('/suppressions/:ruleId', async ({ params, query }: RequestContext) => {
@@ -693,8 +693,8 @@ export function registerScannerRoutes(router: Router, ctx: ServerContext): void 
       return buildSarif(scan.findings.map((f) => findingView(f, scan) as never), { toolVersion: ctx.version });
     }
 
-    // The same payload `sirius report` signs, from the same builder, so a
-    // report downloaded from the window verifies with `sirius report --verify`
+    // The same payload `sirus report` signs, from the same builder, so a
+    // report downloaded from the window verifies with `sirus report --verify`
     // and carries a signature over identical bytes.
     const { buildReportPayload } = await import('../engine/report-document.js');
     const { attest } = await import('../engine/attest.js');
@@ -718,7 +718,7 @@ export function registerScannerRoutes(router: Router, ctx: ServerContext): void 
       res.writeHead(200, {
         'Content-Type': 'application/pdf',
         'Content-Length': pdf.length,
-        'Content-Disposition': `attachment; filename="sirius-report-${scan.id}.pdf"`,
+        'Content-Disposition': `attachment; filename="sirus-report-${scan.id}.pdf"`,
       });
       res.end(pdf);
       return HANDLED;
@@ -730,9 +730,9 @@ export function registerScannerRoutes(router: Router, ctx: ServerContext): void 
   // --------------------------------------------------------------- settings
 
   /**
-   * The project's own `sirius.yaml`, read the way every scan already reads it.
+   * The project's own `sirus.yaml`, read the way every scan already reads it.
    *
-   * Not editable from here — writing config is `sirius init`'s job, and a
+   * Not editable from here — writing config is `sirus init`'s job, and a
    * button in the desktop app editing YAML on disk needs more care than a
    * settings toggle. This exists so the app's policy panel can show the
    * severity threshold and fail-on predicate a scan will actually use, rather
@@ -759,7 +759,7 @@ export function registerScannerRoutes(router: Router, ctx: ServerContext): void 
 // ------------------------------------------------------------------- views
 
 function projectView(id: string, name: string, path: string) {
-  // `.sirius/scans/` may live above `path`, not inside it — the same reason
+  // `.sirus/scans/` may live above `path`, not inside it — the same reason
   // `/projects/:id/history` reads `store` rather than `dir`. Scoped to `path`
   // itself so a sibling project's more recent scan doesn't get shown here.
   const latest = listScans(storeRoot(path), 1, path)[0];
@@ -848,7 +848,7 @@ function fixView(finding: CachedFinding, fix: Awaited<ReturnType<typeof import('
 /**
  * The GUI's status vocabulary, mapped onto the one on disk.
  *
- * `.sirius/triage.json` has three states and `sirius triage` reads them; the
+ * `.sirus/triage.json` has three states and `sirus triage` reads them; the
  * GUI's own type has a longer list. Anything unrecognised lands on `dismissed`
  * rather than being written through, because a state the CLI cannot read is a
  * decision that silently disappears the next time someone opens the terminal.

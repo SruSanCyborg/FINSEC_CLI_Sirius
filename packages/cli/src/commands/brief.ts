@@ -1,5 +1,5 @@
 /**
- * `sirius brief` — the one-document explanation, as a PDF or on the terminal.
+ * `sirus brief` — the one-document explanation, as a PDF or on the terminal.
  *
  * Exists because the tool is legible to somebody who already understands the
  * problem and opaque to somebody who does not, and the second group is most of
@@ -56,7 +56,7 @@ export async function runBrief(flags: BriefFlags, globals: GlobalFlags): Promise
   const { briefToPdf } = await import('../engine/brief-pdf.js');
   const pdf = briefToPdf(facts);
 
-  const out = flags.output ?? 'sirius-brief.pdf';
+  const out = flags.output ?? 'sirus-brief.pdf';
   const path = isAbsolute(out) ? out : resolve(process.cwd(), out);
   writeFileSync(path, pdf);
 
@@ -69,7 +69,7 @@ export async function runBrief(flags: BriefFlags, globals: GlobalFlags): Promise
   );
 }
 
-/** The bundled fixture, so `sirius brief` works from anywhere in the repo. */
+/** The bundled fixture, so `sirus brief` works from anywhere in the repo. */
 function defaultFixture(): string | undefined {
   const candidates = [
     resolve(process.cwd(), 'contract/fixtures/chaos-repo'),
@@ -110,7 +110,7 @@ function renderPlain(facts: BriefFacts, color: boolean, width: number, unicode: 
   const rupees = (paise: number) =>
     `${symbol}${new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(Math.round(paise / 100))}`;
 
-  const parts: string[] = ['', `  ${paint('sirius', BOLD)}`];
+  const parts: string[] = ['', `  ${paint('sirus', BOLD)}`];
   parts.push(paint('  A security and control layer for AI agents that can move money', DIM), '');
 
   parts.push(`  ${paint('THE PROBLEM', BOLD)}`, '');
@@ -226,6 +226,6 @@ function renderPlain(facts: BriefFacts, color: boolean, width: number, unicode: 
     '',
   );
 
-  parts.push(paint('  Written to PDF with `sirius brief`.', DIM), '');
+  parts.push(paint('  Written to PDF with `sirus brief`.', DIM), '');
   return parts.join('\n');
 }

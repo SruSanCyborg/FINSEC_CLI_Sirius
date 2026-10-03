@@ -1,5 +1,5 @@
 /**
- * `sirius reconcile` — close the loop between the ledger, the gateway and the bank.
+ * `sirus reconcile` — close the loop between the ledger, the gateway and the bank.
  *
  * The output is arranged around a claim that is easy to make badly. A match
  * rate is trivially inflated by matching things loosely, so three numbers are
@@ -54,7 +54,7 @@ export async function runReconcile(
   if (flags.gen) return generate(dir, flags);
   if (!existsSync(join(dir, FILES.ledger))) {
     throw new CliError(`No books at ${dir}.`, {
-      hint: 'Generate a set:  sirius reconcile books --gen',
+      hint: 'Generate a set:  sirus reconcile books --gen',
     });
   }
 
@@ -71,7 +71,7 @@ export async function runReconcile(
   const result = reconcile(ledger, settlements, bank, links);
 
   if (flags.json) {
-    process.stdout.write(JSON.stringify({ schema: 'sirius.reconcile/v1', ...result }, null, 2) + '\n');
+    process.stdout.write(JSON.stringify({ schema: 'sirus.reconcile/v1', ...result }, null, 2) + '\n');
     return;
   }
 
@@ -87,8 +87,8 @@ export async function runReconcile(
   // one of them would just look like stutter. Off for a pipe and for --json,
   // where the whole point is arriving as fast as it is produced.
   const { writePaced } = await import('../engine/pace.js');
-  const interactive = process.env.SIRIUS_STREAM_PLAIN === '1' || Boolean(process.stdout.isTTY);
-  const raw = process.env.SIRIUS_REVENUE_PACE;
+  const interactive = process.env.SIRUS_STREAM_PLAIN === '1' || Boolean(process.stdout.isTTY);
+  const raw = process.env.SIRUS_REVENUE_PACE;
   const configured = raw === undefined ? undefined : Number(raw);
   const pace =
     configured !== undefined && Number.isFinite(configured) && configured >= 0
@@ -105,7 +105,7 @@ export async function runReconcile(
 }
 
 function generate(dir: string, flags: ReconcileFlags): void {
-  const seed = flags.seed ?? 'sirius-books';
+  const seed = flags.seed ?? 'sirus-books';
   const orders = flags.orders ?? 220;
   const stamp = `${seed}:${orders}`;
 
@@ -122,7 +122,7 @@ function generate(dir: string, flags: ReconcileFlags): void {
         hint:
           `${previous ? `They came from seed "${previous.split(':')[0]}".` : 'Their seed was not recorded.'} ` +
           'links.json is the only thing that can say whether a match was correct.\n' +
-          `  Write these somewhere else:  sirius reconcile <other-dir> --gen --seed ${seed}\n` +
+          `  Write these somewhere else:  sirus reconcile <other-dir> --gen --seed ${seed}\n` +
           '  Or replace them on purpose:  --force',
       });
     }
@@ -148,7 +148,7 @@ function generate(dir: string, flags: ReconcileFlags): void {
     `Injected: ${books.links.never_settled.length} captures the gateway never settled · ` +
       `${books.links.duplicates.length} duplicate bank postings\n`,
   );
-  process.stdout.write(`\nSeed "${seed}". Next:  sirius reconcile ${dir.split('/').pop()}\n`);
+  process.stdout.write(`\nSeed "${seed}". Next:  sirus reconcile ${dir.split('/').pop()}\n`);
 }
 
 // ---- rendering --------------------------------------------------------------

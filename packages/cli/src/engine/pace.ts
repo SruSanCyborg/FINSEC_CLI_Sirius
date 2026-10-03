@@ -37,12 +37,12 @@ const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve,
 /**
  * Resolves the pace from the environment.
  *
- * `SIRIUS_SCAN_PACE` is the per-finding delay in milliseconds; `0` turns pacing
+ * `SIRUS_SCAN_PACE` is the per-finding delay in milliseconds; `0` turns pacing
  * off. Returning 0 for a non-TTY is the important default: a CI run must not
  * pay a few seconds of deliberate delay to look good for nobody.
  */
 export function resolvePace(interactive: boolean): PaceOptions {
-  const raw = process.env.SIRIUS_SCAN_PACE;
+  const raw = process.env.SIRUS_SCAN_PACE;
 
   if (raw !== undefined) {
     const parsed = Number(raw);
@@ -146,7 +146,7 @@ export async function writePaced(input: readonly string[], perBlockMs: number): 
   // The last point every paced surface passes through, and so the one place
   // the ASCII fallback can be applied without threading a capability into
   // thirty call sites. Prose punctuation — `—`, `…`, `§`, `≥` — never went
-  // through the glyph table, so `SIRIUS_ASCII=1` left it on screen.
+  // through the glyph table, so `SIRUS_ASCII=1` left it on screen.
   const lines = asciiRequested() ? input.map(toAscii) : input;
 
   if (perBlockMs <= 0) {

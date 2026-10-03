@@ -29,7 +29,7 @@ const SKIP_DIRS = new Set([
   '__pycache__',
   '.venv',
   'venv',
-  '.sirius',
+  '.sirus',
   '.next',
   'coverage',
   '.mypy_cache',
@@ -40,10 +40,10 @@ const MAX_FILE_BYTES = 512 * 1024;
 
 export interface ScanEngineOptions {
   /**
-   * Paths to skip, from `.siriusignore` and the config's `exclude:`.
+   * Paths to skip, from `.sirusignore` and the config's `exclude:`.
    *
    * This field existed and was passed in and was read by nothing. The default
-   * `.siriusignore` that `init` writes lists `node_modules/`, `vendor/`,
+   * `.sirusignore` that `init` writes lists `node_modules/`, `vendor/`,
    * `dist/` — all of which are in SKIP_DIRS already — so the file appeared to
    * work while any pattern a user added themselves did nothing at all. A
    * feature that looks correct on its own defaults is the hardest kind to
@@ -135,12 +135,12 @@ export function fingerprint(ruleId: string, path: string, snippet: string): stri
   return createHash('sha256').update(`${ruleId}\u0000${path}\u0000${normalised}`).digest('hex').slice(0, 32);
 }
 
-/** `# sirius-ignore: SIR-SEC-010` on the finding's line, or the line above it. */
+/** `# sirus-ignore: SIR-SEC-010` on the finding's line, or the line above it. */
 function isSuppressed(lines: string[], finding: RawFinding): boolean {
   const candidates = [lines[finding.line - 1], lines[finding.line - 2]];
   return candidates.some((text) => {
     if (!text) return false;
-    const match = /sirius-ignore:\s*([A-Z0-9-]+)/i.exec(text);
+    const match = /sirus-ignore:\s*([A-Z0-9-]+)/i.exec(text);
     return Boolean(match && (match[1] === finding.rule_id || match[1] === 'all'));
   });
 }
@@ -218,7 +218,7 @@ export async function* scanDirectory(root: string, options: ScanEngineOptions = 
     } catch (error) {
       yield {
         type: 'error',
-        code: 'SIRIUS_ERR_PARSE',
+        code: 'SIRUS_ERR_PARSE',
         path: shown,
         detail: error instanceof Error ? error.message : String(error),
       } as WsFrame;

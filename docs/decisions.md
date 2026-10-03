@@ -14,7 +14,7 @@ Chosen over the PRD's two stated alternatives.
 |---|---|---|---|
 | Mockup parity | Highest — the PRD's ANSI mockups are the agent-CLI idiom, and that idiom is Ink | Close; different default box glyphs | Precise, via Lip Gloss |
 | Language unity | Diverges from the Python worker | **Single language with worker/Core** | Third language in the stack |
-| Distribution | `npm`, **`npx sirius scan` zero-install demo**, Docker | `pipx`, Docker; no `npx` | Best single-binary story |
+| Distribution | `npm`, **`npx sirus scan` zero-install demo**, Docker | `pipx`, Docker; no `npx` | Best single-binary story |
 | Local toolchain | **Node v26.5.0, pnpm 11.18 ready** | **Python 3.9.6 system-only, no uv/pipx** | Go not installed |
 | PRD support | §7 and §13 both name Ink explicitly | named as "acceptable fallback" | named as "the alternative" |
 
@@ -48,7 +48,7 @@ Resolution: `--severity-threshold` sets the **bar** (which severities count). `-
 Exit 1 · gate: severity≥high, fail-on=verified-secrets → BLOCKED
 ```
 
-Note `--fail-on`'s value set intentionally diverges from Snyk's own `all|upgradable|patchable` — sirius redefines it, and that is fine as long as it is consistent.
+Note `--fail-on`'s value set intentionally diverges from Snyk's own `all|upgradable|patchable` — sirus redefines it, and that is fine as long as it is consistent.
 
 ---
 
@@ -76,9 +76,9 @@ Requested: add `col` (and `end_line`) to the frame. Until then the CLI locates t
 
 **Status:** accepted.
 
-SARIF 2.1.0 has three levels; sirius has five severities. The PRD never specifies the collapse.
+SARIF 2.1.0 has three levels; sirus has five severities. The PRD never specifies the collapse.
 
-| sirius | SARIF |
+| sirus | SARIF |
 |---|---|
 | `critical`, `high` | `error` |
 | `medium` | `warning` |
@@ -92,9 +92,9 @@ SARIF 2.1.0 has three levels; sirius has five severities. The PRD never specifie
 
 **Status:** accepted.
 
-The demo script invokes `sirius fix SIR-SEC-001` — a **rule id**, with no scan id — but the endpoint is `POST /scans/{id}/findings/{fid}/fix`, keyed by two UUIDs.
+The demo script invokes `sirus fix SIR-SEC-001` — a **rule id**, with no scan id — but the endpoint is `POST /scans/{id}/findings/{fid}/fix`, keyed by two UUIDs.
 
-Every scan writes `.sirius/last-scan.json` (scan id, project id, and the finding index: id, rule id, file, line). `fix` resolves the rule id against it. Multiple findings for one rule → prompt to pick, or `--all` to walk them in order. `.sirius/` is gitignored.
+Every scan writes `.sirus/last-scan.json` (scan id, project id, and the finding index: id, rule id, file, line). `fix` resolves the rule id against it. Multiple findings for one rule → prompt to pick, or `--all` to walk them in order. `.sirus/` is gitignored.
 
 ---
 
@@ -102,19 +102,19 @@ Every scan writes `.sirius/last-scan.json` (scan id, project id, and the finding
 
 **Status:** accepted.
 
-`POST /scans` requires `project_id`, but `sirius scan .` takes only a path.
+`POST /scans` requires `project_id`, but `sirus scan .` takes only a path.
 
-Resolution order: `--project` flag → `sirius.yaml` → `SIRIUS_PROJECT_ID` → a clear error pointing at `sirius init`.
+Resolution order: `--project` flag → `sirus.yaml` → `SIRUS_PROJECT_ID` → a clear error pointing at `sirus init`.
 
-For getting code to the server, `source` defaults to `upload`: tar the working tree, filtered by `.siriusignore` and `.gitignore`, with a size cap and a progress line. Use `source: git` when the tree is clean and a remote is configured. (The PRD's §2.4 threat model requires path-traversal guards on uploaded archives — that is the server's job, but the CLI should not construct pathological archives either.)
+For getting code to the server, `source` defaults to `upload`: tar the working tree, filtered by `.sirusignore` and `.gitignore`, with a size cap and a progress line. Use `source: git` when the tree is clean and a remote is configured. (The PRD's §2.4 threat model requires path-traversal guards on uploaded archives — that is the server's job, but the CLI should not construct pathological archives either.)
 
 ---
 
-## D-009 — `SIRIUS_API_URL` / `--api-url`
+## D-009 — `SIRUS_API_URL` / `--api-url`
 
 **Status:** accepted.
 
-The plan requires the CLI to work against a mock from hour one and swap to the real Core later, but the PRD specifies no way to point it anywhere. `SIRIUS_API_URL` env var, `--api-url` flag override. Default is the production URL.
+The plan requires the CLI to work against a mock from hour one and swap to the real Core later, but the PRD specifies no way to point it anywhere. `SIRUS_API_URL` env var, `--api-url` flag override. Default is the production URL.
 
 ---
 
@@ -173,29 +173,29 @@ Why the distinction is worth having: `accepted` ("real, we will fix it") and `di
 
 ---
 
-## D-014 — Renamed from `finsec-lint` to `sirius`
+## D-014 — Renamed from `finsec-lint` to `sirus`
 
 **Status:** accepted. **Contract impact:** breaking, including rule IDs.
 
-The product and the command are now **`sirius`**. The rename was taken all the way through, including the rule identifiers, in full knowledge that this diverges from [`original-prd.md`](original-prd.md).
+The product and the command are now **`sirus`**. The rename was taken all the way through, including the rule identifiers, in full knowledge that this diverges from [`original-prd.md`](original-prd.md).
 
 | Was | Now |
 |---|---|
-| `finsec` (command, npm package) | `sirius` |
-| `finsec-lint` (product) | `sirius` |
+| `finsec` (command, npm package) | `sirus` |
+| `finsec-lint` (product) | `sirus` |
 | `FIN-SEC-001` … `FIN-SEC-060` | `SIR-SEC-001` … `SIR-SEC-060` |
-| `FIN_ERR_*` | `SIRIUS_ERR_*` |
-| `FINSEC_*` env vars | `SIRIUS_*` |
-| `finsec.yaml` | `sirius.yaml` |
-| `.finseclintrc` | `.siriuslintrc` |
-| `.finsecignore` | `.siriusignore` |
-| `~/.config/finsec/config.toml` | `~/.config/sirius/config.toml` |
-| `# finsec-ignore: FIN-SEC-010` | `# sirius-ignore: SIR-SEC-010` |
-| `.finsec/` state dir | `.sirius/` |
-| `X-FinSec-Signature` / `-Event` / `-Delivery` | `X-Sirius-Signature` / `-Event` / `-Delivery` |
-| `finsec.dev` | `sirius.dev` |
-| `finsecFingerprint` (SARIF) | `siriusFingerprint` |
-| banner `finsec-lint · FinSec Compliance Scanner` | `sirius · Fintech Compliance Scanner` |
+| `FIN_ERR_*` | `SIRUS_ERR_*` |
+| `FINSEC_*` env vars | `SIRUS_*` |
+| `finsec.yaml` | `sirus.yaml` |
+| `.finseclintrc` | `.siruslintrc` |
+| `.finsecignore` | `.sirusignore` |
+| `~/.config/finsec/config.toml` | `~/.config/sirus/config.toml` |
+| `# finsec-ignore: FIN-SEC-010` | `# sirus-ignore: SIR-SEC-010` |
+| `.finsec/` state dir | `.sirus/` |
+| `X-FinSec-Signature` / `-Event` / `-Delivery` | `X-Sirus-Signature` / `-Event` / `-Delivery` |
+| `finsec.dev` | `sirus.dev` |
+| `finsecFingerprint` (SARIF) | `sirusFingerprint` |
+| banner `finsec-lint · FinSec Compliance Scanner` | `sirus · Fintech Compliance Scanner` |
 
 **Two things deliberately did not change.** The **numbering scheme** is untouched — still blocks of ten by category (`00x` secrets, `01x` injection, `02x` auth, `03x` pii, `04x` crypto, `05x` ratelimit, `06x` supplychain), so `SIR-SEC-010` is the same rule `FIN-SEC-010` was. And **compliance clause references are untouched**: PCI-DSS `8.6.2`, `6.2.4`, `8.4.2`, `3.4.1`, `3.5.1`, RBI DPSC, DPDP §8, GDPR Art.5 are external standards and have nothing to do with our branding.
 
@@ -233,12 +233,12 @@ selection. This is the same answer the mainstream agent CLIs reach, for the same
   built; the transcript is log output, and whole lines are what people paste.
 - Copying needs an external tool: `pbcopy`, `wl-copy`, `xclip`, or `clip`. Where
   none exists the drag still highlights but cannot copy, and says so rather than
-  failing silently. `sirius doctor` reports this as a warning up front.
+  failing silently. `sirus doctor` reports this as a warning up front.
 - A click that never moves copies **nothing**. Clicking to focus a window must
   not overwrite whatever the user had on their clipboard.
 - The terminal's own selection is still reachable by holding the modifier the
   terminal reserves for it (fn on Apple Terminal, Option in iTerm2), and
-  `SIRIUS_NO_MOUSE=1` releases the mouse entirely.
+  `SIRUS_NO_MOUSE=1` releases the mouse entirely.
 
 **Two bugs this exposed, both worth keeping in mind.** The mouse regex captured
 the button and the `M`/`m` flag but *not* the row — good enough for a wheel that
@@ -276,7 +276,7 @@ ever being drawn. It was all in the transcript, and all invisible.
    for progress frames, ~90ms lead. Structural frames are not delayed — dead air
    that shows nothing new. This is not decoration: it restores the behaviour the
    streamed path gets for free. Off for `--json`, `--sarif`, pipes, and
-   non-TTYs, so a CI run pays nothing; `SIRIUS_SCAN_PACE` overrides, `0` disables.
+   non-TTYs, so a CI run pays nothing; `SIRUS_SCAN_PACE` overrides, `0` disables.
 2. **Pace the threat report too.** It is written after the stream ends, so frame
    pacing does not cover it; a single write of twenty lines scrolled nineteen of
    them past. Emitted block by block, split on blank lines, because an attack
@@ -307,7 +307,7 @@ and prints the transcript, so "run it and look at it" is one command.
 
 ## D-018 — Response runs locally, and the panel does not claim a model ran
 
-**`sirius fix` did not work.** Not "worked against a backend nobody has" —
+**`sirus fix` did not work.** Not "worked against a backend nobody has" —
 did not work at all. The local engine saves its scan with the id `replay`, and
 `fix` rejected `replay` outright, so the default configuration could never reach
 the Response stage. The demo's second beat, and the *Response* leg the track
@@ -432,7 +432,7 @@ prints no `yaml_body` and invents none: the PRD's rules are YAML documents,
 these are compiled AST matchers, and it says so. `validate` and `test` still
 need the API and still say so.
 
-**`baseline` and `suppress`** now write to `.sirius/` beside the code —
+**`baseline` and `suppress`** now write to `.sirus/` beside the code —
 reviewable in a pull request, which is where an exception granted to a security
 finding ought to be argued. The old comment said fingerprints were "computed
 server-side — the CLI has no engine"; it has one, and it is what produces them.
@@ -453,8 +453,8 @@ everything.
 **`report` is now genuinely signed.** It previously downloaded a report and, on
 finding a signature, printed that it had *not* checked it — no public key was
 published anywhere. A signature nobody can verify is decoration. It is now
-built from the last scan, signed ed25519 with a key at `~/.config/sirius/`
-(0600, generated on first use), and `sirius report --verify` checks it: exit 0
+built from the last scan, signed ed25519 with a key at `~/.config/sirus/`
+(0600, generated on first use), and `sirus report --verify` checks it: exit 0
 clean, 1 modified, 2 unusable — which is a CI gate. The verify output states
 what it proves (unmodified since signing) and what it does not (identity —
 the key travels inside the file, so pin `key_id`).
@@ -480,7 +480,7 @@ reads `source` instead. That included `fix`, whose `const local = cache.scan_id
 rehearsal, not by the suite.
 
 **Triage now has two backends and one screen.** Hosted: PATCH per decision, as
-before. Local: decisions go to `.sirius/triage.json`, and `dismissed` and
+before. Local: decisions go to `.sirus/triage.json`, and `dismissed` and
 `suppressed` *also* write a suppression, scoped to the fingerprint when there is
 one and otherwise to that file — never the rule across the repo. `accepted` is
 recorded and silences nothing, because an acknowledged risk is still a risk and
@@ -494,7 +494,7 @@ pipeline might gate on. `applyPolicy` now corrects the frame as it passes,
 recomputing the score through the same function the engine uses rather than
 subtracting a penalty, since it is not linear in the counts.
 
-**`.sirius/` carries two kinds of thing**, so a `.gitignore` is written into it
+**`.sirus/` carries two kinds of thing**, so a `.gitignore` is written into it
 on first use: the baseline, suppressions and triage decisions are arguments a
 team makes about its own risk and belong in review; `last-scan.json` is a
 per-machine cache and does not.
@@ -544,7 +544,7 @@ the scan reported them. Cached rather than recomputed, so the badge and the
 signed report show the figure the developer saw. Which also closed a hole: the
 signed compliance report had no compliance score in it at all.
 
-**`rulesets:` was scaffolded into every `sirius.yaml` and read by nobody.** The
+**`rulesets:` was scaffolded into every `sirus.yaml` and read by nobody.** The
 local engine ran all twelve rules whatever it said, and `--ruleset` was accepted
 and dropped on the floor by both `scan` and `rules list` (literally
 `(!flags.ruleset || true)`). It errs toward noise rather than silence, which is
@@ -554,10 +554,10 @@ why no missing finding ever caught it. The PRD names `p/fintech-core` and
 exists — a ruleset that quietly means "all rules" is how a team believes it
 narrowed a scan it did not.
 
-**`sirius init` no longer tells you to go get a project id** before your first
+**`sirus init` no longer tells you to go get a project id** before your first
 scan. Scans run locally; hosted history is a later choice.
 
-**And one found by the sweep itself: `sirius rules list | head -1` ended in a
+**And one found by the sweep itself: `sirus rules list | head -1` ended in a
 Node stack trace.** The reader closes the pipe, the next write fails with
 EPIPE, and an unhandled stream error takes the process down loudly — reachable
 from nearly every command, since they all write more than one line. Handled at
@@ -650,7 +650,7 @@ money-mover; it is now two patterns with two weights.
 fixture's key is a non-functional placeholder, so validation asks Stripe, is
 told no, and reports `inactive` — the tool working, and the headline badge never
 appearing. `pnpm rehearse` now stages a real Stripe **test** key from
-`SIRIUS_DEMO_STRIPE_KEY` into the temp copy and turns validation on, then
+`SIRUS_DEMO_STRIPE_KEY` into the temp copy and turns validation on, then
 reports whether the badge fired. Three properties matter:
 
 - the key never touches the repo, only the staged copy that is deleted after;
@@ -671,7 +671,7 @@ not legal advice — the numbers are a compliance team's to change", and the onl
 way to change one was to edit `policy.ts`. That is a constant with a good
 comment.
 
-`sirius.yaml` grew a `revenue:` block: capacity, budget, quiet hours and their
+`sirus.yaml` grew a `revenue:` block: capacity, budget, quiet hours and their
 timezone, contacts per day, retry and re-presentment caps, cooldowns, the
 circuit breaker, and the cost model including the annoyance charge. Every field
 optional, so an existing file keeps working and a team pins only the numbers it
@@ -738,7 +738,7 @@ Not ours to decide. Tracked here so no one re-derives them.
 1. **Compliance-score formula.** Arrives as `72.5`, renders `72/100`. Severity-weighted? Category coverage? Both the CLI footer meter and the web gauge depend on it.
 2. **Fingerprint algorithm.** Drives baseline diffing, dedup, and suppression matching across all four surfaces. Presumably rule id + path + normalized snippet hash, deliberately line-number-insensitive — but it must be defined once, server-side.
 3. **Money-at-risk model.** Explicitly a heuristic table per the PRD, but no table, no per-rule multipliers, and only one `money_at_risk_model` value (`provider_key`) is named.
-4. **The K/S auth contradiction.** `PATCH /scans/{id}/findings/{fid}` (triage), `GET/POST /rules`, `POST /rules/validate`, `GET/POST /suppressions`, `GET/POST /baselines`, and `GET/PUT /projects/{id}/policy` are marked **S = session/JWT only**, but `sirius triage`, `suppress`, `baseline`, and `rules` are CLI commands authenticating with **K = Bearer API key**. As specified, those commands cannot work in CI. Either those endpoints accept `K`, or the command tree is wrong.
+4. **The K/S auth contradiction.** `PATCH /scans/{id}/findings/{fid}` (triage), `GET/POST /rules`, `POST /rules/validate`, `GET/POST /suppressions`, `GET/POST /baselines`, and `GET/PUT /projects/{id}/policy` are marked **S = session/JWT only**, but `sirus triage`, `suppress`, `baseline`, and `rules` are CLI commands authenticating with **K = Bearer API key**. As specified, those commands cannot work in CI. Either those endpoints accept `K`, or the command tree is wrong.
 5. **Device-flow endpoints.** `login` is specified as "OAuth device flow" but no `/auth/device/code` or `/auth/device/token` endpoints exist in the API table. Also unstated: the `config.toml` schema, the env var name for an API key in CI, and profile support.
 6. **`rules test`** has no backing endpoint and would require either a local engine (violating the golden rule) or a new endpoint.
 7. **Pagination convention** for `GET /scans/{id}/results` and `GET /scans` — cursor vs offset, param names, envelope shape — and how paginated results reconcile with findings already delivered over WebSocket.
@@ -774,7 +774,7 @@ checking only the sibling directory calls every package in every monorepo
 unlocked. pip records integrity inline, so `--hash=` is that ecosystem's lock.
 
 **`package.json` is parsed as JSON, not scanned as lines.** The line-oriented
-version reported `"sirius": "./dist/cli.js"` under `bin` as a dependency
+version reported `"sirus": "./dist/cli.js"` under `bin` as a dependency
 resolved outside the registry, on this repository. A `"key": "value"` pair looks
 identical everywhere in a JSON file and only its position says what it means. A
 manifest that will not parse produces no findings at all: a broken
@@ -1060,8 +1060,8 @@ visual one; commander is working and replacing it would be churn.
 Four things the shell's first screen got wrong, all visible in one screenshot at
 80 columns.
 
-**The header reflowed onto a second line.** `sirius v0.4.0  scanning
-/Applications/… · no sirius.yaml · local engine` is ninety-odd columns and the
+**The header reflowed onto a second line.** `sirus v0.4.0  scanning
+/Applications/… · no sirus.yaml · local engine` is ninety-odd columns and the
 header had no wrap mode, so Ink broke it in half, pushed the viewport down a row
 and left a dangling half-sentence above the transcript. It truncates now.
 
@@ -1088,7 +1088,7 @@ grouping is the whole change. Anything a group forgets is still listed under
 "the shell itself", because a command that exists and appears in no help is
 worse than one filed in the wrong place.
 
-`scripts/artifact/sirius-map.html` is the same four groups as a page, with the
+`scripts/artifact/sirus-map.html` is the same four groups as a page, with the
 flows drawn out and a column for what each command hands back. Hand-authored,
 so unlike the revenue page it is committed rather than generated.
 
@@ -1121,8 +1121,8 @@ nothing but metavariables, which would match every node in any file, and a
 regex that does not compile.
 
 **The fixture annotates its own expectations**, Semgrep-style, because this
-project's whole method is copying good conventions: `# sirius-test: <id>` says
-the next line must match, `# sirius-ok: <id>` says it must not. The fixture
+project's whole method is copying good conventions: `# sirus-test: <id>` says
+the next line must match, `# sirus-ok: <id>` says it must not. The fixture
 reads on its own and reviewing it is reviewing the rule — and a rule that fires
 on everything fails, because the `ok` lines fail.
 
@@ -1139,7 +1139,7 @@ already belongs to a compiled rule, and an example that fails validation is not
 an example.
 
 `rules validate` used to close by saying the semantic check "needs the rule
-engine". It exists now, so it points at `sirius rules test` instead.
+engine". It exists now, so it points at `sirus rules test` instead.
 
 ---
 ## D-035 — A PDF is a text format, so write one
@@ -1213,14 +1213,14 @@ about severity and the flag is about novelty, and they compose rather than
 override each other.
 
 ---
-## D-037 — `.siriusignore` was documented, scaffolded, and read by nothing
+## D-037 — `.sirusignore` was documented, scaffolded, and read by nothing
 
 AGENTS.md names three suppression layers and this is one of them. `init` writes
 the file. `ScanEngineOptions.ignorePatterns` declares the field. `scan` passed
 the config's `exclude:` into it. The scanner never read it, and nothing read
-`.siriusignore` during a scan at all — only `watch` ever loaded it.
+`.sirusignore` during a scan at all — only `watch` ever loaded it.
 
-**It hid behind its own defaults.** The `.siriusignore` that `init` writes lists
+**It hid behind its own defaults.** The `.sirusignore` that `init` writes lists
 `node_modules/`, `vendor/`, `dist/`, `build/` — every one of which is already in
 the scanner's hardcoded `SKIP_DIRS`. So the file appeared to work exactly as
 advertised while any pattern a user added did nothing whatsoever. A feature that
@@ -1230,8 +1230,8 @@ the only way to see it is to add a pattern of your own and count.
 Found by a flag audit that came up clean. All 81 CLI options are wired — the one
 apparent miss, `--no-markdown`, was my own script mis-deriving commander's
 negation form. So the search widened from flags to *config*, which is where
-`--ruleset` and `--diff` both lived, and `exclude:` in `sirius.yaml` turned out
-to change nothing. `.siriusignore` was the same hole from the other end.
+`--ruleset` and `--diff` both lived, and `exclude:` in `sirus.yaml` turned out
+to change nothing. `.sirusignore` was the same hole from the other end.
 
 Matching follows what a `.gitignore` reader expects, because that is the file it
 looks like: a bare name or a trailing slash means the directory and everything
@@ -1295,8 +1295,8 @@ start, and the useful reply to "yes" is the command that starts. Somebody read
 the whole green checklist and asked, reasonably, *how do I scan and what*.
 
 It now ends with the two or three things worth doing next, named in the form
-that works where the reader is — `/scan .` inside the shell, `sirius scan .`
-from their own prompt. The shell marks its children with `SIRIUS_IN_SHELL` so
+that works where the reader is — `/scan .` inside the shell, `sirus scan .`
+from their own prompt. The shell marks its children with `SIRUS_IN_SHELL` so
 advice can tell the difference; suggesting a command in the wrong form is worse
 than suggesting none, because it fails in front of the person who trusted it.
 
@@ -1350,13 +1350,13 @@ implements the sequence, that string becomes a link the terminal will open.
 print the payload as literal text, which would turn every location in the output
 into a line of escape gibberish — far worse than a location that is merely not
 clickable. So the check is a list of terminals known to implement it (iTerm2,
-WezTerm, kitty, Ghostty, Windows Terminal, VS Code, VTE), plus `SIRIUS_LINKS=1`
+WezTerm, kitty, Ghostty, Windows Terminal, VS Code, VTE), plus `SIRUS_LINKS=1`
 to force it on and `=0` to force it off for a terminal that lies. Off in a pipe,
 which is what every test and every CI log sees.
 
 **The scheme is configurable because there is no standard for "open this file at
 this line".** `file://` opens the file and usually forgets the line;
-`SIRIUS_LINK_SCHEME=vscode` gives `vscode://file/<abs>:<line>`, which does jump.
+`SIRUS_LINK_SCHEME=vscode` gives `vscode://file/<abs>:<line>`, which does jump.
 
 **Writing the test found a real bug in the layout kit.** `stripAnsi` knew about
 colour and nothing else, so `visibleWidth` measured a linked cell as the length
@@ -1462,8 +1462,8 @@ a report has not changed since it was signed, and says nothing about whether a
 deleted. Signatures answer a question about one document. A transparency log
 answers one about the sequence.
 
-Every `sirius report` appends its canonical digest as a leaf; the root sits
-beside it in `.sirius/ledger.json`. RFC 6962's construction, the one behind
+Every `sirus report` appends its canonical digest as a leaf; the root sits
+beside it in `.sirus/ledger.json`. RFC 6962's construction, the one behind
 Certificate Transparency and Rekor, including the `0x00`/`0x01` domain
 separation — without those a leaf hash and an interior node hash come from the
 same space and a leaf can be forged to collide with a subtree, which is the
@@ -1515,7 +1515,7 @@ command to one without the other now fails the build and names the missing one.
 
 **The exceptions are enumerated with reasons, not allowed as slack.** Four
 commands are shell-only: `cd` (a one-shot process cannot change its parent
-shell's directory, so `sirius cd` would appear to work and do nothing), `clear`
+shell's directory, so `sirus cd` would appear to work and do nothing), `clear`
 and `exit` (there is no transcript and nothing to leave outside the shell), and
 `help` (commander's `--help` and `help <command>` are already better). A blanket
 "some commands are shell-only" would let the next real gap through disguised as
@@ -1565,7 +1565,7 @@ it the result is marked unpinned and both surfaces say so in as many words —
 established.
 
 Also: a missing ledger was a silent `return`, so a forged report verified on any
-machine but the one holding `.sirius/ledger.json` printed a bare `OK` with no
+machine but the one holding `.sirus/ledger.json` printed a bare `OK` with no
 sign the stronger check had been skipped. A report that travels is the
 documented use case; the absence is now reported as plainly as a result.
 
@@ -1660,7 +1660,7 @@ prevent.
 
 ## D-049 — The ASCII fallback covers the character it was created for
 
-AGENTS.md names `SIRIUS_ASCII=1` the projector safety net and lists `₹` first
+AGENTS.md names `SIRUS_ASCII=1` the projector safety net and lists `₹` first
 among the characters it protects. It did not protect `₹`. `money.ts` hardcoded
 the symbol and knew nothing about the terminal, so a scan under the flag still
 emitted nine of them, along with `—`, `…`, `·`, `§` and `≥` — prose punctuation
@@ -1712,7 +1712,7 @@ show.
 after `buildProgram()` had constructed the subcommands, so they kept commander's
 `process.exit(1)` — the code this CLI documents as *findings at or above
 threshold*. A pipeline could not tell a blocked gate from a typo, and the
-README's own escape hatch, `sirius scan … || true`, swallowed a mistyped flag
+README's own escape hatch, `sirus scan … || true`, swallowed a mistyped flag
 and went green having scanned nothing. Applied recursively now, with
 `showHelpAfterError` instead of commander's full help body: twenty-five lines of
 options after an error scrolls the error itself off a short terminal.
@@ -1814,12 +1814,12 @@ It refused safely, which is the important part — it did not rewrite a line it
 had not matched. But it sent the reader looking for a missing feature instead of
 re-running the scan. Three outcomes now say three different things: no template
 for this action, a template that no longer matches the line (with the fix — run
-`sirius scan` again), and the existing case where the project has no
+`sirus scan` again), and the existing case where the project has no
 authenticated route to copy.
 
 ## D-054 — The compliance score explains itself
 
-`sirius explain` exists because "how did you get ₹42,00,000?" is the first
+`sirus explain` exists because "how did you get ₹42,00,000?" is the first
 question anyone sensible asks, and "it's a heuristic" is not an answer. Asking
 the same question about the other headline number got:
 
@@ -1831,14 +1831,14 @@ anywhere. It is also the number a compliance officer asks about first.
 
 The formula was explainable the whole time — `complianceScore` in `scanner.ts`
 is twelve lines and deliberately not tuned. It was simply not reachable from the
-command whose entire job is disclosure. `sirius explain score` now prints the
+command whose entire job is disclosure. `sirus explain score` now prints the
 weights, the file-count scale and the reason for it, and works the example
 against the last scan: `penalty 2×12 + 2×6 + 2×2 = 40 · scale log10(max(10, 3))
 = 1.00 · score 100 − 40 ÷ 1.00 = 60`, which is the figure on the footer.
 
 It also says whose formula it is. The weighting is one of the open questions
 logged as blocking on `auto`, and this is the local engine's answer, not the
-contract's — so two sirius scans are comparable to each other and not to a score
+contract's — so two sirus scans are comparable to each other and not to a score
 from another tool. A number somebody may have to defend has to name its
 authority.
 
@@ -1864,7 +1864,7 @@ agent's intended action is authorised, contextually appropriate and safe
 *before* it touches money. Explicitly not conventional transaction
 authentication, fraud detection or wallet security.
 
-sirius answered about a third of it. `revenue recover` already enforced policy
+sirus answered about a third of it. `revenue recover` already enforced policy
 with refusal as a first-class logged action and a hash-chained signed trail —
 which is the hard part — but it governed a batch workflow, not an agent, and had
 no notion of identity, intent, behavioural baselines or instruction
@@ -1946,7 +1946,7 @@ the reader already believes — *a transaction can be correctly signed and still
 the wrong thing to do* — then showing one real attack end to end, then the
 numbers. Anyone who stops after the first page should still have the point.
 
-So `sirius brief` writes that document, as a PDF, and `--plain` prints the same
+So `sirus brief` writes that document, as a PDF, and `--plain` prints the same
 argument in the same order to the terminal. Not a summary of the PDF: the same
 thing, so a reader who runs the command and a reader who opens the file have read
 the same document.
@@ -1984,3 +1984,38 @@ for: new actions arriving in front of an agent that has already been running.
 of ALLOW/VERIFY/BLOCK is self-evident to whoever built it and opaque to everyone
 else, and the demo is mostly watched by everyone else. Once per verdict, not per
 row: a legend repeated on every line stops being read by the third one.
+
+## D-058 — The name is `sirus`, everywhere
+
+The previous name collided with a registered trademark, so the product is now
+**sirus**: the npm package `@srusan/sirus`, the `sirus` command, the repository
+`SruSanCyborg/FINSEC_CLI_Sirus`, and every name the tool reads or writes —
+`sirus.yaml`, `.sirusignore`, `.siruslintrc`, the `.sirus/`
+state directory, `~/.config/sirus`, `# sirus-ignore`, every `SIRUS_*` variable,
+the `sirus.*/v1` document schemas and the `X-Sirus-Signature` header.
+
+**A clean break, not an alias.** The old names are not read as a fallback. A
+fallback keeps the trademarked name inside the binary, in every lookup, which is
+the thing the rename exists to remove. The old package's 0.4.0 was the
+only release, so the population a fallback would protect is one version old.
+
+**The seeds were renamed too, and that moved the revenue figures.** The batch,
+books, sweep and stress seeds carried the old name; a seed is printed back to
+whoever runs `revenue gen`, so it is part of the name. A different seed is a different
+batch, so every revenue figure was regenerated from a live run (`pnpm
+artifact`) and `docs/revenue.md` rewritten against it — including where the new
+data says something less flattering. The edge at 3% capacity went from +22.9% to
++2.2%, and the stress worlds now start 2.2% *behind* the heuristic rather than
+2.3% ahead. The conclusions that survived are the ones that were rules rather
+than preferences: zero out-of-bounds touches on every batch and in every
+stressed world, and the edge holding in three worlds of six. Guard is unaffected
+(its seed is `guard-1`), and so are the scan fixtures: `chaos-repo` still totals
+6 findings, ₹89,30,000, 60/100.
+
+The new data exposed one latent layout bug: the stress table's `WORLD` column
+had a 12-column floor, and a one-character-wider figure (`-45.7%`) pushed the
+row to 61 columns at a 60-column terminal. The floor is now 10.
+
+Entries above this one were written before the rename. Their prose has been
+renamed with everything else; figures they quote were measured on the old seeds
+and are left as recorded.

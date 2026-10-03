@@ -17,7 +17,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
-const DIR = '.sirius';
+const DIR = '.sirus';
 
 export interface Baseline {
   schema_version: 1;
@@ -64,7 +64,7 @@ function writeJson(path: string, value: unknown): void {
 }
 
 /**
- * `.sirius/` holds two different kinds of thing, and only one belongs in git.
+ * `.sirus/` holds two different kinds of thing, and only one belongs in git.
  *
  * The baseline, the suppressions and the triage decisions are arguments a team
  * makes about its own risk — they should be reviewed in a pull request like any

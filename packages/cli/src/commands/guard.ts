@@ -1,5 +1,5 @@
 /**
- * `sirius guard` — the control layer for agents that can move money.
+ * `sirus guard` — the control layer for agents that can move money.
  *
  *   gen      synthesise a feed of proposed actions, attacks planted in it
  *   eval     judge the feed and stream the decisions
@@ -91,7 +91,7 @@ function generate(feedArg: string | undefined, flags: GuardFlags): void {
     `\n  wrote ${plural(feed.actions.length, 'proposed action')} for ` +
       `${plural(feed.agents.length, 'agent')} to ${dir}\n` +
       `  ${plural(planted, 'planted case')}, recorded in truth.json so a run can be scored\n\n` +
-      `  Judge it:  sirius guard eval ${feedArg ?? 'feed'}\n\n`,
+      `  Judge it:  sirus guard eval ${feedArg ?? 'feed'}\n\n`,
   );
 }
 
@@ -136,11 +136,11 @@ async function evaluate(feedArg: string | undefined, flags: GuardFlags, globals:
   }
 
   const { writeLinesPaced, writePaced } = await import('../engine/pace.js');
-  const pace = Number(process.env.SIRIUS_GUARD_PACE ?? (capabilities.tty ? 14 : 0));
+  const pace = Number(process.env.SIRUS_GUARD_PACE ?? (capabilities.tty ? 14 : 0));
 
   process.stdout.write('\n');
   process.stdout.write(
-    ` ${palette.bold('sirius guard')}  ${palette.dim(
+    ` ${palette.bold('sirus guard')}  ${palette.dim(
       `${feed.actions.length} proposed actions · ${plural(feed.agents.length, 'agent')} · simulated`,
     )}\n\n`,
   );
@@ -213,7 +213,7 @@ async function evaluate(feedArg: string | undefined, flags: GuardFlags, globals:
 
   process.stdout.write(
     `  ${palette.dim('Every decision above is in')} ${trailPath}\n` +
-      `  ${palette.dim('Verify it:')}  sirius guard trail --verify ${trailPath}\n\n`,
+      `  ${palette.dim('Verify it:')}  sirus guard trail --verify ${trailPath}\n\n`,
   );
 }
 
@@ -221,7 +221,7 @@ async function evaluate(feedArg: string | undefined, flags: GuardFlags, globals:
 
 async function explain(actionId: string | undefined, flags: GuardFlags, globals: GlobalFlags): Promise<void> {
   if (!actionId) {
-    throw new CliError('Which action?', { hint: 'e.g. sirius guard explain act_00253' });
+    throw new CliError('Which action?', { hint: 'e.g. sirus guard explain act_00253' });
   }
 
   const dir = target(flags.agent, 'feed');
@@ -229,7 +229,7 @@ async function explain(actionId: string | undefined, flags: GuardFlags, globals:
   const action = feed.actions.find((a) => a.id === actionId);
   if (!action) {
     throw new CliError(`No action ${actionId} in ${dir}.`, {
-      hint: 'Run `sirius guard eval` to see the ids.',
+      hint: 'Run `sirus guard eval` to see the ids.',
     });
   }
 
@@ -349,7 +349,7 @@ function verify(fileArg: string | undefined, flags: GuardFlags): void {
   const path = flags.verify ?? fileArg;
   if (!path) {
     throw new CliError('Which trail?', {
-      hint: 'e.g. sirius guard trail --verify decisions-abc123.json',
+      hint: 'e.g. sirus guard trail --verify decisions-abc123.json',
     });
   }
 

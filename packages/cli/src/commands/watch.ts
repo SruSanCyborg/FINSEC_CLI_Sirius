@@ -1,5 +1,5 @@
 /**
- * `sirius watch` — re-scan when files change.
+ * `sirus watch` — re-scan when files change.
  *
  * The PRD names `stripe listen` as the UX model, but that is a passive event
  * tailer; this actually re-runs work, so it needs the things a re-runner needs
@@ -41,7 +41,7 @@ const ALWAYS_IGNORED = [
   '__pycache__',
   '.venv',
   'venv',
-  '.sirius',
+  '.sirus',
   '.next',
   'coverage',
 ];
@@ -53,7 +53,7 @@ export function shouldIgnore(relativePath: string, extraPatterns: readonly strin
   // Editor scratch files: vim swap, emacs autosave, JetBrains, and the backups
   // this CLI writes itself — re-scanning because of our own backup would loop.
   const name = segments.at(-1) ?? '';
-  if (/^\.#|~$|\.swp$|\.swx$|^\.DS_Store$|\.sirius-backup$/.test(name)) return true;
+  if (/^\.#|~$|\.swp$|\.swx$|^\.DS_Store$|\.sirus-backup$/.test(name)) return true;
 
   return extraPatterns.some((pattern) => {
     const normalized = pattern.replace(/\/$/, '');
@@ -116,7 +116,7 @@ export async function runWatch(path: string, flags: WatchFlags, globals: Record<
     }, debounceMs);
   };
 
-  const debug = Boolean(process.env.SIRIUS_DEBUG);
+  const debug = Boolean(process.env.SIRUS_DEBUG);
   const watcher = watch(target, { recursive: true }, (event, filename) => {
     if (!filename) return;
     const name = filename.toString();

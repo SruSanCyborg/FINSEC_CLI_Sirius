@@ -69,7 +69,7 @@ export function loadBatch(dir: string): LoadedBatch {
   const manifest = existsSync(manifestPath)
     ? (JSON.parse(readFileSync(manifestPath, 'utf8')) as BatchManifest)
     : ({
-        schema: 'sirius.batch/v1',
+        schema: 'sirus.batch/v1',
         seed: 'unknown',
         generated_at: '',
         as_of: '',

@@ -1,5 +1,5 @@
 /**
- * `sirius report`, `badge`, `suppress`, `baseline`.
+ * `sirus report`, `badge`, `suppress`, `baseline`.
  *
  * Three of these hit endpoints the contract marks session/JWT-only while the
  * CLI authenticates with a Bearer API key — the K/S contradiction recorded in
@@ -40,7 +40,7 @@ function resolved(globals: GlobalFlags) {
 function requireProject(config: { projectId?: string | undefined }): string {
   if (!config.projectId) {
     throw new CliError('No project id configured.', {
-      hint: 'Run `sirius init`, pass --project <id>, or set SIRIUS_PROJECT_ID.',
+      hint: 'Run `sirus init`, pass --project <id>, or set SIRUS_PROJECT_ID.',
     });
   }
   return config.projectId;
@@ -56,7 +56,7 @@ function resolveScanId(explicit: string | undefined): string {
 
   if (!cache) {
     throw new CliError('No scan id given and no recent scan to fall back on.', {
-      hint: 'Run `sirius scan .` first, or pass a scan id.',
+      hint: 'Run `sirus scan .` first, or pass a scan id.',
     });
   }
   // `source`, not the id: a local scan has a real id of its own, and only a
@@ -66,7 +66,7 @@ function resolveScanId(explicit: string | undefined): string {
       cache.source === 'replay'
         ? 'The last scan was a replay, so there is no server-side scan.'
         : 'The last scan ran locally, so there is no server-side scan to ask about.',
-      { hint: 'Run `sirius scan .` against a real API first.' },
+      { hint: 'Run `sirus scan .` against a real API first.' },
     );
   }
   return cache.scan_id;
@@ -131,7 +131,7 @@ export async function runReport(
     ? isAbsolute(flags.output)
       ? flags.output
       : resolve(process.cwd(), flags.output)
-    : resolve(process.cwd(), `sirius-report-${id.slice(0, 8)}.${format === 'pdf' ? 'json' : format}`);
+    : resolve(process.cwd(), `sirus-report-${id.slice(0, 8)}.${format === 'pdf' ? 'json' : format}`);
 
   writeFileSync(target, JSON.stringify(report, null, 2) + '\n', 'utf8');
   process.stdout.write(`Report written to ${target}\n`);
@@ -173,8 +173,8 @@ export async function runBadge(
   }
 
   process.stdout.write(`${url}\n\n`);
-  process.stdout.write(`![sirius compliance](${url})\n\n`);
-  process.stdout.write(`<img src="${url}" alt="sirius compliance" />\n`);
+  process.stdout.write(`![sirus compliance](${url})\n\n`);
+  process.stdout.write(`<img src="${url}" alt="sirus compliance" />\n`);
 }
 
 /**
@@ -189,25 +189,25 @@ async function localBadge(flags: { markdown?: boolean; output?: string; target?:
   const found = locateLastScan(process.cwd(), flags.target);
   if (!found) {
     throw new CliError('No scan to build a badge from.', {
-      hint: 'Run `sirius scan .` first, or pass --project <id> for the hosted badge.',
+      hint: 'Run `sirus scan .` first, or pass --project <id> for the hosted badge.',
     });
   }
 
   const score = found.cache.summary?.compliance_score ?? null;
   if (score === null) {
     throw new CliError('The last scan recorded no compliance score.', {
-      hint: 'Re-run `sirius scan .` — the score is written into .sirius/last-scan.json.',
+      hint: 'Re-run `sirus scan .` — the score is written into .sirus/last-scan.json.',
     });
   }
 
   const { renderBadge, shieldsEndpoint, colorForScore } = await import('../engine/badge.js');
-  const input = { label: 'sirius', message: `${Math.round(score)}/100`, color: colorForScore(score) };
+  const input = { label: 'sirus', message: `${Math.round(score)}/100`, color: colorForScore(score) };
 
   const svgPath = flags.output
     ? isAbsolute(flags.output)
       ? flags.output
       : resolve(process.cwd(), flags.output)
-    : resolve(found.root, '.sirius', 'badge.svg');
+    : resolve(found.root, '.sirus', 'badge.svg');
   const jsonPath = svgPath.replace(/\.svg$/, '') + '.json';
 
   writeFileSync(svgPath, renderBadge(input), 'utf8');
@@ -219,8 +219,8 @@ async function localBadge(flags: { markdown?: boolean; output?: string; target?:
   if (flags.markdown === false) return;
 
   process.stdout.write(`${jsonPath}  (shields.io endpoint payload)\n\n`);
-  process.stdout.write(`![sirius compliance](${relative})\n\n`);
-  process.stdout.write(`<img src="${relative}" alt="sirius compliance" />\n\n`);
+  process.stdout.write(`![sirus compliance](${relative})\n\n`);
+  process.stdout.write(`<img src="${relative}" alt="sirus compliance" />\n\n`);
   process.stdout.write(
     `Built from the scan of ${found.cache.scanned_at.slice(0, 10)} — ${plural(found.cache.findings.length, 'finding')}.\n` +
       `It changes when you re-scan and commit, so it never claims a score for unscanned code.\n`,
@@ -235,7 +235,7 @@ export async function runSuppress(
   globals: GlobalFlags,
 ): Promise<void> {
   if (!ruleId) {
-    throw new CliError('Which rule?', { hint: 'e.g. sirius suppress SIR-SEC-010 --reason "..."' });
+    throw new CliError('Which rule?', { hint: 'e.g. sirus suppress SIR-SEC-010 --reason "..."' });
   }
 
   // The DDL makes `reason` NOT NULL, and a suppression without one is how a
@@ -302,7 +302,7 @@ export async function runBaseline(
       const baselines = await client.listBaselines(projectId);
       if (baselines.length === 0) {
         process.stdout.write('No baseline set.\n');
-        process.stdout.write('Set one with:  sirius baseline set\n');
+        process.stdout.write('Set one with:  sirus baseline set\n');
         return;
       }
       for (const baseline of baselines) {
@@ -329,7 +329,7 @@ export async function runBaseline(
       const count = baseline.fingerprints?.length ?? 0;
       process.stdout.write(`Baseline set at ${commit.slice(0, 12)} (${count} finding${count === 1 ? '' : 's'})\n`);
       process.stdout.write('Findings present here will now report baseline_state=unchanged.\n');
-      process.stdout.write('Gate only on what is new with:  sirius scan . --fail-on new\n');
+      process.stdout.write('Gate only on what is new with:  sirus scan . --fail-on new\n');
       return;
     }
 
@@ -400,7 +400,7 @@ async function writeLocalReport(
     ? isAbsolute(flags.output)
       ? flags.output
       : resolve(process.cwd(), flags.output)
-    : resolve(process.cwd(), `sirius-report-${cache.scan_id.slice(0, 8)}.${extension}`);
+    : resolve(process.cwd(), `sirus-report-${cache.scan_id.slice(0, 8)}.${extension}`);
 
   if (format === 'pdf') {
     const { reportToPdf } = await import('../engine/report-pdf.js');
@@ -414,7 +414,7 @@ async function writeLocalReport(
     // between a document somebody can check and one they only believe.
     process.stdout.write(
       `The signature covers the report payload, not this PDF. For a verifiable file:\n` +
-        `  sirius report --format json\n`,
+        `  sirus report --format json\n`,
     );
     return;
   }
@@ -428,14 +428,14 @@ async function writeLocalReport(
       `${ledger.added ? '' : ' (already recorded — same report)'}` +
       ` · root ${ledger.ledger.root.slice(0, 16)}…\n`,
   );
-  process.stdout.write(`Verify with:  sirius report --verify ${target}\n`);
+  process.stdout.write(`Verify with:  sirus report --verify ${target}\n`);
 }
 
 /** Checks a signed report and says exactly what the check does and does not prove. */
 async function verifyReport(path: string, expectKey?: string): Promise<void> {
   const file = isAbsolute(path) ? path : resolve(process.cwd(), path);
   if (!existsSync(file)) {
-    throw new CliError(`No such report: ${path}`, { hint: 'Generate one with `sirius report`.' });
+    throw new CliError(`No such report: ${path}`, { hint: 'Generate one with `sirus report`.' });
   }
 
   const { verifyAttested } = await import('../engine/attest.js');
@@ -496,7 +496,7 @@ async function verifyReport(path: string, expectKey?: string): Promise<void> {
   if (!digest || ledger.entries.length === 0) {
     process.stdout.write(
       `        No ledger here, so it was not checked against the log of reports\n` +
-        `        actually produced. Run this where .sirius/ledger.json lives to\n` +
+        `        actually produced. Run this where .sirus/ledger.json lives to\n` +
         `        prove this report is the one that was recorded.\n`,
     );
     return;
@@ -528,7 +528,7 @@ async function verifyReport(path: string, expectKey?: string): Promise<void> {
 
 /** Named separately so the message above stays one readable line. */
 function ledgerPathOf(root: string): string {
-  return `${root}/.sirius/ledger.json`;
+  return `${root}/.sirus/ledger.json`;
 }
 
 // ---- local baselines and suppressions --------------------------------------
@@ -545,7 +545,7 @@ async function localBaseline(
     const baseline = loadBaseline(root);
     if (!baseline) {
       process.stdout.write('No baseline set.\n');
-      process.stdout.write('Set one with:  sirius baseline set\n');
+      process.stdout.write('Set one with:  sirus baseline set\n');
       return;
     }
     const where = baseline.commit_sha ? baseline.commit_sha.slice(0, 12) : 'no commit';
@@ -561,7 +561,7 @@ async function localBaseline(
   const found = locateLastScan(process.cwd(), flags.target);
   if (!found) {
     throw new CliError('No recent scan to take a baseline from.', {
-      hint: 'Run `sirius scan .` first — the baseline is the findings it found.',
+      hint: 'Run `sirus scan .` first — the baseline is the findings it found.',
     });
   }
 
@@ -574,7 +574,7 @@ async function localBaseline(
   const missing = found.cache.findings.length - fingerprints.length;
   if (fingerprints.length === 0 && found.cache.findings.length > 0) {
     throw new CliError('That scan has no fingerprints to baseline.', {
-      hint: 'Re-run `sirius scan .` — older scan caches did not record them.',
+      hint: 'Re-run `sirus scan .` — older scan caches did not record them.',
     });
   }
 
@@ -588,7 +588,7 @@ async function localBaseline(
   if (missing > 0) process.stdout.write(`  ${plural(missing, 'finding')} had no fingerprint and were skipped\n`);
   process.stdout.write(`  ${baselinePath(found.root)}\n`);
   process.stdout.write('Findings present here now report baseline_state=unchanged.\n');
-  process.stdout.write('Gate only on what is new with:  sirius scan . --fail-on new\n');
+  process.stdout.write('Gate only on what is new with:  sirus scan . --fail-on new\n');
 }
 
 /** `suppress <rule>` against the file beside the project. */
@@ -606,7 +606,7 @@ async function localSuppress(
   // meant to silence turns up anyway and nobody knows why.
   if (!localRule(ruleId, VERSION)) {
     throw new CliError(`No rule "${ruleId}" in the local engine.`, {
-      hint: 'Run `sirius rules list` to see them.',
+      hint: 'Run `sirus rules list` to see them.',
     });
   }
 
@@ -633,7 +633,7 @@ async function localSuppress(
 // ---- the transparency log ---------------------------------------------------
 
 /**
- * `sirius ledger [show|verify]`.
+ * `sirus ledger [show|verify]`.
  *
  * `show` prints the log; `verify` proves it only ever appended. The second is
  * the one worth running: recomputing the root proves the file is internally
@@ -666,7 +666,7 @@ export async function runLedger(
   if (ledger.entries.length === 0) {
     process.stdout.write(
       `No reports recorded yet.\n` +
-        `Every \`sirius report\` appends one to ${ledgerPath(root)}.\n`,
+        `Every \`sirus report\` appends one to ${ledgerPath(root)}.\n`,
     );
     return;
   }
@@ -679,7 +679,7 @@ export async function runLedger(
           `${padVisible(plural(entry.findings, 'finding'), 12)} ${entry.digest.slice(0, 16)}…\n`,
       );
     }
-    process.stdout.write(`\n  Prove the history with:  sirius ledger verify\n\n`);
+    process.stdout.write(`\n  Prove the history with:  sirus ledger verify\n\n`);
     return;
   }
 

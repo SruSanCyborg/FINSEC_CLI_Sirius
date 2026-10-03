@@ -1,7 +1,7 @@
 /**
  * Watch-mode path filtering.
  *
- * The consequential case is the last one: this CLI writes `.sirius-backup`
+ * The consequential case is the last one: this CLI writes `.sirus-backup`
  * files when it applies a fix, so a watcher that reacts to its own output would
  * re-scan forever.
  */
@@ -18,7 +18,7 @@ describe('shouldIgnore', () => {
     'build/output.o',
     '__pycache__/mod.pyc',
     '.venv/lib/python3.12/site.py',
-    'src/.sirius/last-scan.json',
+    'src/.sirus/last-scan.json',
     'coverage/lcov.info',
   ])('ignores %s', (path) => {
     expect(shouldIgnore(path)).toBe(true);
@@ -28,7 +28,7 @@ describe('shouldIgnore', () => {
     'src/config.py',
     'src/api/transfer.py',
     'requirements.txt',
-    'sirius.yaml',
+    'sirus.yaml',
   ])('watches %s', (path) => {
     expect(shouldIgnore(path)).toBe(false);
   });
@@ -43,10 +43,10 @@ describe('shouldIgnore', () => {
   });
 
   it('ignores the backups it writes itself, so a fix cannot cause a rescan loop', () => {
-    expect(shouldIgnore('src/config.py.sirius-backup')).toBe(true);
+    expect(shouldIgnore('src/config.py.sirus-backup')).toBe(true);
   });
 
-  it('honors .siriusignore patterns', () => {
+  it('honors .sirusignore patterns', () => {
     expect(shouldIgnore('vendor/lib.py', ['vendor'])).toBe(true);
     expect(shouldIgnore('vendor/lib.py', ['vendor/'])).toBe(true);
     expect(shouldIgnore('src/lib.py', ['vendor'])).toBe(false);

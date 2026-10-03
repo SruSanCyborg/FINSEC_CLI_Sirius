@@ -4,7 +4,7 @@
  * The contract is Snyk's: `0` clean, `1` findings at or above the threshold —
  * *action needed, not an error* — `2` a CLI or execution failure, `3` no
  * supported target. A pipeline gates on these, and the README offers
- * `sirius scan … || true` as the escape hatch for teams not ready to block.
+ * `sirus scan … || true` as the escape hatch for teams not ready to block.
  *
  * Two cases broke that, and both were found by running the binary rather than
  * by any unit test, because each one is only wrong in relation to the contract:
@@ -38,7 +38,7 @@ const cli = join(dirname(fileURLToPath(import.meta.url)), '..', 'dist', 'cli.js'
 /** Runs the CLI and returns only its exit code. */
 function run(args: string[]): number {
   try {
-    execFileSync(process.execPath, [cli, ...args], { stdio: 'pipe', env: { ...process.env, SIRIUS_SCAN_PACE: '0' } });
+    execFileSync(process.execPath, [cli, ...args], { stdio: 'pipe', env: { ...process.env, SIRUS_SCAN_PACE: '0' } });
     return 0;
   } catch (error) {
     return (error as { status?: number }).status ?? -1;
@@ -51,7 +51,7 @@ function runWithOutput(args: string[]): { code: number; output: string } {
     const output = execFileSync(process.execPath, [cli, ...args], {
       encoding: 'utf8',
       stdio: ['ignore', 'pipe', 'pipe'],
-      env: { ...process.env, SIRIUS_SCAN_PACE: '0' },
+      env: { ...process.env, SIRUS_SCAN_PACE: '0' },
     });
     return { code: 0, output };
   } catch (error) {
@@ -62,7 +62,7 @@ function runWithOutput(args: string[]): { code: number; output: string } {
 
 let dir: string;
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'sirius-exit-'));
+  dir = mkdtempSync(join(tmpdir(), 'sirus-exit-'));
 });
 afterEach(() => rmSync(dir, { recursive: true, force: true }));
 
@@ -143,7 +143,7 @@ describe('nothing to scan is not a pass', () => {
     // would be the same wrong answer arrived at a different way.
     mkdirSync(join(dir, 'vendor'), { recursive: true });
     writeFileSync(join(dir, 'vendor', 'app.py'), 'x = 1\n', 'utf8');
-    writeFileSync(join(dir, '.siriusignore'), 'vendor/\n', 'utf8');
+    writeFileSync(join(dir, '.sirusignore'), 'vendor/\n', 'utf8');
     expect(run(['scan', dir])).toBe(ExitCode.NO_TARGET);
   });
 });

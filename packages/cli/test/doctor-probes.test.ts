@@ -24,7 +24,7 @@ const ENTRY = fileURLToPath(new URL('../src/cli.ts', import.meta.url));
 let home: string;
 
 beforeEach(() => {
-  home = mkdtempSync(join(tmpdir(), 'sirius-doctor-'));
+  home = mkdtempSync(join(tmpdir(), 'sirus-doctor-'));
 });
 afterEach(() => rmSync(home, { recursive: true, force: true }));
 
@@ -33,7 +33,7 @@ function doctor(env: Record<string, string> = {}): Promise<{ out: string; code: 
     execFile(
       process.execPath,
       ['--import', 'tsx', ENTRY, 'doctor'],
-      { env: { ...process.env, SIRIUS_CONFIG_HOME: home, ...env }, timeout: 60_000 },
+      { env: { ...process.env, SIRUS_CONFIG_HOME: home, ...env }, timeout: 60_000 },
       (error, stdout) => {
         const code = error && typeof (error as { code?: number }).code === 'number' ? (error as { code: number }).code : 0;
         resolve({ out: stdout, code });
@@ -106,12 +106,12 @@ describe('doctor self-tests the revenue engine', () => {
 describe('a copied key', () => {
   it('is still checked, wherever the config home points', async () => {
     const source = await makeKey();
-    const other = mkdtempSync(join(tmpdir(), 'sirius-doctor-alt-'));
+    const other = mkdtempSync(join(tmpdir(), 'sirus-doctor-alt-'));
     try {
       copyFileSync(source, join(other, 'signing-key.pem'));
       chmodSync(join(other, 'signing-key.pem'), 0o600);
 
-      const { out } = await doctor({ SIRIUS_CONFIG_HOME: other });
+      const { out } = await doctor({ SIRUS_CONFIG_HOME: other });
       expect(out).toContain('0600');
     } finally {
       rmSync(other, { recursive: true, force: true });

@@ -4,7 +4,7 @@
  * Both commands wrote to a server that is not running, so neither did anything.
  * Worse, the two halves existed on either side of a gap nobody had bridged: the
  * gate already knew how to act on `baseline_state` and the renderers knew how
- * to show it, but nothing ever *set* it — so `sirius baseline set` recorded a
+ * to show it, but nothing ever *set* it — so `sirus baseline set` recorded a
  * floor no scan ever read, and `--fail-on new` blocked on findings that were
  * not new.
  *
@@ -37,7 +37,7 @@ import type { WsFrame } from '../src/domain.js';
 let dir: string;
 
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'sirius-policy-'));
+  dir = mkdtempSync(join(tmpdir(), 'sirus-policy-'));
 });
 afterEach(() => rmSync(dir, { recursive: true, force: true }));
 

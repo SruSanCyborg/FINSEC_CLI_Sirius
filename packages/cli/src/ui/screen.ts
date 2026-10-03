@@ -62,8 +62,8 @@ export function mouseReportingAvailable(): boolean {
   // The cost is that the terminal's own click-drag selection stops working
   // while we hold the mouse. Hold the terminal's override key to select
   // natively (Fn on Terminal.app, Option in iTerm2, Shift elsewhere), or set
-  // SIRIUS_NO_MOUSE=1 to give the mouse back entirely.
-  if (process.env.SIRIUS_NO_MOUSE === '1') return false;
+  // SIRUS_NO_MOUSE=1 to give the mouse back entirely.
+  if (process.env.SIRUS_NO_MOUSE === '1') return false;
   return alternateScreenAvailable();
 }
 
@@ -77,7 +77,7 @@ export function nativeSelectionKey(): string {
 
 export function alternateScreenAvailable(): boolean {
   const env = process.env;
-  if (env.SIRIUS_NO_ALT_SCREEN === '1') return false;
+  if (env.SIRUS_NO_ALT_SCREEN === '1') return false;
   if (env.TERM === 'dumb' || !env.TERM) return false;
   return Boolean(process.stdout.isTTY && process.stdin.isTTY);
 }

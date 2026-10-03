@@ -51,7 +51,7 @@ export interface AuditEntry {
 }
 
 export interface AuditTrail {
-  schema: 'sirius.revenue.audit/v1';
+  schema: 'sirus.revenue.audit/v1';
   run_id: string;
   started_at: string;
   batch: string;
@@ -94,7 +94,7 @@ export class AuditLog {
   /** Seals the trail: the head hash is what gets signed, not the whole file. */
   seal(): AuditTrail {
     const trail: AuditTrail = {
-      schema: 'sirius.revenue.audit/v1',
+      schema: 'sirus.revenue.audit/v1',
       run_id: this.runId,
       started_at: this.startedAt,
       batch: this.batch,
@@ -121,7 +121,7 @@ export type AuditVerification =
  * which is more useful than a signature failure that only says *that* it was.
  */
 export function verifyTrail(document: unknown, expectKey?: string): AuditVerification {
-  if (!isTrail(document)) return { ok: false, reason: 'not a sirius audit trail' };
+  if (!isTrail(document)) return { ok: false, reason: 'not a sirus audit trail' };
 
   let previous = GENESIS;
   for (const entry of document.entries) {
@@ -157,7 +157,7 @@ function isTrail(value: unknown): value is AuditTrail {
   return (
     typeof value === 'object' &&
     value !== null &&
-    (value as AuditTrail).schema === 'sirius.revenue.audit/v1' &&
+    (value as AuditTrail).schema === 'sirus.revenue.audit/v1' &&
     Array.isArray((value as AuditTrail).entries)
   );
 }

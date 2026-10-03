@@ -12,4 +12,4 @@ rule:
     pattern: |
       $CUR.execute("..." % $X)
   fix: { action: parameterize_query, target: query }
-  suppress: "# sirius-ignore: SIR-SEC-012"
+  suppress: "# sirus-ignore: SIR-SEC-012"

@@ -1,5 +1,5 @@
 /**
- * Everything you can run as `sirius x` you can run as `/x`, and the reverse.
+ * Everything you can run as `sirus x` you can run as `/x`, and the reverse.
  *
  * This has now been fixed three times by hand — `revenue stress`, `rules test`,
  * `ledger` — each time by somebody noticing a command was missing from the
@@ -25,7 +25,7 @@ import { SHELL_COMMANDS } from '../src/ui/CommandPalette.js';
 const here = dirname(fileURLToPath(import.meta.url));
 const cliSource = readFileSync(join(here, '..', 'src', 'cli.ts'), 'utf8');
 
-/** Commands commander registers — what works as `sirius <name>`. */
+/** Commands commander registers — what works as `sirus <name>`. */
 const registered = [...cliSource.matchAll(/\.command\('([a-z-]+)'\)/g)].map((match) => match[1] as string);
 const palette = SHELL_COMMANDS.map((command) => command.name);
 
@@ -37,11 +37,11 @@ const palette = SHELL_COMMANDS.map((command) => command.name);
  */
 const SHELL_ONLY: Record<string, string> = {
   // A one-shot process cannot change its parent shell's directory, so
-  // `sirius cd` would be a command that appears to work and does nothing.
+  // `sirus cd` would be a command that appears to work and does nothing.
   cd: 'changes the directory the shell runs in; a one-shot process cannot',
   clear: "clears the shell's transcript; there is no transcript outside it",
   exit: 'leaves the shell; outside one there is nothing to leave',
-  // `sirius --help` and `sirius help <cmd>` are commander's, and better.
+  // `sirus --help` and `sirus help <cmd>` are commander's, and better.
   help: 'commander already provides --help and help <command> outside the shell',
 };
 

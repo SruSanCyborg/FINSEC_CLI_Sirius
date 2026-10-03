@@ -31,7 +31,7 @@ const KEY = 'STRIPE_KEY = "sk_live_51H8xR2eZvKYlo2Cexam"';
 const WEAK = ['import hashlib', 'def digest(x):', '    return hashlib.md5(x).hexdigest()'].join('\n');
 
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'sirius-diff-'));
+  dir = mkdtempSync(join(tmpdir(), 'sirus-diff-'));
   mkdirSync(join(dir, 'src'), { recursive: true });
   writeFileSync(join(dir, 'src', 'config.py'), `${KEY}\n`, 'utf8');
 });

@@ -18,7 +18,7 @@ set +m
 cd "$(dirname "$0")/.."
 
 CLI="$PWD/packages/cli/dist/cli.js"
-[ -f "$CLI" ] || { echo "build first: pnpm --filter @srusan/sirius build"; exit 2; }
+[ -f "$CLI" ] || { echo "build first: pnpm --filter @srusan/sirus build"; exit 2; }
 
 OUT="${REHEARSE_OUT:-$(mktemp)}"
 STAGE=$(mktemp -d)
@@ -27,8 +27,8 @@ trap 'rm -rf "$STAGE"' EXIT
 # The data is generated outside the timed run, and directly into the staging
 # directory — never into the repo, which is where an earlier version of this
 # left a stray `batch/` behind every rehearsal.
-node "$CLI" revenue gen "$STAGE/batch" --seed sirius-2026 >/dev/null 2>&1
-node "$CLI" reconcile "$STAGE/books" --gen --seed sirius-books >/dev/null 2>&1
+node "$CLI" revenue gen "$STAGE/batch" --seed sirus-2026 >/dev/null 2>&1
+node "$CLI" reconcile "$STAGE/books" --gen --seed sirus-books >/dev/null 2>&1
 
 echo "staged: $(ls "$STAGE")"
 
@@ -73,7 +73,7 @@ check() {
 }
 
 echo "beats:"
-check "detect streams records"        'sirius revenue'
+check "detect streams records"        'sirus revenue'
 check "diagnosis names the outage"    'gateway degradation'
 check "cluster is held, not retried"  'held for review'
 check "recovery timeline runs"        'RECOVERY RUN'
@@ -87,6 +87,6 @@ echo
 echo "beat timings (paced, as on stage):"
 for beat in "revenue detect batch --limit 10" "revenue recover batch --limit 30" "reconcile books"; do
   start=$(python3 -c 'import time; print(time.time())')
-  ( cd "$STAGE" && SIRIUS_STREAM_PLAIN=1 node "$CLI" $beat >/dev/null 2>&1 )
+  ( cd "$STAGE" && SIRUS_STREAM_PLAIN=1 node "$CLI" $beat >/dev/null 2>&1 )
   python3 -c "import sys,time; print(f'  {time.time()-float(sys.argv[1]):5.1f}s  {sys.argv[2]}')" "$start" "$beat"
 done

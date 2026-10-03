@@ -217,7 +217,7 @@ const exceptionRows = () =>
     )
     .join('\n');
 
-const page = `<title>Sirius Revenue</title>
+const page = `<title>Sirus Revenue</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
@@ -228,11 +228,11 @@ ${style}
 
   <header class="mast">
     <div class="brandline">
-      <b>sirius</b><span class="sep">·</span><span>revenue &amp; reconcile</span><span class="sep">·</span><span>cli branch</span><span class="sep">·</span><span>${m.tests} tests</span>
+      <b>sirus</b><span class="sep">·</span><span>revenue &amp; reconcile</span><span class="sep">·</span><span>cli branch</span><span class="sep">·</span><span>${m.tests} tests</span>
     </div>
     <h1>Three loops that close,<br><em>and one column that hurts.</em></h1>
     <p class="thesis">
-      Sirius prices money at risk in code. This is the other half: what the code did —
+      Sirus prices money at risk in code. This is the other half: what the code did —
       failed payments, abandoned checkouts, ageing receivables, and three sets of books
       that disagree. Every figure on this page was produced by running the tool, not by
       copying a terminal, and <strong>the numbers that flatter it are printed beside the
@@ -345,7 +345,7 @@ ${capacityCells()}
       <div class="panel">
         <div class="cap">
           <span class="t">Held-out metrics</span>
-          <span class="s">sirius revenue eval batch</span>
+          <span class="s">sirus revenue eval batch</span>
         </div>
         <pre class="term"><span class="c">                   acted        left alone</span>
 <span class="c">  recoverable  </span>   <span class="g">${String(m.eval.matrix.true_positive).padStart(2)}</span>  <span class="c">hit    </span>    <span class="r">${String(m.eval.matrix.false_negative).padStart(2)}</span>  <span class="c">missed</span>
@@ -368,7 +368,7 @@ ${calibrationRows()}</pre>
       <div class="panel">
         <div class="cap">
           <span class="t">Across ${m.sweep.seeds} independently generated batches</span>
-          <span class="s">sirius revenue sweep --seeds ${m.sweep.seeds}</span>
+          <span class="s">sirus revenue sweep --seeds ${m.sweep.seeds}</span>
         </div>
         <pre class="term"><span class="c">  seed              precision   recall  recall ₹     edge  ceiling  touched</span>
 ${sweepRows()}
@@ -453,7 +453,7 @@ ${ruleRows()}
         </div>
         <div class="legend">
           <span>Cooldowns and quiet hours are a <em>not yet</em>, not a <em>no</em>: the run reschedules to the first permitted moment and comes back at 09:00. Deferrals are capped, which is what guarantees it terminates.</span>
-          <span>Every threshold above is set in <code>sirius.yaml</code>, and a run under a project's own policy names what moved.</span>
+          <span>Every threshold above is set in <code>sirus.yaml</code>, and a run under a project's own policy names what moved.</span>
         </div>
       </div>
 
@@ -575,13 +575,13 @@ ${exceptionRows()}
 
     <div class="body">
       <div class="run">
-<span class="p">$</span> sirius revenue gen batch          <span class="c"># a reproducible batch from a seed</span>
-<span class="p">$</span> sirius revenue detect batch       <span class="c"># score it, diagnose it, price it</span>
-<span class="p">$</span> sirius revenue explain inv_00059  <span class="c"># why that record scored what it did</span>
-<span class="p">$</span> sirius revenue eval batch         <span class="c"># measure it on the held-out half</span>
-<span class="p">$</span> sirius revenue recover batch      <span class="c"># bounded workflow + signed trail</span>
-<span class="p">$</span> sirius revenue sweep --seeds 8    <span class="c"># is it stable, and did that change help</span>
-<span class="p">$</span> sirius reconcile books --gen      <span class="c"># three sets of books that disagree</span>
+<span class="p">$</span> sirus revenue gen batch          <span class="c"># a reproducible batch from a seed</span>
+<span class="p">$</span> sirus revenue detect batch       <span class="c"># score it, diagnose it, price it</span>
+<span class="p">$</span> sirus revenue explain inv_00059  <span class="c"># why that record scored what it did</span>
+<span class="p">$</span> sirus revenue eval batch         <span class="c"># measure it on the held-out half</span>
+<span class="p">$</span> sirus revenue recover batch      <span class="c"># bounded workflow + signed trail</span>
+<span class="p">$</span> sirus revenue sweep --seeds 8    <span class="c"># is it stable, and did that change help</span>
+<span class="p">$</span> sirus reconcile books --gen      <span class="c"># three sets of books that disagree</span>
       </div>
 
       <div class="callout">
@@ -598,7 +598,7 @@ ${exceptionRows()}
   </section>
 
   <footer>
-    <span class="mono">sirius · cli branch · ${m.tests} tests · docs/revenue.md</span>
+    <span class="mono">sirus · cli branch · ${m.tests} tests · docs/revenue.md</span>
     <span>Generated from a live run on ${escape(m.generated_at.slice(0, 10))} — seeds ${escape(
       m.seeds.batch,
     )} and ${escape(m.seeds.books)}. Gateways and banks are fictional; UPI, NACH and their failure modes are not.</span>
@@ -607,6 +607,6 @@ ${exceptionRows()}
 </div>
 `;
 
-const target = resolve(process.argv[2] ?? join(here, 'sirius-revenue.html'));
+const target = resolve(process.argv[2] ?? join(here, 'sirus-revenue.html'));
 writeFileSync(target, page, 'utf8');
 process.stdout.write(`Rendered ${target} from metrics of ${m.generated_at}\n`);

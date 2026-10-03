@@ -197,7 +197,7 @@ export interface Incident {
 }
 
 export interface BatchManifest {
-  schema: 'sirius.batch/v1';
+  schema: 'sirus.batch/v1';
   seed: number | string;
   generated_at: string;
   as_of: string;
@@ -340,7 +340,7 @@ export function generateBatch(options: GenerateOptions): GeneratedBatch {
     truth,
     incidents,
     manifest: {
-      schema: 'sirius.batch/v1',
+      schema: 'sirus.batch/v1',
       seed: options.seed,
       generated_at: new Date().toISOString(),
       as_of: asOf.toISOString(),

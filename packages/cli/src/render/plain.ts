@@ -137,7 +137,7 @@ export function renderFindingDetail(finding: Finding, options: RenderOptions = {
   if (finding.fix_action) {
     lines.push(
       `      ${label('fix')}${paint(finding.fix_action, GREEN, color)}` +
-        paint(`   sirius fix ${finding.rule_id}`, DIM, color),
+        paint(`   sirus fix ${finding.rule_id}`, DIM, color),
     );
   }
 

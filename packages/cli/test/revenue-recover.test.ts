@@ -348,7 +348,7 @@ describe('the audit trail', () => {
  * only way to change one was to edit TypeScript. A limit nobody can set is not
  * policy, it is a constant with a good comment.
  */
-describe('limits from sirius.yaml', () => {
+describe('limits from sirus.yaml', () => {
   it('falls back to the defaults when the file says nothing', () => {
     expect(limitsFrom(undefined)).toEqual(DEFAULT_LIMITS);
     expect(limitsFrom({})).toEqual(DEFAULT_LIMITS);

@@ -15,7 +15,7 @@ set +m
 cd "$(dirname "$0")/.."
 
 CLI="$PWD/packages/cli/dist/cli.js"
-[ -f "$CLI" ] || { echo "build first: pnpm --filter @srusan/sirius build"; exit 2; }
+[ -f "$CLI" ] || { echo "build first: pnpm --filter @srusan/sirus build"; exit 2; }
 
 OUT="${SHELL_CHECK_OUT:-$(mktemp)}"
 STAGE=$(mktemp -d)
@@ -33,7 +33,7 @@ node "$CLI" guard gen "$STAGE/guardfeed" --seed check --actions 120 >/dev/null 2
 
 # A record id and a trail to point the explain/audit checks at.
 RECORD=$(cd "$STAGE" && node "$CLI" revenue detect batch --limit 1 2>/dev/null | grep -oE '(inv|pay|chk)_[0-9]+' | head -1)
-(cd "$STAGE" && SIRIUS_REVENUE_PACE=0 node "$CLI" revenue recover batch >/dev/null 2>&1)
+(cd "$STAGE" && SIRUS_REVENUE_PACE=0 node "$CLI" revenue recover batch >/dev/null 2>&1)
 TRAIL=$(cd "$STAGE" && ls batch/recovery-*.json 2>/dev/null | head -1)
 
 echo "staged in $STAGE — record $RECORD, trail $TRAIL"
@@ -93,7 +93,7 @@ echo
   printf '/rules list\r'; sleep 4
   printf '/exit\r'
   sleep 2
-} | (cd "$STAGE" && SIRIUS_REVENUE_PACE=12 SIRIUS_SCAN_PACE=40 script -q /dev/null node "$CLI") >"$OUT" 2>&1 &
+} | (cd "$STAGE" && SIRUS_REVENUE_PACE=12 SIRUS_SCAN_PACE=40 script -q /dev/null node "$CLI") >"$OUT" 2>&1 &
 RUNNER=$!
 
 ( sleep 240; pkill -f "script -q /dev/null node $CLI" 2>/dev/null ) &

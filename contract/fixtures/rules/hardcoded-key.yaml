@@ -11,4 +11,4 @@ rule:
     kind: regex
     regex: '(sk_live_[0-9a-zA-Z]{16,}|rk_live_[0-9a-zA-Z]{16,})'
   fix: { action: env_lookup, target: api_key }
-  suppress: "# sirius-ignore: SIR-SEC-003"
+  suppress: "# sirus-ignore: SIR-SEC-003"

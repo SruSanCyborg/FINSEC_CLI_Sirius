@@ -156,7 +156,7 @@ FILE_LIST.forEach((path, i) => {
 });
 
 // One non-fatal parse error, so clients are forced to handle the branch.
-push(20, { type: 'error', code: 'SIRIUS_ERR_PARSE', path: 'src/vendor/minified.js', detail: 'Unsupported syntax; file skipped' });
+push(20, { type: 'error', code: 'SIRUS_ERR_PARSE', path: 'src/vendor/minified.js', detail: 'Unsupported syntax; file skipped' });
 
 push(150, {
   type: 'scan.completed',

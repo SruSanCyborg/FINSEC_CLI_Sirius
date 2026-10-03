@@ -48,7 +48,7 @@ def refund():
 let dir: string;
 
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'sirius-auth-'));
+  dir = mkdtempSync(join(tmpdir(), 'sirus-auth-'));
   mkdirSync(join(dir, 'src'), { recursive: true });
   writeFileSync(join(dir, 'src', 'payments.py'), PAYMENTS, 'utf8');
 });

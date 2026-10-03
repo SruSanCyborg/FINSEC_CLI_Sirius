@@ -17,7 +17,7 @@ import { clearTriage, loadTriage, recordTriage, triageKey } from '../src/engine/
 
 let dir: string;
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'sirius-triage-'));
+  dir = mkdtempSync(join(tmpdir(), 'sirus-triage-'));
 });
 afterEach(() => rmSync(dir, { recursive: true, force: true }));
 

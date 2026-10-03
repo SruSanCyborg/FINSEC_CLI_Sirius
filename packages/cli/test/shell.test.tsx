@@ -223,7 +223,7 @@ describe('the palette finds subcommands', () => {
 /**
  * Commands that take the whole terminal.
  *
- * The shell used to answer `/triage` with "leave the shell and run: sirius
+ * The shell used to answer `/triage` with "leave the shell and run: sirus
  * triage", which is a tool telling its user to go and use a different tool. It
  * hands the terminal over now and takes it back when the child exits.
  *
@@ -271,7 +271,7 @@ describe('the full-screen commands', () => {
 /**
  * "Where is it even running?"
  *
- * Asked out loud, after a `/doctor` that reported no sirius.yaml and 92
+ * Asked out loud, after a `/doctor` that reported no sirus.yaml and 92
  * findings without naming a single directory. Everything in this shell is
  * relative to one, and the status bar showed only its last segment — `ho/`,
  * which could be any of a dozen.

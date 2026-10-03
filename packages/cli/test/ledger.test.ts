@@ -29,7 +29,7 @@ import { hex, leafHash, treeRoot } from '../src/engine/merkle.js';
 
 let dir: string;
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'sirius-ledger-'));
+  dir = mkdtempSync(join(tmpdir(), 'sirus-ledger-'));
 });
 afterEach(() => rmSync(dir, { recursive: true, force: true }));
 
@@ -50,7 +50,7 @@ describe('recording', () => {
   });
 
   it('records the same report once, however often it is asked', () => {
-    // Otherwise the log's size counts invocations of `sirius report` rather
+    // Otherwise the log's size counts invocations of `sirus report` rather
     // than distinct reports, and the ledger stops being about the history.
     add(1);
     const again = add(1);
@@ -62,7 +62,7 @@ describe('recording', () => {
   it('refuses to start a fresh log over a corrupt one', () => {
     // Quietly beginning again would destroy exactly the history the file exists
     // to keep, and would do it silently at the moment somebody most needs it.
-    mkdirSync(join(dir, '.sirius'), { recursive: true });
+    mkdirSync(join(dir, '.sirus'), { recursive: true });
     writeFileSync(ledgerPath(dir), '{ this is not json', 'utf8');
     expect(() => loadLedger(dir)).toThrow(/not readable as a ledger/);
   });
@@ -179,7 +179,7 @@ describe('what lands on disk', () => {
     add(1);
     add(2);
     const raw = JSON.parse(readFileSync(ledgerPath(dir), 'utf8'));
-    expect(raw.schema).toBe('sirius.ledger/v1');
+    expect(raw.schema).toBe('sirus.ledger/v1');
     expect(raw.entries).toHaveLength(2);
     expect(raw.entries[0]).toMatchObject({ scan_id: 'scan-1', findings: 1 });
     expect(raw.root).toMatch(/^[0-9a-f]{64}$/);

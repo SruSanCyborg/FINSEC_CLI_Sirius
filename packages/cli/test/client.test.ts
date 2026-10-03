@@ -3,7 +3,7 @@
  *
  * A server that returns a cursor which never advances used to spin here
  * forever, and the symptom was a command that looked frozen with no error —
- * `sirius triage` hung on exactly this against the mock, because Prism returns
+ * `sirus triage` hung on exactly this against the mock, because Prism returns
  * a constant `next_cursor` of "string".
  */
 

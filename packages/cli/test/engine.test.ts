@@ -25,7 +25,7 @@ const CHAOS = join(REPO, 'contract', 'fixtures', 'chaos-repo');
 
 let scratch: string;
 beforeEach(() => {
-  scratch = mkdtempSync(join(tmpdir(), 'sirius-engine-'));
+  scratch = mkdtempSync(join(tmpdir(), 'sirus-engine-'));
 });
 afterEach(() => {
   rmSync(scratch, { recursive: true, force: true });
@@ -156,9 +156,9 @@ describe('scanning a tree', () => {
     expect(files[0]).toMatch(/src\/a\.py$/);
   });
 
-  it('honors an inline sirius-ignore', async () => {
+  it('honors an inline sirus-ignore', async () => {
     const source = [
-      'KEY = "sk_live_51H8xR2eZvAAAAAAAAAA"  # sirius-ignore: SIR-SEC-001',
+      'KEY = "sk_live_51H8xR2eZvAAAAAAAAAA"  # sirus-ignore: SIR-SEC-001',
       '',
     ].join('\n');
     write('src/x.py', source);

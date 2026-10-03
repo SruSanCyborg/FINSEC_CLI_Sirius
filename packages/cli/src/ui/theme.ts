@@ -7,7 +7,7 @@
  *
  * The ASCII fallback is not hypothetical politeness — the demo runs on an
  * unknown presentation machine, and a row of mojibake during the 60 seconds
- * that matter most is a real risk (SIRIUS_ASCII=1 forces it).
+ * that matter most is a real risk (SIRUS_ASCII=1 forces it).
  */
 
 import type { Severity, Validity } from '../domain.js';
@@ -47,12 +47,12 @@ export function detectCapabilities(options: CapabilityOptions = {}): Capabilitie
   const forceColor = env.FORCE_COLOR !== undefined && env.FORCE_COLOR !== '' && env.FORCE_COLOR !== '0';
   const color = !options.noColor && !noColorEnv && !options.machineMode && (tty || forceColor);
 
-  const asciiForced = env.SIRIUS_ASCII === '1' || env.SIRIUS_ASCII === 'true';
+  const asciiForced = env.SIRUS_ASCII === '1' || env.SIRUS_ASCII === 'true';
   const utf8 = /UTF-?8/i.test(env.LC_ALL ?? env.LC_CTYPE ?? env.LANG ?? '');
   // The counterpart to FORCE_COLOR: the full-screen shell captures child output
   // through a pipe, so the child cannot see a terminal and would fall back to
   // ASCII even though the box drawing it into does support unicode.
-  const unicodeForced = env.SIRIUS_UNICODE === '1';
+  const unicodeForced = env.SIRUS_UNICODE === '1';
   // Windows Terminal and modern macOS/Linux terminals are fine; a bare TERM=dumb
   // or a non-UTF-8 locale is not.
   // Terminals that implement OSC 8. Deliberately a list of known-good rather
@@ -66,9 +66,9 @@ export function detectCapabilities(options: CapabilityOptions = {}): Capabilitie
     env.WT_SESSION !== undefined ||
     env.VTE_VERSION !== undefined;
   const hyperlinks =
-    env.SIRIUS_LINKS === '0'
+    env.SIRUS_LINKS === '0'
       ? false
-      : env.SIRIUS_LINKS === '1' || (tty && !options.machineMode && knownGood);
+      : env.SIRUS_LINKS === '1' || (tty && !options.machineMode && knownGood);
 
   const unicode =
     !asciiForced && (unicodeForced || (tty && env.TERM !== 'dumb' && (utf8 || process.platform === 'darwin')));

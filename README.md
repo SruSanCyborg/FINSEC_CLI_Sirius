@@ -1,15 +1,15 @@
 <p align="center">
-  <img src="media/sirius-hero.svg" width="100%" alt="Sirius by SruSan: a security and control layer for AI agents that move money, and for the code they run on. Verdicts ALLOW, VERIFY, CONSTRAIN, BLOCK; install with npx @srusan/sirius">
+  <img src="media/sirus-hero.svg" width="100%" alt="Sirus by SruSan: a security and control layer for AI agents that move money, and for the code they run on. Verdicts ALLOW, VERIFY, CONSTRAIN, BLOCK; install with npx @srusan/sirus">
 </p>
 
-<h1 align="center">Sirius, by SruSan</h1>
+<h1 align="center">Sirus, by SruSan</h1>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@srusan/sirius"><img src="https://img.shields.io/npm/v/%40srusan%2Fsirius?color=cb3837&logo=npm" alt="npm version"></a>
-  <a href="https://github.com/SruSanCyborg/FINSEC_CLI_Sirius/actions/workflows/ci.yml"><img src="https://github.com/SruSanCyborg/FINSEC_CLI_Sirius/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://www.npmjs.com/package/@srusan/sirus"><img src="https://img.shields.io/npm/v/%40srusan%2Fsirus?color=cb3837&logo=npm" alt="npm version"></a>
+  <a href="https://github.com/SruSanCyborg/FINSEC_CLI_Sirus/actions/workflows/ci.yml"><img src="https://github.com/SruSanCyborg/FINSEC_CLI_Sirus/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <img src="https://img.shields.io/badge/tests-871%20passing-brightgreen" alt="871 tests passing">
   <img src="https://img.shields.io/badge/node-%E2%89%A522-339933?logo=node.js&logoColor=white" alt="Node >= 22">
-  <img src="https://img.shields.io/github/license/SruSanCyborg/FINSEC_CLI_Sirius?color=blue" alt="MIT license">
+  <img src="https://img.shields.io/github/license/SruSanCyborg/FINSEC_CLI_Sirus?color=blue" alt="MIT license">
 </p>
 
 <p align="center"><b>A security and control layer for AI agents that can move money, and for the code they run on.</b></p>
@@ -17,13 +17,13 @@
 An autonomous agent with access to a wallet is a new kind of actor: it holds
 credentials, decides for itself, and signs its own transactions. Every one of
 those transactions can be perfectly valid and still be the wrong thing to do.
-`sirius` decides, per action, whether it should happen, and keeps a signed
+`sirus` decides, per action, whether it should happen, and keeps a signed
 record of every decision, including the ones it allowed.
 
 It runs entirely on your machine. No backend, no network, no account.
 
 ```bash
-npx @srusan/sirius            # try it now, nothing to install (Node.js 22+)
+npx @srusan/sirus            # try it now, nothing to install (Node.js 22+)
 ```
 
 <p align="center">
@@ -40,12 +40,12 @@ npx @srusan/sirius            # try it now, nothing to install (Node.js 22+)
 ## See it run
 
 <p align="center">
-  <a href="media/sirius-demo.mp4"><img src="media/sirius-demo.gif" alt="sirius running live in a terminal: guard, scan and revenue" width="720"></a>
+  <a href="media/sirus-demo.mp4"><img src="media/sirus-demo.gif" alt="sirus running live in a terminal: guard, scan and revenue" width="720"></a>
   <br>
   <sub>▶ click for the full five-minute demo, recorded live: <code>guard</code>, <code>scan</code> and <code>revenue</code>, no slides</sub>
 </p>
 
-What `sirius guard` decides on a day of an agent's payments:
+What `sirus guard` decides on a day of an agent's payments:
 
 ```
   !  BLOCK     wlt-9f2c41    Rs.48,000   the instruction contains override of prior
@@ -62,34 +62,34 @@ What `sirius guard` decides on a day of an agent's payments:
 
 ## Install
 
-Sirius is on npm as [`@srusan/sirius`](https://www.npmjs.com/package/@srusan/sirius). It works on **Windows, macOS and
+Sirus is on npm as [`@srusan/sirus`](https://www.npmjs.com/package/@srusan/sirus). It works on **Windows, macOS and
 Linux** and needs **[Node.js](https://nodejs.org) 22 or newer** (check with `node -v`).
 
 ```bash
-npx @srusan/sirius --help         # run it once, without installing
-npm install -g @srusan/sirius     # or install the `sirius` command
-sirius --version
+npx @srusan/sirus --help         # run it once, without installing
+npm install -g @srusan/sirus     # or install the `sirus` command
+sirus --version
 ```
 
 | Package manager | Install | Run once |
 |---|---|---|
-| npm | `npm install -g @srusan/sirius` | `npx @srusan/sirius` |
-| pnpm | `pnpm add -g @srusan/sirius` | `pnpm dlx @srusan/sirius` |
-| yarn | `yarn global add @srusan/sirius` | `yarn dlx @srusan/sirius` |
-| bun | `bun add -g @srusan/sirius` | `bunx @srusan/sirius` |
+| npm | `npm install -g @srusan/sirus` | `npx @srusan/sirus` |
+| pnpm | `pnpm add -g @srusan/sirus` | `pnpm dlx @srusan/sirus` |
+| yarn | `yarn global add @srusan/sirus` | `yarn dlx @srusan/sirus` |
+| bun | `bun add -g @srusan/sirus` | `bunx @srusan/sirus` |
 
-Update with `npm update -g @srusan/sirius`, remove with `npm uninstall -g @srusan/sirius`.
+Update with `npm update -g @srusan/sirus`, remove with `npm uninstall -g @srusan/sirus`.
 
 <details>
 <summary><b>Troubleshooting</b></summary>
 
 - **`Unsupported engine` or syntax errors on start:** your Node.js is older than 22. Install the current LTS from
   [nodejs.org](https://nodejs.org), or with a version manager: `nvm install 22 && nvm use 22`.
-- **`sirius: command not found` after a global install:** npm's global bin folder is not on your `PATH`. Run
-  `npm config get prefix` and add its `bin` folder (on Windows, the prefix folder itself) to `PATH`, or just use `npx @srusan/sirius`.
+- **`sirus: command not found` after a global install:** npm's global bin folder is not on your `PATH`. Run
+  `npm config get prefix` and add its `bin` folder (on Windows, the prefix folder itself) to `PATH`, or just use `npx @srusan/sirus`.
 - **`EACCES` permission errors on macOS/Linux:** don't use `sudo`; install Node with [nvm](https://github.com/nvm-sh/nvm)
   so global packages go into your home folder.
-- **Anything else:** `sirius doctor` checks your setup and tells you what to run next.
+- **Anything else:** `sirus doctor` checks your setup and tells you what to run next.
 
 </details>
 
@@ -98,14 +98,14 @@ Update with `npm update -g @srusan/sirius`, remove with `npm uninstall -g @srusa
 ## Try it
 
 ```bash
-sirius brief --plain                # what this is, in two minutes
-sirius guard gen feed               # 278 actions, 26 attacks planted
-sirius guard eval feed --narrate    # judge them, explained
-sirius guard score feed             # against what was actually planted
-sirius scan .                       # scan your own project
+sirus brief --plain                # what this is, in two minutes
+sirus guard gen feed               # 278 actions, 26 attacks planted
+sirus guard eval feed --narrate    # judge them, explained
+sirus guard score feed             # against what was actually planted
+sirus scan .                       # scan your own project
 ```
 
-`sirius brief` writes the same thing as a six-page PDF. Every figure in it comes
+`sirus brief` writes the same thing as a six-page PDF. Every figure in it comes
 from that run — none of them are typed in.
 
 ```
@@ -152,7 +152,7 @@ So the answer has to be graduated.
 
 ```mermaid
 flowchart LR
-    A["agent proposes<br/>an action"] --> G{"sirius guard"}
+    A["agent proposes<br/>an action"] --> G{"sirus guard"}
     G -->|"low risk"| ALLOW["ALLOW<br/>proceeds, nobody asked"]
     G -->|"unusual but plausible"| VERIFY["VERIFY<br/>step-up, not a person"]
     G -->|"over a limit"| CONSTRAIN["CONSTRAIN<br/>proceeds, smaller"]
@@ -261,7 +261,7 @@ So every decision, including the allowed ones, is hash-chained and the sealed
 trail is ed25519-signed.
 
 ```bash
-sirius guard trail --verify decisions-mtcnin36.json
+sirus guard trail --verify decisions-mtcnin36.json
 ```
 
 ```
@@ -296,7 +296,7 @@ exposure in rupees.
      src/config.py:14                          PCI-DSS 8.6.2 · DPDP §8
      14 │  STRIPE_KEY = "sk_live_51H8xR2eZv…"
         │               ╰── secret · ⚠ VERIFIED LIVE · ₹42,00,000 at risk
-     ↳ fix: env_lookup   run  sirius fix SIR-SEC-001
+     ↳ fix: env_lookup   run  sirus fix SIR-SEC-001
 ```
 
 And a third surface, `revenue`, prices money at risk in *operations* — failed
@@ -305,26 +305,26 @@ capacity-bounded, refusals logged, uplift net of what would have arrived anyway.
 
 | | Command | Answers |
 |---|---|---|
-| **Agents** | `sirius guard` | Should this agent be allowed to do this, right now? |
-| **Code** | `sirius scan .` | Which lines break which clause, and what is the exposure worth |
-| **Operations** | `sirius revenue` · `sirius reconcile` | Which money is recoverable, and what it costs to chase |
-| **Proof** | `sirius report` · `sirius ledger` | That none of it was altered afterwards |
+| **Agents** | `sirus guard` | Should this agent be allowed to do this, right now? |
+| **Code** | `sirus scan .` | Which lines break which clause, and what is the exposure worth |
+| **Operations** | `sirus revenue` · `sirus reconcile` | Which money is recoverable, and what it costs to chase |
+| **Proof** | `sirus report` · `sirus ledger` | That none of it was altered afterwards |
 
 ---
 
 ## Scanning code: quick start
 
-With `sirius` installed ([Install](#install)), scan any project:
+With `sirus` installed ([Install](#install)), scan any project:
 
 ```bash
-sirius scan .
+sirus scan .
 ```
 
 Or, from a clone of this repository, the bundled vulnerable fixture:
 
 ```bash
-git clone https://github.com/SruSanCyborg/FINSEC_CLI_Sirius && cd FINSEC_CLI_Sirius
-sirius scan contract/fixtures/chaos-repo
+git clone https://github.com/SruSanCyborg/FINSEC_CLI_Sirus && cd FINSEC_CLI_Sirus
+sirus scan contract/fixtures/chaos-repo
 ```
 
 ```
@@ -338,19 +338,19 @@ sirius scan contract/fixtures/chaos-repo
 ```
 
 Run with no arguments for the interactive shell — every command works as
-`sirius x` and as `/x` inside it:
+`sirus x` and as `/x` inside it:
 
 ```bash
-sirius
+sirus
 ```
 
 On a real project:
 
 ```bash
-sirius init --project <id>     # writes sirius.yaml + .siriusignore
-sirius scan .
-sirius fix SIR-SEC-001
-sirius report --output report.json
+sirus init --project <id>     # writes sirus.yaml + .sirusignore
+sirus scan .
+sirus fix SIR-SEC-001
+sirus report --output report.json
 ```
 
 ---
@@ -366,8 +366,8 @@ flowchart TD
     P --> T["taint analysis<br/>intra- and inter-procedural"]
     T --> R["13 compiled rules"]
     R --> POL{"policy layer"}
-    POL -->|"inline # sirius-ignore"| DROP["withheld"]
-    POL -->|".siriusignore / exclude:"| DROP
+    POL -->|"inline # sirus-ignore"| DROP["withheld"]
+    POL -->|".sirusignore / exclude:"| DROP
     POL -->|"suppressions with<br/>reason + expiry"| DROP
     POL -->|"baseline: unchanged"| DROP
     POL --> FIND["findings"]
@@ -397,7 +397,7 @@ cur.execute(f"SELECT count(*) FROM {TABLE}")   # no finding
 
 ## The fix pipeline
 
-`sirius fix` shows the provenance of every change before it touches a file. The
+`sirus fix` shows the provenance of every change before it touches a file. The
 verifier re-runs the rule against the patched source — a fix is only accepted if
 the rule that produced the finding no longer matches.
 
@@ -435,10 +435,10 @@ payments, abandoned checkouts, ageing receivables — and `reconcile` matches th
 sets of books that disagree.
 
 ```bash
-sirius revenue gen batch && sirius revenue detect batch
-sirius revenue eval batch          # held-out metrics, including what being wrong cost
-sirius revenue recover batch       # bounded workflow + signed audit trail
-sirius reconcile books --gen && sirius reconcile books
+sirus revenue gen batch && sirus revenue detect batch
+sirus revenue eval batch          # held-out metrics, including what being wrong cost
+sirus revenue recover batch       # bounded workflow + signed audit trail
+sirus reconcile books --gen && sirus reconcile books
 ```
 
 ```mermaid
@@ -467,7 +467,7 @@ Four rules this surface does not bend:
 - **Refusing is a first-class action.** "Considered and left alone" must be
   distinguishable from "never looked", so refusals produce audit entries too.
 - **The thresholds belong to the project.** Capacity, budget, quiet hours and the
-  cost model live in `sirius.yaml`. The *basis* is not configurable: a team sets
+  cost model live in `sirus.yaml`. The *basis* is not configurable: a team sets
   its threshold, not the obligation the threshold answers to.
 
 Everything is simulated and says so. There is no `--execute`.
@@ -490,9 +490,9 @@ flowchart LR
 ```
 
 ```bash
-sirius report --output report.json
-sirius report --verify report.json --key <fingerprint>
-sirius ledger verify
+sirus report --output report.json
+sirus report --verify report.json --key <fingerprint>
+sirus ledger verify
 ```
 
 Reports are checked the same way as the decision trail: `key_id` is derived from the embedded public key, never
@@ -527,12 +527,12 @@ PCI numbers are **v4.0**: injection is `6.2.4` (not v3.2.1's `6.5.1`), MFA into 
 CDE is `8.4.2`, hardcoded keys are `8.6.2`.
 
 ```bash
-sirius rules list                       # the whole catalogue, by category
-sirius rules show SIR-SEC-010           # clauses, fix action, suppression token
-sirius rules validate my-rule.yaml      # schema, vocabularies, clause numbers
-sirius rules test my-rule.yaml          # run it against an annotated fixture
-sirius explain SIR-SEC-001              # where the ₹ figure comes from
-sirius explain score                    # how the compliance score is calculated
+sirus rules list                       # the whole catalogue, by category
+sirus rules show SIR-SEC-010           # clauses, fix action, suppression token
+sirus rules validate my-rule.yaml      # schema, vocabularies, clause numbers
+sirus rules test my-rule.yaml          # run it against an annotated fixture
+sirus explain SIR-SEC-001              # where the ₹ figure comes from
+sirus explain score                    # how the compliance score is calculated
 ```
 
 Rules fire on **Python, JavaScript and TypeScript**. Three rules that match the
@@ -583,10 +583,10 @@ flowchart TD
 | `report` · `ledger` · `badge` | Signed proof, its history, and an SVG |
 | `revenue` · `reconcile` | The operations side |
 | `init` · `login` · `logout` · `doctor` | Scaffolding, credentials, and a pre-flight check |
-| `shell` | The interactive shell (also what `sirius` with no arguments opens) |
+| `shell` | The interactive shell (also what `sirus` with no arguments opens) |
 | `serve` | Run the local engine over HTTP + WebSocket, for the desktop app |
 
-Every command has `--help`, and `sirius --help` lists them all. Start with `sirius doctor` — it reports against the mode the scan will actually
+Every command has `--help`, and `sirus --help` lists them all. Start with `sirus doctor` — it reports against the mode the scan will actually
 run in, self-tests both engines, and ends with the command to run next.
 
 ---
@@ -603,13 +603,13 @@ Exit codes follow Snyk's convention:
 | `3` | No supported target found |
 
 ```bash
-sirius scan . --severity-threshold high --fail-on all --sarif results.sarif
+sirus scan . --severity-threshold high --fail-on all --sarif results.sarif
 ```
 
 In GitHub Actions, with results shown in the repository's Security tab:
 
 ```yaml
-name: sirius
+name: sirus
 on: [push, pull_request]
 permissions:
   contents: read
@@ -622,16 +622,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npx --yes @srusan/sirius scan . --severity-threshold high --sarif sirius.sarif
+      - run: npx --yes @srusan/sirus scan . --severity-threshold high --sarif sirus.sarif
       - uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
-          sarif_file: sirius.sarif
+          sarif_file: sirus.sarif
 ```
 
 `1` and `2` are deliberately distinct: a pipeline must be able to tell a blocked
 gate from a typo. The escape hatch, if you are not ready to block, is
-`sirius scan . || true` — and because a malformed flag exits `2`, that hatch will
+`sirus scan . || true` — and because a malformed flag exits `2`, that hatch will
 not silently swallow one.
 
 Useful flags:
@@ -653,11 +653,11 @@ Useful flags:
 Precedence, highest first:
 
 ```
-CLI flags  >  env (SIRIUS_*)  >  .siriuslintrc (nearest dir, walking up)
-           >  sirius.yaml (project root)  >  ~/.config/sirius/config.toml  >  defaults
+CLI flags  >  env (SIRUS_*)  >  .siruslintrc (nearest dir, walking up)
+           >  sirus.yaml (project root)  >  ~/.config/sirus/config.toml  >  defaults
 ```
 
-`sirius init` scaffolds `sirius.yaml` with comments explaining each threshold —
+`sirus init` scaffolds `sirus.yaml` with comments explaining each threshold —
 including which numbers are yours to set and which are not. An unrecognised key
 is reported rather than ignored, because a misspelled gate key means the gate
 silently does not exist.
@@ -665,12 +665,12 @@ silently does not exist.
 Three suppression layers, all of which change the totals as well as the list:
 
 ```python
-API_KEY = "..."   # sirius-ignore: SIR-SEC-001
+API_KEY = "..."   # sirus-ignore: SIR-SEC-001
 ```
 
 ```bash
-sirius suppress SIR-SEC-002 --reason "test fixture, not a live key" --expires 2026-12-31
-echo "vendor/" >> .siriusignore
+sirus suppress SIR-SEC-002 --reason "test fixture, not a live key" --expires 2026-12-31
+echo "vendor/" >> .sirusignore
 ```
 
 Suppressions require a reason and an ISO-8601 expiry, and an expired one restores
@@ -687,10 +687,10 @@ figure does not.
 
 | Variable | Effect |
 |---|---|
-| `SIRIUS_ASCII=1` | Full ASCII output — `₹` becomes `Rs.`, box drawing becomes `+-\|` |
+| `SIRUS_ASCII=1` | Full ASCII output — `₹` becomes `Rs.`, box drawing becomes `+-\|` |
 | `NO_COLOR=1` | No colour (the standard convention) |
-| `SIRIUS_SCAN_PACE` · `SIRIUS_REVENUE_PACE` | Output pacing in ms; `0` disables |
-| `SIRIUS_REPLAY_SPEED` | Replay speed; `0` is instant |
+| `SIRUS_SCAN_PACE` · `SIRUS_REVENUE_PACE` | Output pacing in ms; `0` disables |
+| `SIRUS_REPLAY_SPEED` | Replay speed; `0` is instant |
 
 Pacing is off automatically for `--json`, pipes and CI — a pipeline must not pay
 deliberate delay to look good for nobody.
@@ -701,8 +701,8 @@ deliberate delay to look good for nobody.
 
 ```bash
 pnpm install
-pnpm --filter @srusan/sirius build       # tsc → packages/cli/dist
-pnpm --filter @srusan/sirius test        # vitest — 871 tests
+pnpm --filter @srusan/sirus build       # tsc → packages/cli/dist
+pnpm --filter @srusan/sirus test        # vitest — 871 tests
 pnpm mock                        # Prism REST :4010 + WS replay :4011
 pnpm contract:lint               # redocly lint
 pnpm rehearse                    # drive the real shell in a real pty
@@ -733,7 +733,7 @@ git tag v0.4.1 && git push && git push origin v0.4.1
 The workflow builds, runs the full test suite, checks that the tag matches the package version, and publishes.
 To publish by hand instead, run `npm publish` from **`packages/cli`**, never from the repository root (the root is the
 private workspace). [`ci.yml`](.github/workflows/ci.yml) also packs the package and installs it globally on every push,
-so a broken `sirius` command is caught before a release.
+so a broken `sirus` command is caught before a release.
 
 ### Things this project takes seriously
 
@@ -774,7 +774,7 @@ value.
 | `rules` · `baseline` · `suppress` | Done, fully offline |
 | `report` · `ledger` · `badge` | Done — ed25519 signing, RFC 6962 Merkle log |
 | `revenue` · `reconcile` | Done — held-out metrics, bounded recovery, signed trail |
-| Distribution | Published on npm as [`@srusan/sirius`](https://www.npmjs.com/package/@srusan/sirius); Windows, macOS and Linux (Node.js 22+) |
+| Distribution | Published on npm as [`@srusan/sirus`](https://www.npmjs.com/package/@srusan/sirus); Windows, macOS and Linux (Node.js 22+) |
 | Tests | 871 passing, on every push in CI |
 
 **The API is required for nothing.** The CLI began as a pure client of a REST
@@ -783,7 +783,7 @@ contract and still speaks it, but every command works with no backend running.
 ---
 
 <p align="center">
-  <b>Sirius</b> is an open-source project by <b>SruSan</b>, made by <b>Sanjay Sivakumar</b><br>
+  <b>Sirus</b> is an open-source project by <b>SruSan</b>, made by <b>Sanjay Sivakumar</b><br>
   <a href="https://github.com/SruSanCyborg">GitHub</a> · <a href="https://www.linkedin.com/in/sanjaysivakumar11/">LinkedIn</a> · <a href="LICENSE">MIT licence</a><br>
   <sub>Fintech compliance scanning, priced in rupees.</sub>
 </p>

@@ -170,7 +170,7 @@ export function TriageView({ findings: initial, glyphs, capabilities, onDecide, 
       return;
     }
     if (input === 'f') {
-      setStatus(`run:  sirius fix ${current.rule_id}`);
+      setStatus(`run:  sirus fix ${current.rule_id}`);
       return;
     }
   });
@@ -181,7 +181,7 @@ export function TriageView({ findings: initial, glyphs, capabilities, onDecide, 
   return (
     <Box flexDirection="column">
       <Box marginBottom={1}>
-        <Text bold>{'  sirius triage  '}</Text>
+        <Text bold>{'  sirus triage  '}</Text>
         <Text color={muted}>
           {`${visible.length}/${findings.length} shown${filter ? ` · filter "${filter}"` : ''} · ${summary.remaining} open`}
         </Text>

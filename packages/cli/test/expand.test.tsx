@@ -32,7 +32,7 @@ function setup() {
     <FullScreenShell
       glyphs={glyphsFor(capabilities)}
       capabilities={capabilities}
-      header="sirius"
+      header="sirus"
       lines={lines}
       busy={false}
       history={[]}
@@ -104,7 +104,7 @@ describe('mouse sequences never become text', () => {
       <FullScreenShell
         glyphs={glyphsFor(capabilities)}
         capabilities={capabilities}
-        header="sirius"
+        header="sirus"
         lines={many}
         busy={false}
         history={[]}

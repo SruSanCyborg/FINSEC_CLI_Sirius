@@ -7,7 +7,7 @@
  * number that will be wrong, so nothing here is typed: each figure comes from
  * the same `--json` output a pipeline would consume.
  *
- * Everything is derived from two seeds, `sirius-2026` and `sirius-books`, so the
+ * Everything is derived from two seeds, `sirus-2026` and `sirus-books`, so the
  * page is reproducible from the repo alone. Rupees are pre-formatted here rather
  * than in the template, because Indian grouping is a rule the template should
  * not have to know.
@@ -30,7 +30,7 @@ function run(cwd, args) {
     cwd,
     encoding: 'utf8',
     maxBuffer: 64 * 1024 * 1024,
-    env: { ...process.env, SIRIUS_REVENUE_PACE: '0', SIRIUS_SCAN_PACE: '0', NO_COLOR: '1' },
+    env: { ...process.env, SIRUS_REVENUE_PACE: '0', SIRUS_SCAN_PACE: '0', NO_COLOR: '1' },
   });
   return JSON.parse(out);
 }
@@ -39,7 +39,7 @@ function quiet(cwd, args) {
   execFileSync(process.execPath, [CLI, ...args], {
     cwd,
     stdio: 'ignore',
-    env: { ...process.env, SIRIUS_REVENUE_PACE: '0', NO_COLOR: '1' },
+    env: { ...process.env, SIRUS_REVENUE_PACE: '0', NO_COLOR: '1' },
   });
 }
 
@@ -50,12 +50,12 @@ const rupees = (paise) => `₹${inr.format(Math.round(paise / 100))}`;
 const pct = (share, places = 1) => `${(share * 100).toFixed(places)}%`;
 const signed = (share) => `${share >= 0 ? '+' : ''}${(share * 100).toFixed(1)}%`;
 
-const stage = mkdtempSync(join(tmpdir(), 'sirius-artifact-'));
+const stage = mkdtempSync(join(tmpdir(), 'sirus-artifact-'));
 
 try {
   // ---- the batch every headline figure comes from
-  quiet(stage, ['revenue', 'gen', 'batch', '--seed', 'sirius-2026']);
-  quiet(stage, ['reconcile', 'books', '--gen', '--seed', 'sirius-books']);
+  quiet(stage, ['revenue', 'gen', 'batch', '--seed', 'sirus-2026']);
+  quiet(stage, ['reconcile', 'books', '--gen', '--seed', 'sirus-books']);
 
   const detect = run(stage, ['revenue', 'detect', 'batch', '--json']);
   const evaluation = run(stage, ['revenue', 'eval', 'batch', '--json']);
@@ -131,7 +131,7 @@ try {
 
   const metrics = {
     generated_at: new Date().toISOString(),
-    seeds: { batch: 'sirius-2026', books: 'sirius-books' },
+    seeds: { batch: 'sirus-2026', books: 'sirus-books' },
     tests,
 
     batch: {

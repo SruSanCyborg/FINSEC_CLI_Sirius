@@ -1,5 +1,5 @@
 /**
- * A real narrative for an attack chain SIRIUS already found — Gemini's one
+ * A real narrative for an attack chain SIRUS already found — Gemini's one
  * job in this codebase. Grounded strictly in the steps it's handed: told not
  * to invent a file, rule, or figure beyond them, the same discipline
  * `engine/ask.ts` applies to Cerebus's chat.
@@ -26,7 +26,7 @@ export async function explainAttackPath(input: ExplainAttackPathInput): Promise<
     throw new HttpError(
       503,
       'No model configured for attack-path narratives — set GEMINI_API_KEY.',
-      'SIRIUS_ERR_NO_MODEL',
+      'SIRUS_ERR_NO_MODEL',
     );
   }
 
@@ -51,7 +51,7 @@ export async function explainAttackPath(input: ExplainAttackPathInput): Promise<
     return await askGemini(system, user);
   } catch (err) {
     if (err instanceof GeminiError) {
-      throw new HttpError(502, `The model call failed: ${err.message}`, 'SIRIUS_ERR_MODEL_CALL');
+      throw new HttpError(502, `The model call failed: ${err.message}`, 'SIRUS_ERR_MODEL_CALL');
     }
     throw err;
   }

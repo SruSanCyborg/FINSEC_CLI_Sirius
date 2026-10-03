@@ -1,7 +1,7 @@
 # chaos-repo — deliberately vulnerable test fixture
 
 **Every security flaw in this directory is intentional.** It is the seeded target
-`sirius scan .` points at during the demo, and the fixture our own tests assert
+`sirus scan .` points at during the demo, and the fixture our own tests assert
 against. Nothing here is deployed, imported, or executed.
 
 No credential in this tree is real. `sk_live_51H8xR2eZvNOTAREALKE` is

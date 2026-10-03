@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * `sirius` entry point.
+ * `sirus` entry point.
  *
  * Two responsibilities and no more: assemble the command tree, and funnel every
  * failure into a single exit-code decision. Commands throw; this file decides
@@ -73,13 +73,13 @@ export function buildProgram(): Command {
   const program = new Command();
 
   program
-    .name('sirius')
+    .name('sirus')
     .description('A security & compliance linter for money-handling code\n\nRun with no arguments to open an interactive shell.')
     .version(VERSION, '-v, --version')
-    .option('--api-url <url>', 'Core API base URL (env: SIRIUS_API_URL)')
-    .option('--ws-url <url>', 'WebSocket origin, when it differs from --api-url (env: SIRIUS_WS_URL)')
-    .option('--project <id>', 'project id (env: SIRIUS_PROJECT_ID)')
-    .option('--profile <name>', 'credential profile from ~/.config/sirius/config.toml')
+    .option('--api-url <url>', 'Core API base URL (env: SIRUS_API_URL)')
+    .option('--ws-url <url>', 'WebSocket origin, when it differs from --api-url (env: SIRUS_WS_URL)')
+    .option('--project <id>', 'project id (env: SIRUS_PROJECT_ID)')
+    .option('--profile <name>', 'credential profile from ~/.config/sirus/config.toml')
     .option('--no-color', 'disable color (NO_COLOR is honored too)')
     .showHelpAfterError();
 
@@ -91,7 +91,7 @@ export function buildProgram(): Command {
     .option('--baseline <sha>', 'baseline commit for diff-aware scanning')
     .option('--severity-threshold <level>', 'minimum severity that counts', severityArg)
     .option('--fail-on <predicate>', 'which findings block: all | new | verified-secrets', failOnArg)
-    .option('--config <file>', 'explicit sirius.yaml to use')
+    .option('--config <file>', 'explicit sirus.yaml to use')
     .option('--ruleset <name>', 'ruleset to run (repeatable)', collect)
     .option('--json', 'machine-readable JSON on stdout')
     .option('--sarif <file>', 'write SARIF 2.1.0 to a file')
@@ -121,9 +121,9 @@ export function buildProgram(): Command {
 
   program
     .command('init')
-    .description('Scaffold sirius.yaml and .siriusignore')
+    .description('Scaffold sirus.yaml and .sirusignore')
     .option('--force', 'overwrite existing config files')
-    .option('--project <id>', 'project id to write into sirius.yaml')
+    .option('--project <id>', 'project id to write into sirus.yaml')
     .action(async (options: Record<string, unknown>, command: Command) => {
       const { runInit } = await import('./commands/init.js');
       await runInit(options, command.parent?.opts() ?? {});
@@ -131,7 +131,7 @@ export function buildProgram(): Command {
 
   program
     .command('login')
-    .description('Store an API key in ~/.config/sirius/config.toml')
+    .description('Store an API key in ~/.config/sirus/config.toml')
     .option('--api-key <key>', 'the key to store (prompts if omitted)')
     .option('--no-verify', 'skip the health check before storing')
     .option('--list', 'list stored profiles instead of logging in')
@@ -215,7 +215,7 @@ export function buildProgram(): Command {
     .command('badge')
     .description('Write the compliance badge, or print the hosted URL')
     .option('--no-markdown', 'print only the path or URL')
-    .option('--output <file>', 'where to write the SVG (default .sirius/badge.svg)')
+    .option('--output <file>', 'where to write the SVG (default .sirus/badge.svg)')
     .option('--target <dir>', 'the directory that was scanned, when it was not this one')
     .action(async (options: Record<string, unknown>, command: Command) => {
       const { runBadge } = await import('./commands/governance.js');
@@ -262,7 +262,7 @@ export function buildProgram(): Command {
   program
     .command('brief')
     .description('Explain the whole project in one document — PDF, or on screen with --plain')
-    .option('--output <file>', 'where to write the PDF (default: sirius-brief.pdf)')
+    .option('--output <file>', 'where to write the PDF (default: sirus-brief.pdf)')
     .option('--plain', 'print it to the terminal instead of writing a PDF')
     .option('--scan <dir>', 'directory to scan for the code figures')
     .option('--json', 'the facts it was written from, as JSON')
@@ -388,7 +388,7 @@ function report(error: unknown): ExitCodeValue {
 
   const message = error instanceof Error ? error.message : String(error);
   process.stderr.write(`\nerror: ${message}\n\n`);
-  if (process.env.SIRIUS_DEBUG && error instanceof Error && error.stack) {
+  if (process.env.SIRUS_DEBUG && error instanceof Error && error.stack) {
     process.stderr.write(`${error.stack}\n\n`);
   }
   return ExitCode.CLI_ERROR;
@@ -413,7 +413,7 @@ function assertWorkingDirectory(): void {
 }
 
 /**
- * `sirius rules list | head -1` used to end in a Node stack trace.
+ * `sirus rules list | head -1` used to end in a Node stack trace.
  *
  * When the reader closes the pipe early — `head`, `grep -q`, quitting `less` —
  * the next write fails with EPIPE, and an unhandled stream error takes the
@@ -442,7 +442,7 @@ export async function main(argv: string[] = process.argv): Promise<void> {
   // `buildProgram` before this ran — so they kept commander's default
   // `process.exit(1)` and a mistyped flag came back as exit 1, the code this
   // CLI documents as "findings at or above threshold". A pipeline could not
-  // tell a blocked gate from a typo, and `sirius scan . || true` — the escape
+  // tell a blocked gate from a typo, and `sirus scan . || true` — the escape
   // hatch in the README — swallowed the typo entirely and went green having
   // scanned nothing.
   //
@@ -456,8 +456,8 @@ export async function main(argv: string[] = process.argv): Promise<void> {
   };
   applyExitOverride(program);
 
-  // Bare `sirius` in a terminal opens the shell rather than printing help.
-  // Piped or redirected, it still prints help, so scripts and `sirius | less`
+  // Bare `sirus` in a terminal opens the shell rather than printing help.
+  // Piped or redirected, it still prints help, so scripts and `sirus | less`
   // behave as before.
   const hasArgs = argv.slice(2).length > 0;
   if (!hasArgs && process.stdout.isTTY && process.stdin.isTTY) {

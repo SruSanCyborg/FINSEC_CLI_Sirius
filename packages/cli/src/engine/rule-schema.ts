@@ -1,7 +1,7 @@
 /**
  * Structural validation of a rule YAML, with no server in the loop.
  *
- * `sirius rules validate` posted the file to `POST /rules/validate` and could
+ * `sirus rules validate` posted the file to `POST /rules/validate` and could
  * say nothing at all without a backend — which is the wrong way round. Almost
  * everything worth checking about a rule is a convention *this repo* owns: the
  * `SIR-SEC-NNN` numbering blocks, the category and severity vocabularies, the
@@ -275,7 +275,7 @@ export function validateRuleDocument(source: string): RuleValidation {
   }
 
   if (id && typeof rule.suppress === 'string' && !rule.suppress.includes(id)) {
-    warn('rule.suppress', `the token does not name ${id}`, `Convention: "# sirius-ignore: ${id}".`);
+    warn('rule.suppress', `the token does not name ${id}`, `Convention: "# sirus-ignore: ${id}".`);
   }
 
   return {

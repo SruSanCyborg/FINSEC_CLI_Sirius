@@ -2,7 +2,7 @@
  * Applying the project's own policy to a stream of findings.
  *
  * The gate has always known how to act on `baseline_state` and the renderers
- * have always known how to show it — but nothing ever set it, so `sirius
+ * have always known how to show it — but nothing ever set it, so `sirus
  * baseline set` recorded a floor that no scan ever read, and
  * `--fail-on new` blocked on findings that were not new. Two features that
  * existed on both sides of a gap nobody had bridged.

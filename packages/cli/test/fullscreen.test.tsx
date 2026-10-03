@@ -32,7 +32,7 @@ function setup(overrides: Partial<React.ComponentProps<typeof FullScreenShell>> 
     <FullScreenShell
       glyphs={glyphs}
       capabilities={capabilities}
-      header="sirius v0.4.0"
+      header="sirus v0.4.0"
       lines={lines(3)}
       busy={false}
       history={[]}
@@ -52,18 +52,18 @@ afterEach(() => {
 
 describe('alternateScreenAvailable', () => {
   it('opts out when asked', () => {
-    process.env.SIRIUS_NO_ALT_SCREEN = '1';
+    process.env.SIRUS_NO_ALT_SCREEN = '1';
     expect(alternateScreenAvailable()).toBe(false);
   });
 
   it('refuses a dumb terminal', () => {
-    delete process.env.SIRIUS_NO_ALT_SCREEN;
+    delete process.env.SIRUS_NO_ALT_SCREEN;
     process.env.TERM = 'dumb';
     expect(alternateScreenAvailable()).toBe(false);
   });
 
   it('refuses when there is no TERM at all', () => {
-    delete process.env.SIRIUS_NO_ALT_SCREEN;
+    delete process.env.SIRUS_NO_ALT_SCREEN;
     delete process.env.TERM;
     expect(alternateScreenAvailable()).toBe(false);
   });
@@ -72,7 +72,7 @@ describe('alternateScreenAvailable', () => {
 describe('FullScreenShell layout', () => {
   it('renders the header, transcript, and input box', () => {
     const frame = setup().lastFrame() ?? '';
-    expect(frame).toContain('sirius v0.4.0');
+    expect(frame).toContain('sirus v0.4.0');
     expect(frame).toContain('line-0');
     expect(frame).toContain('╭');
   });

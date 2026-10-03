@@ -220,7 +220,7 @@ export const SHELL_COMMANDS: ShellCommand[] = [
     keywords: ['desktop', 'gui', 'http', 'websocket', 'daemon'],
   },
   { name: 'badge', summary: 'Print the compliance badge URL' },
-  { name: 'init', summary: 'Scaffold sirius.yaml and .siriusignore' },
+  { name: 'init', summary: 'Scaffold sirus.yaml and .sirusignore' },
   { name: 'login', summary: 'Store an API key', usage: '/login --api-key <key>' },
   { name: 'logout', summary: 'Remove a stored profile' },
   { name: 'cd', summary: 'Show or change the directory everything runs in', usage: '/cd [path] — bare /cd says where you are', local: true },

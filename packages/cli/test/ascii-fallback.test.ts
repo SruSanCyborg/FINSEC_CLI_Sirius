@@ -1,10 +1,10 @@
 /**
- * `SIRIUS_ASCII=1` means ASCII.
+ * `SIRUS_ASCII=1` means ASCII.
  *
  * AGENTS.md names this the projector safety net and lists `₹` as the first
  * character it protects: "Both must survive the presentation machine's terminal
  * font (`₹`, braille spinner, box drawing) — there's an ASCII fallback behind
- * `SIRIUS_ASCII=1`."
+ * `SIRUS_ASCII=1`."
  *
  * It was not true of the scan beat. `money.ts` hardcoded `₹` and knew nothing
  * about the terminal, so a scan under the flag still emitted nine of them.
@@ -40,7 +40,7 @@ function run(args: string[], env: Record<string, string> = {}): string {
     return execFileSync(process.execPath, [cli, ...args], {
       encoding: 'utf8',
       stdio: ['ignore', 'pipe', 'ignore'],
-      env: { ...process.env, SIRIUS_SCAN_PACE: '0', SIRIUS_REVENUE_PACE: '0', ...env },
+      env: { ...process.env, SIRUS_SCAN_PACE: '0', SIRUS_REVENUE_PACE: '0', ...env },
     });
   } catch (error) {
     // A scan that finds things exits 1; its stdout is still the output.
@@ -53,7 +53,7 @@ const nonAscii = (text: string): string[] => [...new Set(text.match(/[^\x20-\x7e
 
 let dir: string;
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'sirius-ascii-'));
+  dir = mkdtempSync(join(tmpdir(), 'sirus-ascii-'));
   writeFileSync(
     join(dir, 'pay.py'),
     ['STRIPE_KEY = "sk_live_51H8xQ2eZvKYlo2Cabcd"', '', 'def charge(db, request):',
@@ -65,32 +65,32 @@ afterEach(() => rmSync(dir, { recursive: true, force: true }));
 
 describe('the formatter', () => {
   it('writes Rs. under the flag and ₹ without it', () => {
-    const before = process.env.SIRIUS_ASCII;
+    const before = process.env.SIRUS_ASCII;
     try {
-      process.env.SIRIUS_ASCII = '1';
+      process.env.SIRUS_ASCII = '1';
       expect(formatInr(4_200_000)).toBe('Rs.42,00,000');
       expect(formatInrCompact(4_200_000)).toBe('Rs.42L');
 
-      delete process.env.SIRIUS_ASCII;
+      delete process.env.SIRUS_ASCII;
       expect(formatInr(4_200_000)).toBe('₹42,00,000');
       expect(formatInrCompact(4_200_000)).toBe('₹42L');
     } finally {
-      if (before === undefined) delete process.env.SIRIUS_ASCII;
-      else process.env.SIRIUS_ASCII = before;
+      if (before === undefined) delete process.env.SIRUS_ASCII;
+      else process.env.SIRUS_ASCII = before;
     }
   });
 
   it('keeps the Indian grouping, which is the point of the figure', () => {
     // The fallback may change the symbol. It may not change the number: 2-2-3
     // grouping is the India-relevance argument the whole pitch rests on.
-    const before = process.env.SIRIUS_ASCII;
+    const before = process.env.SIRUS_ASCII;
     try {
-      process.env.SIRIUS_ASCII = '1';
+      process.env.SIRUS_ASCII = '1';
       expect(formatInr(8_930_000)).toBe('Rs.89,30,000');
       expect(formatInr(1_23_45_678)).toBe('Rs.1,23,45,678');
     } finally {
-      if (before === undefined) delete process.env.SIRIUS_ASCII;
-      else process.env.SIRIUS_ASCII = before;
+      if (before === undefined) delete process.env.SIRUS_ASCII;
+      else process.env.SIRUS_ASCII = before;
     }
   });
 });
@@ -111,7 +111,7 @@ describe('the transliteration', () => {
 
 describe('the commands the demo actually runs', () => {
   it('emits no non-ASCII byte from a scan', () => {
-    const output = run(['scan', dir], { SIRIUS_ASCII: '1' });
+    const output = run(['scan', dir], { SIRUS_ASCII: '1' });
     expect(output).not.toBe('');
     expect(nonAscii(output), 'characters that survived the fallback').toEqual([]);
   });
@@ -119,7 +119,7 @@ describe('the commands the demo actually runs', () => {
   it('emits no non-ASCII byte from doctor', () => {
     // The diagnostic that vouches for the fallback has to hold to it, or its
     // glyph self-test is certifying a path it does not use.
-    const output = run(['doctor'], { SIRIUS_ASCII: '1' });
+    const output = run(['doctor'], { SIRUS_ASCII: '1' });
     expect(nonAscii(output)).toEqual([]);
   });
 

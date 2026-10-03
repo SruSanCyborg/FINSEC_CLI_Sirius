@@ -152,7 +152,7 @@ describe('TriageView', () => {
     stdin.write('f');
     await settle();
 
-    expect(lastFrame()).toContain('sirius fix SIR-SEC-001');
+    expect(lastFrame()).toContain('sirus fix SIR-SEC-001');
   });
 
   it('surfaces the money at risk on the selected finding', () => {

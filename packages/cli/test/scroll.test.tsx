@@ -27,7 +27,7 @@ function setup() {
     <FullScreenShell
       glyphs={glyphsFor(capabilities)}
       capabilities={capabilities}
-      header="sirius"
+      header="sirus"
       lines={lines(400)}
       busy={false}
       history={[]}

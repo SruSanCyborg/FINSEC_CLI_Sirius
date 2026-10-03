@@ -60,7 +60,7 @@ const completed = (money: number): WsFrame =>
  */
 let dir: string;
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'sirius-money-'));
+  dir = mkdtempSync(join(tmpdir(), 'sirus-money-'));
   writeFileSync(join(dir, 'pay.py'), 'STRIPE_KEY = "sk_live_51H8xQ2eZvKYlo2Cabcd"\n', 'utf8');
 });
 afterEach(() => rmSync(dir, { recursive: true, force: true }));

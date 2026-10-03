@@ -1,7 +1,7 @@
 /**
  * Running a scan on behalf of the GUI, and streaming it.
  *
- * The pipeline here is the same one `sirius scan` builds — `scanDirectory`,
+ * The pipeline here is the same one `sirus scan` builds — `scanDirectory`,
  * then optional secret validation, then the project's own policy — assembled in
  * the same order and from the same modules. That is the whole point: two
  * surfaces that compute their own numbers eventually disagree about them, and
@@ -27,7 +27,7 @@ import type { Finding, Severity, WsFrame } from '../domain.js';
 export interface RunScanRequest {
   /** Directory to scan, already resolved against the daemon's root. */
   target: string;
-  /** Where `.sirius/` lives — the project root, which may be above the target. */
+  /** Where `.sirus/` lives — the project root, which may be above the target. */
   root: string;
   projectId: string | null;
   rulesets: string[];
@@ -140,7 +140,7 @@ export class ScanRegistry {
       record.status = 'failed';
       record.error = message;
       record.finished_at = new Date().toISOString();
-      running.emit({ type: 'error', code: 'SIRIUS_ERR_SCAN_FAILED', detail: message });
+      running.emit({ type: 'error', code: 'SIRUS_ERR_SCAN_FAILED', detail: message });
       saveScan(request.root, record);
       running.finish();
     });
@@ -171,7 +171,7 @@ export class ScanRegistry {
 
     const findings: Finding[] = [];
     // Only `scan.started` carries it, so it is the only frame counting files —
-    // the same field `sirius scan` reads for the figure in its footer.
+    // the same field `sirus scan` reads for the figure in its footer.
     let filesScanned: number | null = null;
 
     for await (const frame of source) {
@@ -229,8 +229,8 @@ export class ScanRegistry {
     saveScan(request.root, record);
 
     // Written for the CLI's benefit, not the GUI's. This is what lets someone
-    // start a scan in the window and then run `sirius fix SIR-SEC-001` or
-    // `sirius report` in a shell against the result they are looking at.
+    // start a scan in the window and then run `sirus fix SIR-SEC-001` or
+    // `sirus report` in a shell against the result they are looking at.
     if (record.status === 'completed') {
       saveLastScan(request.root, {
         scan_id: record.id,

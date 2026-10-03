@@ -1,5 +1,5 @@
 /**
- * `sirius doctor` — preflight.
+ * `sirus doctor` — preflight.
  *
  * Written for the five minutes before a live demo, when the questions are
  * "will a scan run", "which key am I actually using", and "will this terminal
@@ -59,7 +59,7 @@ export async function runDoctor(_flags: unknown, globals: GlobalFlags): Promise<
   const project = findProjectRoot(cwd);
 
   // First, because every other line is relative to it. A report that says "no
-  // sirius.yaml found" and "92 findings" without naming the directory it looked
+  // sirus.yaml found" and "92 findings" without naming the directory it looked
   // in is a report that cannot be acted on — and inside the shell, where the
   // working directory is wherever the shell was started or last `/cd`'d to,
   // that is a genuinely easy thing to lose track of.
@@ -80,8 +80,8 @@ export async function runDoctor(_flags: unknown, globals: GlobalFlags): Promise<
       : {
           status: 'warn',
           label: 'project config',
-          detail: 'no sirius.yaml found here or above',
-          hint: `Run \`sirius init\` in ${cwd} to create one.`,
+          detail: 'no sirus.yaml found here or above',
+          hint: `Run \`sirus init\` in ${cwd} to create one.`,
         },
   );
 
@@ -131,13 +131,13 @@ export async function runDoctor(_flags: unknown, globals: GlobalFlags): Promise<
             status: 'fail',
             label: 'credentials',
             detail: 'no API key, but a project is configured',
-            hint: `Run \`sirius login\`, set SIRIUS_API_KEY, or add one to ${configTomlPath()}.`,
+            hint: `Run \`sirus login\`, set SIRUS_API_KEY, or add one to ${configTomlPath()}.`,
           }
         : {
             status: 'info',
             label: 'credentials',
             detail: 'no API key — not needed for a local scan',
-            hint: `\`sirius login\` stores one at ${configTomlPath()} when you want hosted scans.`,
+            hint: `\`sirus login\` stores one at ${configTomlPath()} when you want hosted scans.`,
           },
   );
 
@@ -149,7 +149,7 @@ export async function runDoctor(_flags: unknown, globals: GlobalFlags): Promise<
 
   const ignores = loadIgnorePatterns(project?.dir ?? cwd);
   if (ignores.length > 0) {
-    checks.push({ status: 'ok', label: 'ignore rules', detail: `${ignores.length} pattern(s) in .siriusignore` });
+    checks.push({ status: 'ok', label: 'ignore rules', detail: `${ignores.length} pattern(s) in .sirusignore` });
   }
 
   // ---- the engines, which is what a local run actually depends on
@@ -235,7 +235,7 @@ export async function runDoctor(_flags: unknown, globals: GlobalFlags): Promise<
           detail: 'wheel scrolls via alternate scroll; click and drag stay native',
           hint:
             'If the wheel does nothing, your terminal lacks alternate scroll — ' +
-            'use the arrows, or SIRIUS_MOUSE=1 to capture it (costs selection).',
+            'use the arrows, or SIRUS_MOUSE=1 to capture it (costs selection).',
         },
   );
 
@@ -266,7 +266,7 @@ export async function runDoctor(_flags: unknown, globals: GlobalFlags): Promise<
         : `${cache.scan_id.slice(0, 14)} · ${cache.source ?? 'local'} · ${cache.findings.length} findings · ${cache.scanned_at}`,
       // Which tree those findings are about. `fix` will edit files under it, so
       // "92 findings" with no address is the one number here worth pinning down.
-      hint: `of ${cache.root}, read from ${cacheRoot}/.sirius/last-scan.json`,
+      hint: `of ${cache.root}, read from ${cacheRoot}/.sirus/last-scan.json`,
     });
   }
 
@@ -289,7 +289,7 @@ export async function runDoctor(_flags: unknown, globals: GlobalFlags): Promise<
   // running?" most needs to see. Off for a pipe and for CI, where the exit code
   // is the output and delay buys nothing.
   const { writeLinesPaced } = await import('../engine/pace.js');
-  const perLine = process.stdout.isTTY || process.env.SIRIUS_STREAM_PLAIN === '1' ? 45 : 0;
+  const perLine = process.stdout.isTTY || process.env.SIRUS_STREAM_PLAIN === '1' ? 45 : 0;
 
   // Detail and hint both wrap under the label rather than running off the
   // right edge. This is the command a person runs *because* something looks
@@ -324,9 +324,9 @@ export async function runDoctor(_flags: unknown, globals: GlobalFlags): Promise<
   // to a question nobody asked — what someone runs `doctor` to find out is
   // whether they can start, and the useful reply to "yes" is the command that
   // starts. Named in the form that works where they are: inside the shell that
-  // is `/scan .`, from their own prompt it is `sirius scan .`.
-  const inShell = process.env.SIRIUS_IN_SHELL === '1';
-  const next = (command: string): string => (inShell ? `/${command}` : `sirius ${command}`);
+  // is `/scan .`, from their own prompt it is `sirus scan .`.
+  const inShell = process.env.SIRUS_IN_SHELL === '1';
+  const next = (command: string): string => (inShell ? `/${command}` : `sirus ${command}`);
 
   const steps: [string, string][] = [];
   if (failed === 0) {
@@ -584,7 +584,7 @@ function probeWebSocket(origin: string, apiKey: string | undefined): Promise<Che
           status: 'fail',
           label: 'stream reachable',
           detail: 'credentials rejected (4401)',
-          hint: 'Run `sirius login` — the REST key and the stream key must match.',
+          hint: 'Run `sirus login` — the REST key and the stream key must match.',
         });
       }
     });

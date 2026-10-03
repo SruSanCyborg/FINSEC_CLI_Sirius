@@ -1,7 +1,7 @@
 /**
  * The money-at-risk model.
  *
- * Every rupee figure sirius prints comes from here, and every one of them is an
+ * Every rupee figure sirus prints comes from here, and every one of them is an
  * *estimate with stated assumptions* — not a measurement. Saying so is the point:
  * a number a judge cannot interrogate is worse than no number at all.
  *

@@ -1,5 +1,5 @@
 /**
- * `sirius triage` — review a scan's findings interactively.
+ * `sirus triage` — review a scan's findings interactively.
  *
  * Distinct from `fix`: fix changes code, triage records a human judgement about
  * whether a finding matters. The two meet at `f`, which prints the fix command
@@ -8,7 +8,7 @@
  *
  * Two backends, one screen. Against a hosted project the decisions are PATCHed
  * to the API. With no project — the configuration everything defaults to — they
- * are written to `.sirius/triage.json` beside the code, and a dismissal or a
+ * are written to `.sirus/triage.json` beside the code, and a dismissal or a
  * suppression additionally becomes a real suppression that the next scan
  * honours. Triage that records a judgement nothing ever reads is theatre.
  */
@@ -58,9 +58,9 @@ export async function runTriage(flags: TriageFlags, globals: GlobalFlags): Promi
   // pipe, the keypresses this screen waits for can never arrive and it would
   // hang forever instead of failing.
   if (!capabilities.tty || !process.stdin.isTTY) {
-    throw new CliError('`sirius triage` needs an interactive terminal.', {
+    throw new CliError('`sirus triage` needs an interactive terminal.', {
       hint: !capabilities.tty
-        ? 'Use `sirius scan . --json` in a pipeline instead.'
+        ? 'Use `sirus scan . --json` in a pipeline instead.'
         : 'stdin is not a terminal — triage cannot read keypresses.',
     });
   }
@@ -105,7 +105,7 @@ export async function runTriage(flags: TriageFlags, globals: GlobalFlags): Promi
   // believes it was recorded. Surface it and fail.
   if (summary.failed > 0) {
     throw new CliError(`${summary.failed} decision(s) could not be saved.`, {
-      hint: 'Check your connection and re-run `sirius triage`.',
+      hint: 'Check your connection and re-run `sirus triage`.',
     });
   }
 }
@@ -119,7 +119,7 @@ async function backendForLastScan(
   const found = locateLastScan(cwd, flags.target);
   if (!found) {
     throw new CliError('No scan id given and no recent scan to fall back on.', {
-      hint: 'Run `sirius scan .` first, or pass --scan <id>.',
+      hint: 'Run `sirus scan .` first, or pass --scan <id>.',
     });
   }
 
@@ -129,7 +129,7 @@ async function backendForLastScan(
   // on disk the decisions would describe.
   if (cache.source === 'replay') {
     throw new CliError('The last scan was a replay, so there is nothing to triage.', {
-      hint: 'Run `sirius scan .` to produce findings from your own code.',
+      hint: 'Run `sirus scan .` to produce findings from your own code.',
     });
   }
 
@@ -170,7 +170,7 @@ async function hostedBackend(
 }
 
 /**
- * Decisions go to `.sirius/`, beside the code they describe.
+ * Decisions go to `.sirus/`, beside the code they describe.
  *
  * `accepted` is recorded and nothing else: an acknowledged risk is still a risk
  * and must keep failing the gate. `dismissed` and `suppressed` also write a
@@ -197,8 +197,8 @@ export async function localBackend(flags: TriageFlags, root: string, cache: Last
   return {
     findings,
     epilogue:
-      `Recorded in ${root}/.sirius/triage.json` +
-      ` — dismissed and suppressed findings are now in .sirius/suppressions.json\n` +
+      `Recorded in ${root}/.sirus/triage.json` +
+      ` — dismissed and suppressed findings are now in .sirus/suppressions.json\n` +
       `and will be withheld by the next scan. Commit both to review them.\n`,
     decide: async (finding, state, reason) => {
       if (state === 'open') return;
@@ -224,7 +224,7 @@ export async function localBackend(flags: TriageFlags, root: string, cache: Last
           ? { fingerprint: finding.fingerprint }
           : { path_glob: finding.file }),
         reason: reason ?? `${state} in triage`,
-        // Permanent, matching `sirius suppress` with no --expires. A dismissal
+        // Permanent, matching `sirus suppress` with no --expires. A dismissal
         // is a claim the finding was wrong, which does not expire on its own.
         expires_at: null,
         created_at: new Date().toISOString(),

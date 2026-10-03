@@ -1,5 +1,5 @@
 /**
- * `sirius revenue` — the other half of money at risk.
+ * `sirus revenue` — the other half of money at risk.
  *
  * `scan` looks at money-handling code. This looks at what the code did: failed
  * payments, abandoned checkouts, receivables going stale. Same product, same
@@ -70,7 +70,7 @@ interface GlobalFlags {
 const DEFAULT_BATCH = 'batch';
 
 /**
- * The project's own settings, read from `sirius.yaml` the same way `scan` reads
+ * The project's own settings, read from `sirus.yaml` the same way `scan` reads
  * its gate. Cached because three subcommands ask for it and walking up the tree
  * for every one of them is work nobody asked for.
  */
@@ -89,17 +89,17 @@ function projectConfig(): ReturnType<typeof loadConfig> {
  * free. Off for `--json`, off for a pipe, off in CI — a pipeline must not pay
  * deliberate delay to look good for nobody.
  *
- * `SIRIUS_REVENUE_PACE` overrides the per-line delay in milliseconds; 0 turns
+ * `SIRUS_REVENUE_PACE` overrides the per-line delay in milliseconds; 0 turns
  * it off, which is what the tests and the rehearsal's fast mode use.
  */
 function paceMs(machineMode: boolean): number {
-  const raw = process.env.SIRIUS_REVENUE_PACE;
+  const raw = process.env.SIRUS_REVENUE_PACE;
   if (raw !== undefined) {
     const parsed = Number(raw);
     if (Number.isFinite(parsed) && parsed >= 0) return parsed;
   }
   if (machineMode) return 0;
-  const interactive = process.env.SIRIUS_STREAM_PLAIN === '1' || Boolean(process.stdout.isTTY);
+  const interactive = process.env.SIRUS_STREAM_PLAIN === '1' || Boolean(process.stdout.isTTY);
   return interactive ? 85 : 0;
 }
 
@@ -139,7 +139,7 @@ export async function runRevenue(
 
 async function generate(target: string | undefined, flags: RevenueFlags): Promise<void> {
   const dir = resolve(process.cwd(), target ?? flags.out ?? DEFAULT_BATCH);
-  const seed = flags.seed ?? 'sirius-2026';
+  const seed = flags.seed ?? 'sirus-2026';
   const counts = {
     payments: flags.payments ?? 700,
     checkouts: flags.checkouts ?? 200,
@@ -175,7 +175,7 @@ async function generate(target: string | undefined, flags: RevenueFlags): Promis
           `It was generated from seed "${existing.seed}" (${total} records, ${existing.generated_at.slice(0, 10)}), ` +
           `and its truth.jsonl is the only thing that can score it.
 ` +
-          `  Write it somewhere else:  sirius revenue gen <other-dir> --seed ${seed}
+          `  Write it somewhere else:  sirus revenue gen <other-dir> --seed ${seed}
 ` +
           `  Or replace it on purpose: --force`,
       });
@@ -202,7 +202,7 @@ async function generate(target: string | undefined, flags: RevenueFlags): Promis
     );
   }
 
-  process.stdout.write(`\nSame seed, same batch, on any machine. Next:  sirius revenue detect ${target ?? DEFAULT_BATCH}\n`);
+  process.stdout.write(`\nSame seed, same batch, on any machine. Next:  sirus revenue detect ${target ?? DEFAULT_BATCH}\n`);
 }
 
 // ---- detect -----------------------------------------------------------------
@@ -219,7 +219,7 @@ async function detect(
     process.stdout.write(
       JSON.stringify(
         {
-          schema: 'sirius.revenue.detect/v1',
+          schema: 'sirus.revenue.detect/v1',
           batch: batch.dir,
           floor: model.threshold,
           capacity,
@@ -256,7 +256,7 @@ async function detect(
 
   process.stdout.write('\n');
   process.stdout.write(
-    ` ${palette.bold('sirius revenue')}  ${palette.dim(
+    ` ${palette.bold('sirus revenue')}  ${palette.dim(
       `${inSplit.length} records · split=${split}${kind ? ` · showing ${kind}s` : ''}` +
         ` · score floor ${model.threshold} · capacity ${capacity.max_actions}`,
     )}\n\n`,
@@ -325,7 +325,7 @@ async function detect(
   // happened yet.
   for (const line of note(
     `Expected recovery is a forecast, not a result. ` +
-      `Measure it:  sirius revenue eval ${target ?? DEFAULT_BATCH}`,
+      `Measure it:  sirus revenue eval ${target ?? DEFAULT_BATCH}`,
     { indent: 1, width: palette.width },
   )) {
     process.stdout.write(palette.dim(line) + '\n');
@@ -343,7 +343,7 @@ async function evaluateBatch(
   const dir = batchDir(target);
   if (!hasTruth(dir)) {
     throw new CliError(`${dir} has no labels, so nothing here can be measured.`, {
-      hint: 'Generate a batch with `sirius revenue gen`, which writes truth.jsonl beside the records.',
+      hint: 'Generate a batch with `sirus revenue gen`, which writes truth.jsonl beside the records.',
     });
   }
 
@@ -386,7 +386,7 @@ async function evaluateBatch(
   if (flags.json) {
     process.stdout.write(
       JSON.stringify(
-        { schema: 'sirius.revenue.eval/v1', model, evaluation, capacity_curve: curve },
+        { schema: 'sirus.revenue.eval/v1', model, evaluation, capacity_curve: curve },
         null,
         2,
       ) + '\n',
@@ -422,7 +422,7 @@ async function runRecovery(
   const dir = batchDir(target);
   if (!hasTruth(dir)) {
     throw new CliError(`${dir} has no labels, so a run against it could not be measured.`, {
-      hint: 'Generate a batch with `sirius revenue gen`.',
+      hint: 'Generate a batch with `sirus revenue gen`.',
     });
   }
 
@@ -432,7 +432,7 @@ async function runRecovery(
   const { runBatch } = await import('../revenue/pipeline.js');
   const { costsFrom, describeOverrides, limitsFrom, rulesFor } = await import('../revenue/policy.js');
 
-  // sirius.yaml first, then flags on top of it — the same precedence every
+  // sirus.yaml first, then flags on top of it — the same precedence every
   // other setting follows. A team pins its policy in the file; an operator
   // overrides one number for one run.
   const config = projectConfig();
@@ -462,7 +462,7 @@ async function runRecovery(
   if (flags.json) {
     process.stdout.write(
       JSON.stringify(
-        { schema: 'sirius.revenue.recover/v1', run_id: result.run_id, trail: trailPath, outcome: result.outcome },
+        { schema: 'sirus.revenue.recover/v1', run_id: result.run_id, trail: trailPath, outcome: result.outcome },
         null,
         2,
       ) + '\n',
@@ -482,7 +482,7 @@ async function runRecovery(
   const pace = paceMs(false);
 
   process.stdout.write(
-    `\n ${palette.bold('sirius revenue recover')}${palette.dim(
+    `\n ${palette.bold('sirus revenue recover')}${palette.dim(
       truncate(
         `  run ${result.run_id} · split=${split} · room for ${capacity.max_actions} · simulated, nothing left this machine`,
         Math.max(0, palette.width - 24),
@@ -512,11 +512,11 @@ async function runRecovery(
 // ---- watch ------------------------------------------------------------------
 
 /**
- * `sirius revenue watch` — re-run when the batch or the policy changes.
+ * `sirus revenue watch` — re-run when the batch or the policy changes.
  *
  * A recovery agent is tuned, not written: somebody sets `contacts_per_day: 1`,
  * wants to know what it cost, and today has to run the command twice and hold
- * the difference in their head. This watches `sirius.yaml` and the batch and
+ * the difference in their head. This watches `sirus.yaml` and the batch and
  * prints only what moved.
  *
  * It writes nothing. A loop that re-runs on every keystroke must not leave a
@@ -530,7 +530,7 @@ async function watchBatch(
   const dir = batchDir(target);
   if (!hasTruth(dir)) {
     throw new CliError(`${dir} has no labels, so a run against it could not be measured.`, {
-      hint: 'Generate a batch with `sirius revenue gen`.',
+      hint: 'Generate a batch with `sirus revenue gen`.',
     });
   }
 
@@ -574,7 +574,7 @@ async function watchBatch(
         ...(flags.capacity
           ? { capacity: { max_actions: flags.capacity, rule: 'given with --capacity' } }
           : config.revenue?.capacity
-            ? { capacity: { max_actions: config.revenue.capacity, rule: 'set in sirius.yaml' } }
+            ? { capacity: { max_actions: config.revenue.capacity, rule: 'set in sirus.yaml' } }
             : {}),
         ...(flags.maxSteps ?? config.revenue?.max_steps
           ? { maxSteps: (flags.maxSteps ?? config.revenue?.max_steps) as number }
@@ -585,7 +585,7 @@ async function watchBatch(
 
       if (runs === 1) {
         process.stdout.write(
-          `\n ${palette.bold('sirius revenue watch')}  ${palette.dim(
+          `\n ${palette.bold('sirus revenue watch')}  ${palette.dim(
             `${result.inSplit.length} records · split=${split} · capacity ${summary.capacity}`,
           )}\n`,
         );
@@ -642,7 +642,7 @@ async function watchBatch(
 // ---- sweep ------------------------------------------------------------------
 
 /**
- * `sirius revenue sweep` — is it stable, and did that change help?
+ * `sirus revenue sweep` — is it stable, and did that change help?
  *
  * One batch is an anecdote. Every time this model changed, the honest answer
  * needed several independently generated batches and a comparison against the
@@ -695,7 +695,7 @@ async function runSweep(flags: RevenueFlags, globals: GlobalFlags): Promise<void
   const { costsFrom } = await import('../revenue/policy.js');
 
   const summary = sweep({
-    seed: flags.seed ?? 'sirius-sweep',
+    seed: flags.seed ?? 'sirus-sweep',
     count: flags.seeds ?? 8,
     payments: flags.payments ?? 700,
     checkouts: flags.checkouts ?? 200,
@@ -742,7 +742,7 @@ async function runSweep(flags: RevenueFlags, globals: GlobalFlags): Promise<void
 // ---- explain ----------------------------------------------------------------
 
 /**
- * `sirius revenue explain <record-id>` — the counterpart to explaining a rule.
+ * `sirus revenue explain <record-id>` — the counterpart to explaining a rule.
  *
  * The model is a scorecard rather than something with better numbers precisely
  * so this command can exist: every step from the base rate to the decision
@@ -759,7 +759,7 @@ async function explainRecord(
 ): Promise<void> {
   if (!recordId) {
     throw new CliError('Which record?', {
-      hint: 'e.g. sirius revenue explain inv_00059 — the ids are in `revenue detect` output',
+      hint: 'e.g. sirus revenue explain inv_00059 — the ids are in `revenue detect` output',
     });
   }
 
@@ -823,7 +823,7 @@ async function explainRecord(
 
   if (flags.json) {
     process.stdout.write(
-      JSON.stringify({ schema: 'sirius.revenue.explain/v1', ...explanation, rules: rulesFor(limits) }, null, 2) +
+      JSON.stringify({ schema: 'sirus.revenue.explain/v1', ...explanation, rules: rulesFor(limits) }, null, 2) +
         '\n',
     );
     return;
@@ -845,7 +845,7 @@ async function explainRecord(
 async function auditTrail(target: string | undefined, flags: RevenueFlags): Promise<void> {
   const path = flags.verify ?? target;
   if (!path) {
-    throw new CliError('Which trail?', { hint: 'e.g. sirius revenue audit --verify recovery-1a2b3c4d.json' });
+    throw new CliError('Which trail?', { hint: 'e.g. sirus revenue audit --verify recovery-1a2b3c4d.json' });
   }
 
   const file = resolve(process.cwd(), path);
@@ -919,7 +919,7 @@ async function scoreBatch(
   const capacity = flags.capacity
     ? { max_actions: flags.capacity, rule: 'given with --capacity' }
     : configured
-      ? { max_actions: configured, rule: 'set in sirius.yaml' }
+      ? { max_actions: configured, rule: 'set in sirus.yaml' }
       : defaultCapacity(inSplit.length);
 
   const { assessments } = assessBatch(inSplit, model, { context, capacity });
@@ -949,7 +949,7 @@ async function resolveModel(
 
   if (!existsSync(path)) {
     throw new CliError(`No labels in ${dir} and no fitted model at ${path}.`, {
-      hint: 'Fit one on a labelled batch first: `sirius revenue eval <labelled-batch>`.',
+      hint: 'Fit one on a labelled batch first: `sirus revenue eval <labelled-batch>`.',
     });
   }
 
@@ -960,7 +960,7 @@ async function resolveModel(
 
 function modelPath(dir: string): string {
   const root = findProjectRoot(process.cwd())?.dir ?? process.cwd();
-  return join(root, '.sirius', `revenue-model-${basenameOf(dir)}.json`);
+  return join(root, '.sirus', `revenue-model-${basenameOf(dir)}.json`);
 }
 
 function basenameOf(dir: string): string {
@@ -971,7 +971,7 @@ function batchDir(target: string | undefined): string {
   const dir = resolve(process.cwd(), target ?? DEFAULT_BATCH);
   if (!existsSync(dir)) {
     throw new CliError(`No batch at ${dir}.`, {
-      hint: 'Generate one:  sirius revenue gen batch',
+      hint: 'Generate one:  sirus revenue gen batch',
     });
   }
   return dir;

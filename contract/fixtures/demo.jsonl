@@ -154,5 +154,5 @@
 {"delay_ms":28,"type":"file.scanning","path":"src/pkg9/module_110.py","index":127,"total":128}
 {"delay_ms":28,"type":"file.scanning","path":"src/pkg9/module_111.py","index":128,"total":128}
 {"delay_ms":10,"type":"progress","scanned":128,"total":128,"findings_so_far":19}
-{"delay_ms":20,"type":"error","code":"SIRIUS_ERR_PARSE","path":"src/vendor/minified.js","detail":"Unsupported syntax; file skipped"}
+{"delay_ms":20,"type":"error","code":"SIRUS_ERR_PARSE","path":"src/vendor/minified.js","detail":"Unsupported syntax; file skipped"}
 {"delay_ms":150,"type":"scan.completed","compliance_score":72.5,"money_at_risk_inr":5120000,"counts":{"critical":2,"high":5,"medium":9,"low":3,"info":0},"exit_code":1}

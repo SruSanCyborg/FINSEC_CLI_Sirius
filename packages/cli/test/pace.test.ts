@@ -57,14 +57,14 @@ describe('pacing spaces frames out for a human', () => {
 
 describe('pace is off wherever nobody is watching', () => {
   const withEnv = (value: string | undefined, run: () => void) => {
-    const previous = process.env.SIRIUS_SCAN_PACE;
-    if (value === undefined) delete process.env.SIRIUS_SCAN_PACE;
-    else process.env.SIRIUS_SCAN_PACE = value;
+    const previous = process.env.SIRUS_SCAN_PACE;
+    if (value === undefined) delete process.env.SIRUS_SCAN_PACE;
+    else process.env.SIRUS_SCAN_PACE = value;
     try {
       run();
     } finally {
-      if (previous === undefined) delete process.env.SIRIUS_SCAN_PACE;
-      else process.env.SIRIUS_SCAN_PACE = previous;
+      if (previous === undefined) delete process.env.SIRUS_SCAN_PACE;
+      else process.env.SIRUS_SCAN_PACE = previous;
     }
   };
 
@@ -77,7 +77,7 @@ describe('pace is off wherever nobody is watching', () => {
     withEnv(undefined, () => expect(resolvePace(true).findingMs).toBeGreaterThan(0));
   });
 
-  it('honours SIRIUS_SCAN_PACE, including 0 to disable', () => {
+  it('honours SIRUS_SCAN_PACE, including 0 to disable', () => {
     withEnv('0', () => expect(resolvePace(true).findingMs).toBe(0));
     withEnv('500', () => expect(resolvePace(true).findingMs).toBe(500));
   });

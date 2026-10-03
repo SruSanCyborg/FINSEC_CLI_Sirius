@@ -1,5 +1,5 @@
 /**
- * `sirius serve` — run the engine as a local API for the desktop app.
+ * `sirus serve` — run the engine as a local API for the desktop app.
  *
  * The one command whose output is meant to be read by another program. It prints
  * the URL and the token, and then stays up until it is stopped.
@@ -44,11 +44,11 @@ export async function runServe(flags: ServeFlags, _globals: GlobalFlags): Promis
   /**
    * The directory asked for, and not the project root above it.
    *
-   * Walking up to the nearest `sirius.yaml` seemed right — that is where
-   * `.sirius/` belongs — but it meant `--root contract/fixtures/chaos-repo`
+   * Walking up to the nearest `sirus.yaml` seemed right — that is where
+   * `.sirus/` belongs — but it meant `--root contract/fixtures/chaos-repo`
    * served the whole repository, because the fixture sits inside a project that
    * has its own config at the top. The daemon would then scan somewhere the
-   * user never named and report figures for it. `sirius scan <dir>` already
+   * user never named and report figures for it. `sirus scan <dir>` already
    * writes its cache inside the target for the same reason; this follows it.
    */
   const root = requested;
@@ -81,15 +81,15 @@ export async function runServe(flags: ServeFlags, _globals: GlobalFlags): Promis
     );
   } else {
     process.stdout.write(
-      `\n  sirius serve · ${VERSION}\n\n` +
+      `\n  sirus serve · ${VERSION}\n\n` +
         `  API    ${server.url}\n` +
         `  token  ${server.token}\n` +
         `  root   ${root}\n\n` +
-        `  The desktop app reads these from SIRIUS_API_URL and SIRIUS_API_TOKEN:\n\n` +
-        `    export SIRIUS_API_URL=${server.url}\n` +
-        `    export SIRIUS_API_TOKEN=${server.token}\n\n` +
-        `  Scans run here are written to .sirius/ in the project, so \`sirius fix\`,\n` +
-        `  \`sirius report\` and \`sirius triage\` in a shell act on what the window shows.\n\n` +
+        `  The desktop app reads these from SIRUS_API_URL and SIRUS_API_TOKEN:\n\n` +
+        `    export SIRUS_API_URL=${server.url}\n` +
+        `    export SIRUS_API_TOKEN=${server.token}\n\n` +
+        `  Scans run here are written to .sirus/ in the project, so \`sirus fix\`,\n` +
+        `  \`sirus report\` and \`sirus triage\` in a shell act on what the window shows.\n\n` +
         `  Ctrl-C to stop.\n\n`,
     );
   }

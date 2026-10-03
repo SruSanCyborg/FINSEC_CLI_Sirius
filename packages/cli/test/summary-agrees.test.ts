@@ -23,7 +23,7 @@ import type { Finding, Severity, WsFrame } from '../src/domain.js';
 let dir: string;
 
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'sirius-summary-'));
+  dir = mkdtempSync(join(tmpdir(), 'sirus-summary-'));
   mkdirSync(join(dir, 'src'), { recursive: true });
 
   writeFileSync(
@@ -100,7 +100,7 @@ describe('a completed scan', () => {
   });
 
   it('says nothing was found when nothing was', async () => {
-    const empty = mkdtempSync(join(tmpdir(), 'sirius-clean-'));
+    const empty = mkdtempSync(join(tmpdir(), 'sirus-clean-'));
     try {
       mkdirSync(join(empty, 'src'), { recursive: true });
       writeFileSync(join(empty, 'src', 'ok.py'), 'import os\nKEY = os.environ["KEY"]\n', 'utf8');
