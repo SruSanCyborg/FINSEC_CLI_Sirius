@@ -26,7 +26,8 @@
     "artifact": "node scripts/artifact/collect.mjs && node scripts/artifact/build.mjs",
     "artifact:check": "node scripts/artifact/check.mjs",
     "demo:stage": "bash scripts/demo-stage.sh",
-    "demo:record": "pnpm build && bash scripts/demo-stage.sh && PATH=$HOME/sirus-demo/.bin:$PATH vhs scripts/demo.tape"
+    "demo:record": "pnpm build && bash scripts/demo-stage.sh && PATH=$HOME/sirus-demo/.bin:$PATH vhs scripts/demo.tape",
+    "demo:record:terminal": "pnpm build && bash scripts/demo-stage.sh && node scripts/record-terminal.mjs"
   },
   "devDependencies": {
     "@redocly/cli": "^2.46.1",

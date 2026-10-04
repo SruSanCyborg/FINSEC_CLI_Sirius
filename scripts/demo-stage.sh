@@ -15,7 +15,10 @@ stage="${SIRUS_DEMO_STAGE:-$HOME/sirus-demo}"
 rm -rf "$stage"
 mkdir -p "$stage/.bin" "$stage/clifintech" "$stage/finsec-gui"
 
-printf '#!/bin/sh\nexec node %q "$@"\n' "$repo/packages/cli/dist/cli.js" > "$stage/.bin/sirus"
+# Through a link inside the stage: Terminal's title bar shows the running
+# command, and this checkout's own path has no business being in the recording.
+ln -s "$repo/packages/cli" "$stage/.cli"
+printf '#!/bin/sh\nexec node %q "$@"\n' "$stage/.cli/dist/cli.js" > "$stage/.bin/sirus"
 chmod +x "$stage/.bin/sirus"
 
 git -C "$repo" archive HEAD | tar -x -C "$stage/clifintech"
